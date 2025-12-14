@@ -50,7 +50,12 @@ namespace Photon.Pun.UtilityScripts
 
         public void Start()
         {
-            //enabled = photonView.isMine;
+            enabled = photonView.IsMine;
+
+            string ownerName = photonView.Owner != null ? photonView.Owner.NickName : "NO_OWNER";
+            string localName = PhotonNetwork.LocalPlayer.NickName;
+            Debug.Log($"[{gameObject.name}] Start - Owner: {ownerName}, IsMine: {photonView.IsMine}, LocalPlayer: {localName}, Enabled: {enabled}");
+
             this.isSprite = (GetComponent<SpriteRenderer>() != null);
 
             this.body2d = GetComponent<Rigidbody2D>();
@@ -70,6 +75,7 @@ namespace Photon.Pun.UtilityScripts
             {
                 float horizontalInput = Input.GetAxisRaw("Horizontal");
 
+                Debug.Log($"[{gameObject.name}] **>>>> MINE INPUT DETECTED! <<<<** IsMine: {photonView.IsMine}, Input: {Input.GetAxisRaw("Horizontal")}");
                 //transform.position += Vector3.right * (Speed * Time.deltaTime) * horizontalInput;
 
                 if (!this.isSprite)
@@ -77,7 +83,7 @@ namespace Photon.Pun.UtilityScripts
                     if (horizontalInput != 0)
                     {
 
-                        const float RotationSpeed = 90f;
+                        const float RotationSpeed = 360f;
                             
                         Quaternion deltaRotation = Quaternion.Euler(Vector3.up * horizontalInput * RotationSpeed * Time.deltaTime);
                         Quaternion targetRotation = transform.rotation * deltaRotation;
