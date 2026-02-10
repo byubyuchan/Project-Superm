@@ -17,10 +17,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-using UnityEngine;
-
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Photon.Pun.UtilityScripts
 {
@@ -47,9 +47,11 @@ namespace Photon.Pun.UtilityScripts
         private float jumpingTime;
         private Rigidbody body;
         private Rigidbody2D body2d;
+        private Animator animator;
 
         public void Start()
         {
+            animator = GetComponent<Animator>();
             enabled = photonView.IsMine;
 
             string ownerName = photonView.Owner != null ? photonView.Owner.NickName : "NO_OWNER";
@@ -57,7 +59,6 @@ namespace Photon.Pun.UtilityScripts
             Debug.Log($"[{gameObject.name}] Start - Owner: {ownerName}, IsMine: {photonView.IsMine}, LocalPlayer: {localName}, Enabled: {enabled}");
 
             this.isSprite = (GetComponent<SpriteRenderer>() != null);
-
             this.body2d = GetComponent<Rigidbody2D>();
             this.body = GetComponent<Rigidbody>();
         }
@@ -71,21 +72,25 @@ namespace Photon.Pun.UtilityScripts
                 return;
             }
 
-            if ((Input.GetAxisRaw("Horizontal") < -0.1f) || (Input.GetAxisRaw("Horizontal") > 0.1f))
-            {
-                float horizontalInput = Input.GetAxisRaw("Horizontal");
+            float horizontalInput = Input.GetAxisRaw("Horizontal");
+            float verticalInput = Input.GetAxisRaw("Vertical");
 
-                Debug.Log($"[{gameObject.name}] **>>>> MINE INPUT DETECTED! <<<<** IsMine: {photonView.IsMine}, Input: {Input.GetAxisRaw("Horizontal")}");
-                //transform.position += Vector3.right * (Speed * Time.deltaTime) * horizontalInput;
+            // º¸°£
+            animator.SetFloat("H", horizontalInput, 0.1f, Time.deltaTime);
+            animator.SetFloat("V", verticalInput, 0.1f, Time.deltaTime);
+
+            if ((horizontalInput < -0.1f) || (horizontalInput > 0.1f))
+            {
 
                 if (!this.isSprite)
                 {
                     if (horizontalInput != 0)
                     {
+                        float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
 
                         const float RotationSpeed = 360f;
                             
-                        Quaternion deltaRotation = Quaternion.Euler(Vector3.up * horizontalInput * RotationSpeed * Time.deltaTime);
+                        Quaternion deltaRotation = Quaternion.Euler(Vector3.up * (horizontalInput * directionModifier) * RotationSpeed * Time.deltaTime);
                         Quaternion targetRotation = transform.rotation * deltaRotation;
 
                         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
@@ -104,8 +109,6 @@ namespace Photon.Pun.UtilityScripts
                         this.jumpingTime = this.JumpTimeout;
 
                         Vector2 jump = Vector2.up * this.JumpForce;
-                        
-                        body.GetComponent<Animator>().SetTrigger("Jump");
 
                         if (this.body2d != null)
                         {
@@ -126,9 +129,8 @@ namespace Photon.Pun.UtilityScripts
             // 2d objects can't be moved in 3d "forward"
             if (!this.isSprite)
             {
-                if ((Input.GetAxisRaw("Vertical") < -0.1f) || (Input.GetAxisRaw("Vertical") > 0.1f))
+                if ((verticalInput < -0.1f) || (verticalInput > 0.1f))
                 {
-                    body.GetComponent<Animator>().SetTrigger("Run");
                     transform.position += transform.forward * (Speed * Time.deltaTime) * Input.GetAxisRaw("Vertical");
                 }
             }
