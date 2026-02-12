@@ -1,139 +1,80 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OnJoinedInstantiate.cs" company="Exit Games GmbH">
-//   Part of: Photon Unity Utilities, 
-// </copyright>
-// <summary>
-// Very basic component to move a GameObject by WASD and Space.
-// </summary>
-// <remarks>
-// Requires a PhotonView. 
-// Disables itself on GameObjects that are not owned on Start.
-// 
-// Speed affects movement-speed. 
-// JumpForce defines how high the object "jumps". 
-// JumpTimeout defines after how many seconds you can jump again.
-// </remarks>
-// <author>developer@exitgames.com</author>
-// --------------------------------------------------------------------------------------------------------------------
-
-
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Photon.Pun.UtilityScripts
 {
-
-    /// <summary>
-    /// Very basic component to move a GameObject by WASD and Space.
-    /// </summary>
-    /// <remarks>
-    /// Requires a PhotonView. 
-    /// Disables itself on GameObjects that are not owned on Start.
-    /// 
-    /// Speed affects movement-speed. 
-    /// JumpForce defines how high the object "jumps". 
-    /// JumpTimeout defines after how many seconds you can jump again.
-    /// </remarks>
-    [RequireComponent(typeof(PhotonView))]
-    public class MoveByKeys : Photon.Pun.MonoBehaviourPun
+    [RequireComponent(typeof(CharacterController), typeof(PhotonView))]
+    public class MoveByKeys : MonoBehaviourPun
     {
-        public float Speed = 1000f;
-        public float JumpForce = 200f;
-        public float JumpTimeout = 0.5f;
+        public float Speed = 5f;            // 이동 속도 (기존 1000은 너무 컸으니 조정)
+        public float JumpHeight = 2f;       // 점프 높이
+        public float Gravity = -20f;        // 중력 세기
 
-        private bool isSprite;
-        private float jumpingTime;
-        private Rigidbody body;
-        private Rigidbody2D body2d;
+        private CharacterController controller;
         private Animator animator;
+        private Vector3 velocity;           // 수직 속도 (중력/점프용)
+        private bool isGrounded;
 
         public void Start()
         {
+            controller = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
+
+            // 본인 소유가 아니면 스크립트 비활성화
             enabled = photonView.IsMine;
 
-            string ownerName = photonView.Owner != null ? photonView.Owner.NickName : "NO_OWNER";
-            string localName = PhotonNetwork.LocalPlayer.NickName;
-            Debug.Log($"[{gameObject.name}] Start - Owner: {ownerName}, IsMine: {photonView.IsMine}, LocalPlayer: {localName}, Enabled: {enabled}");
-
-            this.isSprite = (GetComponent<SpriteRenderer>() != null);
-            this.body2d = GetComponent<Rigidbody2D>();
-            this.body = GetComponent<Rigidbody>();
+            // CharacterController 사용 시 Rigidbody는 삭제하거나 IsKinematic을 켜야 합니다.
+            if (TryGetComponent<Rigidbody>(out Rigidbody rb))
+            {
+                rb.isKinematic = true;
+            }
         }
 
-
-        // Update is called once per frame
-        public void FixedUpdate()
+        public void Update()
         {
-            if (!photonView.IsMine)
+            if (!photonView.IsMine) return;
+
+            // 1. 바닥 체크
+            isGrounded = controller.isGrounded;
+            if (isGrounded && velocity.y < 0)
             {
-                return;
+                velocity.y = -2f; // 바닥에 붙어있도록 살짝 아래로 힘을 줌
             }
 
+            // 2. 입력 받기
             float horizontalInput = Input.GetAxisRaw("Horizontal");
             float verticalInput = Input.GetAxisRaw("Vertical");
 
-            // 보간
-            animator.SetFloat("H", horizontalInput, 0.1f, Time.deltaTime);
-            animator.SetFloat("V", verticalInput, 0.1f, Time.deltaTime);
-
-            if ((horizontalInput < -0.1f) || (horizontalInput > 0.1f))
+            // 애니메이션 파라미터 전달 (보간 적용)
+            if (animator != null)
             {
-
-                if (!this.isSprite)
-                {
-                    if (horizontalInput != 0)
-                    {
-                        float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
-
-                        const float RotationSpeed = 360f;
-                            
-                        Quaternion deltaRotation = Quaternion.Euler(Vector3.up * (horizontalInput * directionModifier) * RotationSpeed * Time.deltaTime);
-                        Quaternion targetRotation = transform.rotation * deltaRotation;
-
-                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-                    }
-                }
+                animator.SetFloat("H", horizontalInput, 0.1f, Time.deltaTime);
+                animator.SetFloat("V", verticalInput, 0.1f, Time.deltaTime);
             }
 
-            // jumping has a simple "cooldown" time but you could also jump in the air
-            if (this.jumpingTime <= 0.0f)
+            // 3. 회전 처리
+            if (Mathf.Abs(horizontalInput) > 0.1f)
             {
-                if (this.body != null || this.body2d != null)
-                {
-                    // obj has a Rigidbody and can jump (AddForce)
-                    if (Input.GetKey(KeyCode.Space))
-                    {
-                        this.jumpingTime = this.JumpTimeout;
-
-                        Vector2 jump = Vector2.up * this.JumpForce;
-
-                        if (this.body2d != null)
-                        {
-                            this.body2d.AddForce(jump);
-                        }
-                        else if (this.body != null)
-                        {
-                            this.body.AddForce(jump);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                this.jumpingTime -= Time.deltaTime;
+                float rotationSpeed = 360f;
+                // 앞뒤 이동 방향에 따라 회전 방향 반전 처리 (기존 로직 유지)
+                float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
+                transform.Rotate(Vector3.up * horizontalInput * directionModifier * rotationSpeed * Time.deltaTime);
             }
 
-            // 2d objects can't be moved in 3d "forward"
-            if (!this.isSprite)
+            // 4. 이동 처리 (Forward 방향)
+            Vector3 move = transform.forward * verticalInput * Speed;
+            controller.Move(move * Time.deltaTime);
+
+            // 5. 점프 처리
+            if (Input.GetButtonDown("Jump") && isGrounded)
             {
-                if ((verticalInput < -0.1f) || (verticalInput > 0.1f))
-                {
-                    transform.position += transform.forward * (Speed * Time.deltaTime) * Input.GetAxisRaw("Vertical");
-                }
+                // 물리 공식: v = sqrt(h * -2 * g)
+                velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
             }
+
+            // 6. 중력 적용
+            velocity.y += Gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
         }
     }
 }
