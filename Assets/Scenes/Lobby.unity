@@ -3424,7 +3424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7aa8ea0849aad349a10afa59b522cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyManager
-  lobbyPanel: {fileID: 0}
+  lobbyPanel: {fileID: 934064124}
   availableRoomToggle: {fileID: 1729186197}
   searchInput: {fileID: 155066817}
   prevPageButton: {fileID: 21292468}

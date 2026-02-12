@@ -56,7 +56,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             OnPrivateToggleChanged(privateToggle.isOn);
         }
 
-        Debug.Log("포톤 서버 접속 시도...");
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -79,13 +78,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("서버 접속 완료! 로비 진입 요청...");
         PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
     {
-        Debug.Log("로비 입장 완료! 방 목록 대기 중...");
         cachedRoomList.Clear();
         UpdateRoomListUI();
     }
@@ -106,14 +103,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         cp["password"] = passwordInput.text;
 
         roomOptions.CustomRoomProperties = cp;
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "mode", "isPrivate" };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "mode", "isPrivate", "password" };
 
         PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions);
     }
 
     public override void OnCreatedRoom()
     {
-        Debug.Log("방 생성 성공!");
+        Debug.Log("방 생성 성공");
         CloseCreateRoomPanel();
     }
 
@@ -124,7 +121,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("방 입장 완료 (로비 화면 유지)");
+        Debug.Log("방 입장 성공(지금은 로비 씬 유지)");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -220,30 +217,52 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void SubmitPassword()
     {
-        if (currentTargetRoom == null) return;
+        if (currentTargetRoom == null || joinPasswordInput == null) return;
 
         string serverPass = "";
-        if (currentTargetRoom.CustomProperties.ContainsKey("password"))
-            serverPass = (string)currentTargetRoom.CustomProperties["password"];
+        if (currentTargetRoom.CustomProperties != null && currentTargetRoom.CustomProperties.ContainsKey("password"))
+        {
+            object val = currentTargetRoom.CustomProperties["password"];
+            if (val != null) serverPass = val.ToString();
+        }
 
         if (joinPasswordInput.text == serverPass)
         {
-            ClosePasswordPanel();
             PhotonNetwork.JoinRoom(currentTargetRoom.Name);
+
+            ClosePasswordPanel();
         }
         else
         {
             Debug.LogWarning("비밀번호 불일치");
             joinPasswordInput.text = "";
+            joinPasswordInput.Select();
         }
     }
 
-    // Helper Functions
-    public void OnPrivateToggleChanged(bool isOn) { passwordInput.interactable = isOn; if (!isOn) passwordInput.text = ""; }
+    public void OnPrivateToggleChanged(bool isOn)
+    {
+        if (passwordInput != null)
+        {
+            passwordInput.interactable = isOn;
+            if (!isOn) passwordInput.text = "";
+        }
+    }
     public void OnSearchValueChange(string text) { currentPage = 0; UpdateRoomListUI(); }
     public void OnAvailableToggleChange(bool isOn) { currentPage = 0; UpdateRoomListUI(); }
     public void NextPage() { currentPage++; UpdateRoomListUI(); }
     public void PrevPage() { currentPage--; UpdateRoomListUI(); }
-    void OpenPasswordPanel() { passwordPanel.SetActive(true); joinPasswordInput.text = ""; joinPasswordInput.Select(); }
-    public void ClosePasswordPanel() { passwordPanel.SetActive(false); currentTargetRoom = null; }
+
+    void OpenPasswordPanel()
+    {
+        passwordPanel.SetActive(true);
+        joinPasswordInput.text = "";
+        joinPasswordInput.Select();
+    }
+
+    public void ClosePasswordPanel()
+    {
+        passwordPanel.SetActive(false);
+        currentTargetRoom = null;
+    }
 }
