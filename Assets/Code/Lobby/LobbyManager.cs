@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
@@ -43,6 +44,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         itemsPerPage = roomSlots.Length;
 
         if (availableRoomToggle != null)
@@ -143,6 +146,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 생성 성공");
         CloseCreateRoomPanel();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("RunScene");
+        }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -153,6 +161,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 성공(지금은 로비 씬 유지)");
+
+        //SceneManager.LoadScene("RunScene");
+
+        //PhotonNetwork.LoadLevel("RunScene");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)

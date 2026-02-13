@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviourPunCallbacks
@@ -11,25 +12,40 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject canvas;
 
-    public override void OnJoinedRoom()
+    void Start()
     {
-        Debug.Log("방에 입장했습니다. 플레이어 공을 생성합니다.");
-        SpawnPlayer();
-        canvas.SetActive(false);
+        StartCoroutine(SpawnWhenReady());
     }
 
-    private void SpawnPlayer()
+    IEnumerator SpawnWhenReady()
     {
-        // 프리팹이 할당되었는지 확인
-        if (playerPrefab == null)
+        float timeout = 5f;
+        while (!PhotonNetwork.InRoom && timeout > 0)
         {
-            Debug.LogError("PlayerBall 프리팹이 할당되지 않았습니다. Inspector를 확인하세요.");
-            return;
+            timeout -= Time.deltaTime;
+            yield return null;
         }
 
-        // PhotonNetwork.Instantiate를 사용하여 네트워크 상에 프리팹을 생성
-        // Resources 폴더에 프리팹이 있어야 합니다.
-        ball = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
+        if (PhotonNetwork.InRoom)
+        {
+            SpawnPlayer();
+            if (canvas != null) canvas.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("방 입장 대기 시간 초과! 네트워크 연결을 확인하세요.");
+        }
+    }
+
+    public void SpawnPlayer()
+    {
+        if (playerPrefab == null) return;
+
+        // 다시 한 번 방 상태를 체크하고 생성
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
+        }
     }
 
     // 플레이어가 방을 떠날 때 (옵션)

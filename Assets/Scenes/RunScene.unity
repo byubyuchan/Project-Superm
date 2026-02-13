@@ -708,9 +708,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1790634271}
-        m_TargetAssemblyTypeName: PhotonTest, Assembly-CSharp
-        m_MethodName: Connect
+      - m_Target: {fileID: 1790634270}
+        m_TargetAssemblyTypeName: PlayerSpawner, Assembly-CSharp
+        m_MethodName: OnJoinedRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
