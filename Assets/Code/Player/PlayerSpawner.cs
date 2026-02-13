@@ -29,7 +29,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 
         // PhotonNetwork.Instantiate를 사용하여 네트워크 상에 프리팹을 생성
         // Resources 폴더에 프리팹이 있어야 합니다.
-        ball = PhotonNetwork.Instantiate(playerPrefab.name, Vector3.up * 2f, Quaternion.identity);
+        ball = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
     }
 
     // 플레이어가 방을 떠날 때 (옵션)

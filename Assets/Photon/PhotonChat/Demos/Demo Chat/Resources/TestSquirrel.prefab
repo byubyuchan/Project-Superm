@@ -537,8 +537,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PhotonUnityNetworking.Utilities::Photon.Pun.UtilityScripts.MoveByKeys
   Speed: 500
-  JumpForce: 200
-  JumpTimeout: 0.5
+  JumpHeight: 2
+  Gravity: -20
 --- !u!1 &2048877695959462736
 GameObject:
   m_ObjectHideFlags: 0
