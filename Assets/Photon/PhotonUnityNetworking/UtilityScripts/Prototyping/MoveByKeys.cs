@@ -9,6 +9,7 @@ namespace Photon.Pun.UtilityScripts
         public float Speed = 5f;            // 이동 속도 (기존 1000은 너무 컸으니 조정)
         public float JumpHeight = 2f;       // 점프 높이
         public float Gravity = -20f;        // 중력 세기
+        public float rotationSpeed = 360f;
 
         private CharacterController controller;
         private Animator animator;
@@ -55,7 +56,6 @@ namespace Photon.Pun.UtilityScripts
             // 3. 회전 처리
             if (Mathf.Abs(horizontalInput) > 0.1f)
             {
-                float rotationSpeed = 360f;
                 // 앞뒤 이동 방향에 따라 회전 방향 반전 처리 (기존 로직 유지)
                 float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
                 transform.Rotate(Vector3.up * horizontalInput * directionModifier * rotationSpeed * Time.deltaTime);
