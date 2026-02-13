@@ -22,6 +22,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public TMP_InputField maxPlayersInput;
     public Toggle privateToggle;
     public TMP_InputField passwordInput;
+    public Button showPasswordButton;
+    public Image showPasswordImage;
+    public Sprite eyeOpenSprite;
+    public Sprite eyeClosedSprite;
+    private bool isPasswordVisible = true;
 
     [Header("Join Room UI")]
     public GameObject passwordPanel;
@@ -56,6 +61,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             OnPrivateToggleChanged(privateToggle.isOn);
         }
 
+        if (showPasswordButton != null)
+            showPasswordButton.onClick.AddListener(TogglePasswordVisibility);
+
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -69,6 +77,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (privateToggle != null) privateToggle.isOn = false;
         passwordInput.text = "";
+
+        isPasswordVisible = true;
+        passwordInput.contentType = TMP_InputField.ContentType.Standard;
+        if (showPasswordImage != null) showPasswordImage.sprite = eyeOpenSprite;
+        passwordInput.ForceLabelUpdate();
+    }
+
+    public void TogglePasswordVisibility()
+    {
+        isPasswordVisible = !isPasswordVisible;
+
+        if (isPasswordVisible)
+        {
+            passwordInput.contentType = TMP_InputField.ContentType.Standard;
+            showPasswordImage.sprite = eyeOpenSprite;
+        }
+        else
+        {
+            passwordInput.contentType = TMP_InputField.ContentType.Password;
+            showPasswordImage.sprite = eyeClosedSprite;
+        }
+
+        passwordInput.ForceLabelUpdate();
     }
 
     public void CloseCreateRoomPanel()
