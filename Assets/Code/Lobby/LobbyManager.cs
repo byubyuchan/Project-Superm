@@ -23,11 +23,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public TMP_InputField maxPlayersInput;
     public Toggle privateToggle;
     public TMP_InputField passwordInput;
+    public Button showCreateRoomPasswordButton;
+    public Image showCreateRoomPasswordImage;
+    private bool isCreateRoomPasswordVisible = true;
+
+    [Header("Password Panel UI")]
     public Button showPasswordButton;
     public Image showPasswordImage;
+    private bool isPasswordVisible = true;
+
+    [Header("Eye Sprite")]
     public Sprite eyeOpenSprite;
     public Sprite eyeClosedSprite;
-    private bool isPasswordVisible = true;
 
     [Header("Join Room UI")]
     public GameObject passwordPanel;
@@ -64,6 +71,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             OnPrivateToggleChanged(privateToggle.isOn);
         }
 
+        if (showCreateRoomPasswordButton != null)
+            showCreateRoomPasswordButton.onClick.AddListener(ToggleCreateRoomPasswordVisibility);
+
         if (showPasswordButton != null)
             showPasswordButton.onClick.AddListener(TogglePasswordVisibility);
 
@@ -81,25 +91,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (privateToggle != null) privateToggle.isOn = false;
         passwordInput.text = "";
 
-        isPasswordVisible = true;
+        isCreateRoomPasswordVisible = true;
         passwordInput.contentType = TMP_InputField.ContentType.Standard;
-        if (showPasswordImage != null) showPasswordImage.sprite = eyeOpenSprite;
+        if (showCreateRoomPasswordImage != null) showCreateRoomPasswordImage.sprite = eyeOpenSprite;
         passwordInput.ForceLabelUpdate();
     }
 
-    public void TogglePasswordVisibility()
+    public void ToggleCreateRoomPasswordVisibility()
     {
-        isPasswordVisible = !isPasswordVisible;
+        isCreateRoomPasswordVisible = !isCreateRoomPasswordVisible;
 
-        if (isPasswordVisible)
+        if (isCreateRoomPasswordVisible)
         {
             passwordInput.contentType = TMP_InputField.ContentType.Standard;
-            showPasswordImage.sprite = eyeOpenSprite;
+            showCreateRoomPasswordImage.sprite = eyeOpenSprite;
         }
         else
         {
             passwordInput.contentType = TMP_InputField.ContentType.Password;
-            showPasswordImage.sprite = eyeClosedSprite;
+            showCreateRoomPasswordImage.sprite = eyeClosedSprite;
         }
 
         passwordInput.ForceLabelUpdate();
@@ -301,6 +311,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         passwordPanel.SetActive(true);
         joinPasswordInput.text = "";
         joinPasswordInput.Select();
+
+        isPasswordVisible = true;
+        joinPasswordInput.contentType = TMP_InputField.ContentType.Standard;
+        if (showPasswordImage != null) showPasswordImage.sprite = eyeOpenSprite;
+        joinPasswordInput.ForceLabelUpdate();
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        isPasswordVisible = !isPasswordVisible;
+
+        if (isPasswordVisible)
+        {
+            joinPasswordInput.contentType = TMP_InputField.ContentType.Standard;
+            showPasswordImage.sprite = eyeOpenSprite;
+        }
+        else
+        {
+            joinPasswordInput.contentType = TMP_InputField.ContentType.Password;
+            showPasswordImage.sprite = eyeClosedSprite;
+        }
+
+        joinPasswordInput.ForceLabelUpdate();
     }
 
     public void ClosePasswordPanel()
