@@ -77,7 +77,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (showPasswordButton != null)
             showPasswordButton.onClick.AddListener(TogglePasswordVisibility);
 
-        PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("서버에 연결을 시도합니다...");
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        else
+        {
+            // 핵심: 이미 연결된 상태라면 상태에 따라 적절한 마스터 서버/로비로 복귀
+            Debug.Log($"이미 연결됨. 현재 상태: {PhotonNetwork.NetworkClientState}");
+
+            if (PhotonNetwork.InRoom)
+            {
+                // 아직 이전 방(GameServer)에 남아있다면 나갑니다.
+                PhotonNetwork.LeaveRoom();
+            }
+            else if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InLobby)
+            {
+                // 마스터 서버에는 있지만 로비가 아니라면 로비 진입
+                PhotonNetwork.JoinLobby();
+            }
+        }
     }
 
     public void OpenCreateRoomPanel()
@@ -133,6 +153,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+        //if (PhotonNetwork.NetworkClientState != ClientState.ConnectedToMasterServer)
+        //{
+        //    Debug.LogWarning("방을 생성할 준비가 되지 않았습니다. (MasterServer 복귀 중)");
+        //    return;
+        //}
+
         if (string.IsNullOrEmpty(roomNameInput.text)) return;
 
         RoomOptions roomOptions = new RoomOptions();
@@ -171,10 +197,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 성공(지금은 로비 씬 유지)");
-
-        //SceneManager.LoadScene("RunScene");
-
-        //PhotonNetwork.LoadLevel("RunScene");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)

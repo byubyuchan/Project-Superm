@@ -5,6 +5,7 @@ public class TPZone : MonoBehaviour
 {
     [SerializeField] private GameObject target;
     private Vector3 targetPosition;
+    [SerializeField] private bool isLastZone = false;
 
     private void Start()
     {
@@ -26,6 +27,15 @@ public class TPZone : MonoBehaviour
         {
             if (pv.IsMine)
             {
+                if (isLastZone)
+                {
+                    RunGameManager manager = Object.FindFirstObjectByType<RunGameManager>();
+
+                    if (manager != null)
+                    {
+                        manager.OnPlayerReachedFinish(other.gameObject);
+                    }
+                }
                 CharacterController cc = other.GetComponent<CharacterController>();
 
                 if (cc != null)
