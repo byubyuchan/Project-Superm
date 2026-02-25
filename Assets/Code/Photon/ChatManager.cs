@@ -1,65 +1,122 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 
 public class ChatManager : MonoBehaviourPunCallbacks
 {
-    public GameObject m_Content;
-    public TMP_InputField m_inputField;
+    [Header("Chat UI")]
+    public TMP_InputField chatInput;
+    public Transform content;
+    public GameObject chatPrefab;
+    public ScrollRect chatScroolRect;
 
-    PhotonView photonview;
+    [Header("Chat Backgrounds")]
+    public Image chatPanelImage;
+    public Image scrollViewImage;
 
-    GameObject m_ContentText;
-
-    string m_strUserName;
-
+    private bool isChatActive = false;
 
     void Start()
     {
-        m_ContentText = m_Content.transform.GetChild(0).gameObject;
-        photonview = GetComponent<PhotonView>();
+        SetChatUIActive(false);
+        AddSystemMessage("You have joined the room.");
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && m_inputField.isFocused == false)
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            m_inputField.ActivateInputField();
+            if (!isChatActive)
+            {
+                SetChatUIActive(true);
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(chatInput.text))
+                {
+                    SendChatMessage();
+                }
+
+                SetChatUIActive(false);
+            }
         }
     }
 
-    public override void OnJoinedRoom()
+    private void SetChatUIActive(bool isActive)
     {
-        AddChatMessage("connect user : " + PhotonNetwork.LocalPlayer.NickName);
+        isChatActive = isActive;
 
-        m_strUserName = PhotonNetwork.LocalPlayer.NickName;
+        chatInput.gameObject.SetActive(isActive);
+
+        if (chatPanelImage != null) chatPanelImage.enabled = isActive;
+        if (scrollViewImage != null) scrollViewImage.enabled = isActive;
+
+        if (isActive)
+        {
+            chatInput.text = "";
+            chatInput.ActivateInputField();
+        }
+        else
+        {
+            chatInput.text = "";
+        }
     }
 
-    public void OnEndEditEvent()
+    public void SendChatMessage()
     {
-        Debug.Log("OnEndEditEvent");
-        string strMessage = m_strUserName + " : " + m_inputField.text;
+        string message = chatInput.text;
 
-        photonview.RPC("RPC_Chat", RpcTarget.All, strMessage);
-        m_inputField.text = "";
-    }
+        string senderName = PhotonNetwork.NickName;
 
-    public void AddChatMessage(string message)
-    {
-        GameObject goText = Instantiate(m_ContentText, m_Content.transform);
+        photonView.RPC("ReceiveMessage", RpcTarget.All, senderName, message);
 
-        goText.GetComponent<TextMeshProUGUI>().text = message;
-        m_Content.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-
+        chatInput.text = "";
+        chatInput.ActivateInputField();
     }
 
     [PunRPC]
-    public void RPC_Chat(string message)
+    public void ReceiveMessage(string senderName, string message)
     {
-        AddChatMessage(message);
+        GameObject newChat = Instantiate(chatPrefab, content);
+
+        TextMeshProUGUI chatText = newChat.GetComponent<TextMeshProUGUI>();
+
+        chatText.text = $"[{senderName}]: {message}";
+
+        StartCoroutine(ScrollToBottom());
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        AddSystemMessage($"{newPlayer.NickName} has joined the room.");
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        AddSystemMessage($"{otherPlayer.NickName} has left the room.");
+    }
+
+    private void AddSystemMessage(string message)
+    {
+        GameObject newChat = Instantiate(chatPrefab, content);
+        TextMeshProUGUI chatText = newChat.GetComponent<TextMeshProUGUI>();
+
+        chatText.text = $"<color=yellow>{message}</color>";
+
+        StartCoroutine(ScrollToBottom());
+    }
+
+    IEnumerator ScrollToBottom()
+    {
+        yield return null; // Wait for the end of the frame to text to calculate its size
+        yield return null; // Wait another frame to content size to expand its size
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
+
+        chatScroolRect.verticalNormalizedPosition = 0f;
+    }
 }

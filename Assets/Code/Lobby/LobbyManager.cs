@@ -185,7 +185,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("RunScene");
+            PhotonNetwork.LoadLevel("WarmupScene");
         }
     }
 
