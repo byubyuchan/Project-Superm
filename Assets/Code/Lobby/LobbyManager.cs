@@ -53,6 +53,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
 
+        PhotonNetwork.NickName = "Player" + Random.Range(1000, 10000);
+
         itemsPerPage = roomSlots.Length;
 
         if (availableRoomToggle != null)

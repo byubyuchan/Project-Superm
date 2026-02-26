@@ -1036,6 +1036,7 @@ MonoBehaviour:
   chatScroolRect: {fileID: 1722617414}
   chatPanelImage: {fileID: 457979346}
   scrollViewImage: {fileID: 1722617415}
+  chatWindowRect: {fileID: 457979345}
 --- !u!4 &637152345
 Transform:
   m_ObjectHideFlags: 0
@@ -2812,7 +2813,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 447497239}
   m_HandleRect: {fileID: 447497238}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

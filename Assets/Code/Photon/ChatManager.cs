@@ -17,6 +17,7 @@ public class ChatManager : MonoBehaviourPunCallbacks
     [Header("Chat Backgrounds")]
     public Image chatPanelImage;
     public Image scrollViewImage;
+    public RectTransform chatWindowRect;
 
     private bool isChatActive = false;
 
@@ -41,6 +42,15 @@ public class ChatManager : MonoBehaviourPunCallbacks
                     SendChatMessage();
                 }
 
+                SetChatUIActive(false);
+            }
+        }
+
+        if (isChatActive && Input.GetMouseButtonDown(0))
+        {
+            // RectTransformUtility.RectangleContainsScreenPoint checks if the mouse click is within the chat window
+            if (!RectTransformUtility.RectangleContainsScreenPoint(chatWindowRect, Input.mousePosition))
+            {
                 SetChatUIActive(false);
             }
         }
@@ -85,7 +95,7 @@ public class ChatManager : MonoBehaviourPunCallbacks
 
         TextMeshProUGUI chatText = newChat.GetComponent<TextMeshProUGUI>();
 
-        chatText.text = $"[{senderName}]: {message}";
+        chatText.text = $"{senderName}: {message}";
 
         StartCoroutine(ScrollToBottom());
     }
