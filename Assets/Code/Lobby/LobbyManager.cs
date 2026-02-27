@@ -49,6 +49,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private int currentPage = 0;
     private int itemsPerPage;
 
+    [Header("What is the Next Scene?")]
+    [SerializeField] private string nextSceneName = "WarmupScene";
+
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -187,7 +190,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("WarmupScene");
+            PhotonNetwork.LoadLevel(nextSceneName);
         }
     }
 
