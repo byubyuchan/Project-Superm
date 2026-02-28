@@ -3693,7 +3693,7 @@ MonoBehaviour:
   - {fileID: 2025217399}
   - {fileID: 1275304618}
   pageText: {fileID: 2059222804}
-  nextSceneName: RunScene
+  nextSceneName: WarmupScene
 --- !u!4 &635496025
 Transform:
   m_ObjectHideFlags: 0

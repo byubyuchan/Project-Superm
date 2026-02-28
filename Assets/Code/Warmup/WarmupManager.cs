@@ -165,6 +165,10 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
+            props.Add("CharacterType", "Warrior");
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("RunScene");
         }
