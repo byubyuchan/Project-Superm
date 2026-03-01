@@ -45,6 +45,7 @@ MonoBehaviour:
   - ReceiveMessage
   - RPC_Kicked
   - RPC_StartCountdown
+  - RPC_EndCountdown
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

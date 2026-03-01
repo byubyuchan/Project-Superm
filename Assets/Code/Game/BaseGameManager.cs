@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,9 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     public enum GameState { Wait, Playing, Finish }
     protected GameState currentState = GameState.Wait;
 
+    [Header("Contdown")]
+    public TextMeshProUGUI countdownText;
+
     // 1. 종료 시 호출될 RPC (모든 인원 화면에 결과 UI를 띄우거나 알림)
     [PunRPC]
     protected virtual void RPC_FinishGameUI()
@@ -15,30 +19,54 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         currentState = GameState.Finish;
         Debug.Log("모든 클라이언트: 게임 종료 UI 표시");
 
-        // 여기에 결과 UI를 띄우는 코드를 넣으세요.
-        // 예: ResultCanvas.SetActive(true);
-
         // 방장만 로비 이동 타이머를 시작합니다.
         if (PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(WaitAndReturnToWarmup(5f)); // 5초 뒤 이동
+            photonView.RPC("RPC_EndCountdown", RpcTarget.All);
         }
     }
 
-    // 2. 일정 시간 대기 후 로비로 이동하는 코루틴
-    private IEnumerator WaitAndReturnToWarmup(float waitTime)
+    //private IEnumerator WaitAndReturnToWarmup(float waitTime)
+    //{
+    //    yield return new WaitForSeconds(waitTime);
+
+    //    if (PhotonNetwork.IsMasterClient)
+    //    {
+    //        PhotonNetwork.CurrentRoom.IsOpen = true; // 방을 다시 열어서 다른 플레이어가 들어올 수 있게 합니다.
+    //    }
+
+    //    // 포톤의 LoadLevel을 사용하면 모든 인원이 함께 씬을 이동합니다.
+    //    // PhotonNetwork.AutomaticallySyncScene = true; 설정이 되어있어야 합니다.
+    //    PhotonNetwork.LoadLevel("WarmupScene"); // 실제 로비 씬 이름으로 변경
+    //}
+
+    protected abstract void CheckFinish();
+
+    [PunRPC]
+    protected void RPC_EndCountdown()
     {
-        yield return new WaitForSeconds(waitTime);
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    protected System.Collections.IEnumerator CountdownCoroutine()
+    {
+        countdownText.gameObject.SetActive(true);
+
+        int count = 5;
+        while (count > 0)
+        {
+            countdownText.text = count.ToString() + "초뒤 게임이 종료됩니다!";
+            yield return new WaitForSeconds(1f);
+            count--;
+        }
+
+        countdownText.text = "대기실로 이동합니다.";
+        yield return new WaitForSeconds(1f);
 
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.CurrentRoom.IsOpen = true; // 방을 다시 열어서 다른 플레이어가 들어올 수 있게 합니다.
+            PhotonNetwork.CurrentRoom.IsOpen = true;
+            PhotonNetwork.LoadLevel("WarmupScene");
         }
-
-        // 포톤의 LoadLevel을 사용하면 모든 인원이 함께 씬을 이동합니다.
-        // PhotonNetwork.AutomaticallySyncScene = true; 설정이 되어있어야 합니다.
-        PhotonNetwork.LoadLevel("WarmupScene"); // 실제 로비 씬 이름으로 변경
     }
-
-    protected abstract void CheckFinish();
 }

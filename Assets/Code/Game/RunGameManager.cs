@@ -2,13 +2,14 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class RunGameManager : BaseGameManager
 {
     [Header("In-Game Player List UI")]
-    public Transform playerListPanel;   // 게임 씬의 UI 부모 (Content)
-    public GameObject playerSlotPrefab; // 게임 씬용 슬롯 프리팹 (또는 Warmup 시 쓰던 것)
+    public Transform playerListPanel;
+    public GameObject playerSlotPrefab;
 
     private Dictionary<int, RunPlayerSlot> playerSlots = new Dictionary<int, RunPlayerSlot>();
 
