@@ -4,6 +4,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class WarmupManager : MonoBehaviourPunCallbacks
 {
@@ -14,9 +16,11 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
     [Header("Game Start UI")]
     public Button startButton;
+    public TextMeshProUGUI countdownText;
 
     [Header("Host Option Popup")]
     public GameObject hostOptionPanel;
+    public TextMeshProUGUI targetNameText;
     public Button promoteButton;
     public Button kickButton;
 
@@ -61,16 +65,29 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         }
 
         int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
-        Player[] currentPlayers = PhotonNetwork.PlayerList;
+        Player[] rawPlayers = PhotonNetwork.PlayerList;
+
+        List<Player> sortedPlayers = new List<Player>();
+        foreach (Player p in rawPlayers)
+        {
+            if (p.IsMasterClient)
+            {
+                sortedPlayers.Insert(0, p);
+            }
+            else
+            {
+                sortedPlayers.Add(p);
+            }
+        }
 
         for (int i = 0; i < maxPlayers; i++)
         {
             GameObject slotObj = Instantiate(playerSlotPrefab, playerListPanel);
             WarmupPlayerSlot slot = slotObj.GetComponent<WarmupPlayerSlot>();
 
-            if (i < currentPlayers.Length)
+            if (i < sortedPlayers.Count)
             {
-                slot.Setup(currentPlayers[i], this);
+                slot.Setup(sortedPlayers[i], this);
             }
             else
             {
@@ -78,12 +95,20 @@ public class WarmupManager : MonoBehaviourPunCallbacks
             }
         }
 
-        playerCountText.text = $"{currentPlayers.Length} / {maxPlayers}";
+        playerCountText.text = $"{sortedPlayers.Count} / {maxPlayers}";
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         UpdatePlayerList();
+
+        if(PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            if(PhotonNetwork.IsMasterClient)
+            {
+                StartGame();
+            }
+        }
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -122,6 +147,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     public void OpenHostOptionPanel(Player player, Vector3 mousePos)
     {
         targetPlayer = player;
+        targetNameText.text = player.NickName;
         hostOptionPanel.transform.position = mousePos;
         hostOptionPanel.SetActive(true);
     }
@@ -158,7 +184,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        SceneManager.LoadScene("LobbyScene");
+        SceneManager.LoadScene("Lobby");
     }
 
     private void StartGame()
@@ -170,6 +196,34 @@ public class WarmupManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
             PhotonNetwork.CurrentRoom.IsOpen = false;
+            photonView.RPC("RPC_StartCountdown", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void RPC_StartCountdown()
+    {
+        startButton.gameObject.SetActive(false);
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    private System.Collections.IEnumerator CountdownCoroutine()
+    {
+        countdownText.gameObject.SetActive(true);
+
+        int count = 5;
+        while (count > 0)
+        {
+            countdownText.text = count.ToString();
+            yield return new WaitForSeconds(1f);
+            count--;
+        }
+
+        countdownText.text = "START!";
+        yield return new WaitForSeconds(1f);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
             PhotonNetwork.LoadLevel("RunScene");
         }
     }
