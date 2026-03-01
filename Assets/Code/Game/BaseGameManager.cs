@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,15 +10,28 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     public enum GameState { Wait, Playing, Finish }
     protected GameState currentState = GameState.Wait;
 
-    [Header("Contdown")]
+    [Header("GameEnd")]
+    public TextMeshProUGUI winnerText;
     public TextMeshProUGUI countdownText;
+
+    protected void FinishGame()
+    {
+        var winner = PhotonNetwork.PlayerList
+        .OrderByDescending(p => p.CustomProperties.ContainsKey("Score") ? (int)p.CustomProperties["Score"] : 0)
+        .FirstOrDefault();
+
+        string winnerName = (winner != null) ? winner.NickName : "Null";
+
+        photonView.RPC("RPC_FinishGameUI", RpcTarget.All, winnerName);
+    }
 
     // 1. 종료 시 호출될 RPC (모든 인원 화면에 결과 UI를 띄우거나 알림)
     [PunRPC]
-    protected virtual void RPC_FinishGameUI()
+    protected virtual void RPC_FinishGameUI(string winnerNickName)
     {
         currentState = GameState.Finish;
-        Debug.Log("모든 클라이언트: 게임 종료 UI 표시");
+        winnerText.text = $"{winnerNickName}님이 승리하셨습니다!";
+        winnerText.gameObject.SetActive(true);
 
         // 방장만 로비 이동 타이머를 시작합니다.
         if (PhotonNetwork.IsMasterClient)

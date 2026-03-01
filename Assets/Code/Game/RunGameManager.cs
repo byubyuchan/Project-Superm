@@ -109,12 +109,4 @@ public class RunGameManager : BaseGameManager
             SortPlayerUI();
         }
     }
-
-    private void FinishGame()
-    {
-        currentState = GameState.Finish;
-        Debug.Log("결승선 통과! 게임 종료");
-
-        photonView.RPC("RPC_FinishGameUI", RpcTarget.All);
-    }
 }
