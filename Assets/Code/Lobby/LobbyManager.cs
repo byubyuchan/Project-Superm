@@ -44,6 +44,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public RoomSlot[] roomSlots;
     public TextMeshProUGUI pageText;
 
+    [Header("Warning Panel UI")]
+    public GameObject warningPanel;
+    public TextMeshProUGUI warningText;
+
     private List<RoomInfo> cachedRoomList = new List<RoomInfo>();
     private RoomInfo currentTargetRoom;
     private int currentPage = 0;
@@ -82,6 +86,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (showPasswordButton != null)
             showPasswordButton.onClick.AddListener(TogglePasswordVisibility);
 
+        if (warningPanel != null) warningPanel.SetActive(false);
+
         if (!PhotonNetwork.IsConnected)
         {
             Debug.Log("서버에 연결을 시도합니다...");
@@ -111,13 +117,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         roomNameInput.text = "";
         if (modeDropdown != null) modeDropdown.value = 0;
-        maxPlayersInput.text = "4";
+        maxPlayersInput.text = "8";
 
         if (privateToggle != null) privateToggle.isOn = false;
         passwordInput.text = "";
 
         isCreateRoomPasswordVisible = true;
-        passwordInput.contentType = TMP_InputField.ContentType.Standard;
+        passwordInput.contentType = TMP_InputField.ContentType.Alphanumeric;
         if (showCreateRoomPasswordImage != null) showCreateRoomPasswordImage.sprite = eyeOpenSprite;
         passwordInput.ForceLabelUpdate();
     }
@@ -128,7 +134,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (isCreateRoomPasswordVisible)
         {
-            passwordInput.contentType = TMP_InputField.ContentType.Standard;
+            passwordInput.contentType = TMP_InputField.ContentType.Alphanumeric;
             showCreateRoomPasswordImage.sprite = eyeOpenSprite;
         }
         else
@@ -164,12 +170,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //    return;
         //}
 
-        if (string.IsNullOrEmpty(roomNameInput.text)) return;
+        if (string.IsNullOrWhiteSpace(roomNameInput.text))
+        {
+            ShowWarning("Please enter a valid room name (1-20 characters)");
+            return;
+        }
+
+        int max = 0;
+        if (!int.TryParse(maxPlayersInput.text, out max) || max < 2 || max > 8)
+        {
+            ShowWarning("Players must be a number between 2 and 8");
+            return;
+        }
+        byte maxPlayers = (byte)max;
+
+        if (privateToggle != null && privateToggle.isOn)
+        {
+            if (string.IsNullOrWhiteSpace(passwordInput.text) || passwordInput.text.Length < 1 || passwordInput.text.Length > 8)
+            {
+                ShowWarning("Please enter a valid password (1-8 characters)");
+                return;
+            }
+        }
 
         RoomOptions roomOptions = new RoomOptions();
-
-        byte maxPlayers = 4;
-        if (int.TryParse(maxPlayersInput.text, out int max)) maxPlayers = (byte)max;
         roomOptions.MaxPlayers = maxPlayers;
 
         Hashtable cp = new Hashtable();
@@ -182,6 +206,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions);
     }
+
+    private void ShowWarning(string message)
+    {
+        if (warningText != null) warningText.text = message;
+        if (warningPanel != null) warningPanel.SetActive(true);
+    }
+
+    public void CloseWarningPanel() { if (warningPanel != null) warningPanel.SetActive(false); }
 
     public override void OnCreatedRoom()
     {
@@ -197,6 +229,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.LogWarning($"방 생성 실패: {message}");
+        ShowWarning($"Failed to create room");
     }
 
     public override void OnJoinedRoom()
@@ -340,7 +373,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         joinPasswordInput.Select();
 
         isPasswordVisible = true;
-        joinPasswordInput.contentType = TMP_InputField.ContentType.Standard;
+        joinPasswordInput.contentType = TMP_InputField.ContentType.Alphanumeric;
         if (showPasswordImage != null) showPasswordImage.sprite = eyeOpenSprite;
         joinPasswordInput.ForceLabelUpdate();
     }
@@ -351,7 +384,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (isPasswordVisible)
         {
-            joinPasswordInput.contentType = TMP_InputField.ContentType.Standard;
+            joinPasswordInput.contentType = TMP_InputField.ContentType.Alphanumeric;
             showPasswordImage.sprite = eyeOpenSprite;
         }
         else
