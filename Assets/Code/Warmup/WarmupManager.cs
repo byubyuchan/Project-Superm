@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Collections;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class WarmupManager : MonoBehaviourPunCallbacks
 {
@@ -24,6 +26,19 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     public Button promoteButton;
     public Button kickButton;
 
+    [Header("Room Settings UI")]
+    public GameObject roomSettingsPanel;
+    public TMP_InputField settingsNameInput;
+    public TMP_Dropdown settingsModeDropdown;
+    public TMP_InputField settingsMaxPlayersInput;
+    public Toggle settingsPrivateToggle;
+    public TMP_InputField settingsPasswordInput;
+    public Button applySettingsButton;
+
+    [Header("Warning Panel UI")]
+    public GameObject warningPanel;
+    public TextMeshProUGUI warningText;
+
     private Player targetPlayer;
 
     void Start()
@@ -31,7 +46,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         hostOptionPanel.SetActive(false);
         UpdatePlayerList();
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             startButton.gameObject.SetActive(true);
             startButton.onClick.AddListener(StartGame);
@@ -43,6 +58,18 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
         promoteButton.onClick.AddListener(DelegateHost);
         kickButton.onClick.AddListener(KickPlayer);
+
+        if (settingsPrivateToggle != null)
+        {
+            settingsPrivateToggle.onValueChanged.AddListener((isOn) =>
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    settingsPasswordInput.interactable = isOn;
+                    if (!isOn) settingsPasswordInput.text = "";
+                }
+            });
+        }
     }
 
     void Update()
@@ -226,5 +253,93 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel("RunScene");
         }
+    }
+
+    public void OpenRoomSettingsPanel()
+    {
+        roomSettingsPanel.SetActive(true);
+        Room room = PhotonNetwork.CurrentRoom;
+
+        settingsNameInput.text = room.Name;
+        settingsMaxPlayersInput.text = room.MaxPlayers.ToString();
+
+        Hashtable cp = room.CustomProperties;
+        if (cp.ContainsKey("mode"))
+        {
+            string currentMode = cp["mode"].ToString();
+            int index = settingsModeDropdown.options.FindIndex(o => o.text == currentMode);
+            if (index >= 0) settingsModeDropdown.value = index;
+        }
+        if (cp.ContainsKey("isPrivate")) settingsPrivateToggle.isOn = (bool)cp["isPrivate"];
+        if (cp.ContainsKey("password")) settingsPasswordInput.text = cp["password"].ToString();
+
+        bool isHost = PhotonNetwork.IsMasterClient;
+
+        settingsNameInput.interactable = false;
+
+        settingsModeDropdown.interactable = isHost;
+        settingsMaxPlayersInput.interactable = isHost;
+        settingsPrivateToggle.interactable = isHost;
+        settingsPasswordInput.interactable = isHost && settingsPrivateToggle.isOn;
+
+        applySettingsButton.gameObject.SetActive(isHost);
+    }
+
+    public void CloseRoomSettingsPanel()
+    {
+        roomSettingsPanel.SetActive(false);
+    }
+
+    public void ApplyRoomSettings()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        Room room = PhotonNetwork.CurrentRoom;
+
+        int max = 0;
+        if (!int.TryParse(settingsMaxPlayersInput.text, out max) || max < 2 || max > 8)
+        {
+            ShowWarning("Players must be a number between 2 and 8");
+            return;
+        }
+
+        if (max < room.PlayerCount)
+        {
+            ShowWarning($"Cannot set max players below current player count ({room.PlayerCount})");
+            return;
+        }
+
+        if (settingsPrivateToggle != null && settingsPrivateToggle.isOn)
+        {
+            if (string.IsNullOrWhiteSpace(settingsPasswordInput.text) ||
+                settingsPasswordInput.text.Length < 1 ||
+                settingsPasswordInput.text.Length > 8)
+            {
+                ShowWarning("Please enter a valid password (1-8 characters)");
+                return;
+            }
+        }
+
+        room.MaxPlayers = (byte)max;
+
+        Hashtable cp = new Hashtable();
+        cp["mode"] = settingsModeDropdown.options[settingsModeDropdown.value].text;
+        cp["isPrivate"] = settingsPrivateToggle.isOn;
+        cp["password"] = settingsPasswordInput.text;
+
+        room.SetCustomProperties(cp);
+
+        CloseRoomSettingsPanel();
+    }
+
+    private void ShowWarning(string message)
+    {
+        if (warningText != null) warningText.text = message;
+        if (warningPanel != null) warningPanel.SetActive(true);
+    }
+
+    public void CloseWarningPanel()
+    {
+        if (warningPanel != null) warningPanel.SetActive(false);
     }
 }
