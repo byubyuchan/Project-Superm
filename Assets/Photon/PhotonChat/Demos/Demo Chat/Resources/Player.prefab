@@ -370,6 +370,12 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: V
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsGround
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

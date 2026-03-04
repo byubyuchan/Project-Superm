@@ -16,6 +16,7 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
 
     protected void FinishGame()
     {
+        // 변수 선언
         var winner = PhotonNetwork.PlayerList
         .OrderByDescending(p => p.CustomProperties.ContainsKey("Score") ? (int)p.CustomProperties["Score"] : 0)
         .FirstOrDefault();

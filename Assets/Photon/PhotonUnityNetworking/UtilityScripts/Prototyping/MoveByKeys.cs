@@ -39,6 +39,7 @@ namespace Photon.Pun.UtilityScripts
             isGrounded = controller.isGrounded;
             if (isGrounded && velocity.y < 0)
             {
+                
                 velocity.y = -2f; // 바닥에 붙어있도록 살짝 아래로 힘을 줌
             }
 
@@ -69,8 +70,11 @@ namespace Photon.Pun.UtilityScripts
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 // 물리 공식: v = sqrt(h * -2 * g)
+                animator.SetTrigger("Jump");
                 velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
             }
+
+            animator.SetBool("IsGround", isGrounded);
 
             // 6. 중력 적용
             velocity.y += Gravity * Time.deltaTime;
