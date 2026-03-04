@@ -376,6 +376,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: Jump
+  - Type: 9
+    SynchronizeType: 1
+    Name: Attack
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0

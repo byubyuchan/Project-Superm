@@ -39,7 +39,7 @@ namespace Photon.Pun.UtilityScripts
             isGrounded = controller.isGrounded;
             if (isGrounded && velocity.y < 0)
             {
-                
+
                 velocity.y = -2f; // 바닥에 붙어있도록 살짝 아래로 힘을 줌
             }
 
@@ -47,34 +47,49 @@ namespace Photon.Pun.UtilityScripts
             float horizontalInput = Input.GetAxisRaw("Horizontal");
             float verticalInput = Input.GetAxisRaw("Vertical");
 
+            bool isAttacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
+
             // 애니메이션 파라미터 전달 (보간 적용)
             if (animator != null)
             {
                 animator.SetFloat("H", horizontalInput, 0.1f, Time.deltaTime);
                 animator.SetFloat("V", verticalInput, 0.1f, Time.deltaTime);
+                animator.SetBool("IsGround", isGrounded);
             }
 
-            // 3. 회전 처리
-            if (Mathf.Abs(horizontalInput) > 0.1f)
+
+            if (Input.GetMouseButtonDown(0) && isGrounded && !isAttacking)
             {
-                // 앞뒤 이동 방향에 따라 회전 방향 반전 처리 (기존 로직 유지)
-                float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
-                transform.Rotate(Vector3.up * horizontalInput * directionModifier * rotationSpeed * Time.deltaTime);
+                animator.SetTrigger("Attack");
             }
 
-            // 4. 이동 처리 (Forward 방향)
-            Vector3 move = transform.forward * verticalInput * Speed;
-            controller.Move(move * Time.deltaTime);
-
-            // 5. 점프 처리
-            if (Input.GetButtonDown("Jump") && isGrounded)
+            if (!isAttacking)
             {
-                // 물리 공식: v = sqrt(h * -2 * g)
-                animator.SetTrigger("Jump");
-                velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-            }
+                if (Mathf.Abs(horizontalInput) > 0.1f)
+                {
+                    // 앞뒤 이동 방향에 따라 회전 방향 반전 처리 (기존 로직 유지)
+                    float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
+                    transform.Rotate(Vector3.up * horizontalInput * directionModifier * rotationSpeed * Time.deltaTime);
+                }
 
-            animator.SetBool("IsGround", isGrounded);
+                // 회전 처리
+                if (Mathf.Abs(horizontalInput) > 0.1f)
+                {
+                    float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
+                    transform.Rotate(Vector3.up * horizontalInput * directionModifier * rotationSpeed * Time.deltaTime);
+                }
+
+                // 수평 이동 처리
+                Vector3 move = transform.forward * verticalInput * Speed;
+                controller.Move(move * Time.deltaTime);
+
+                // 점프 처리
+                if (Input.GetButtonDown("Jump") && isGrounded)
+                {
+                    animator.SetTrigger("Jump");
+                    velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                }
+            }
 
             // 6. 중력 적용
             velocity.y += Gravity * Time.deltaTime;
