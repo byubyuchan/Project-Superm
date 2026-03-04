@@ -70,6 +70,8 @@ public class WarmupManager : MonoBehaviourPunCallbacks
                 }
             });
         }
+
+        if (warningPanel != null) warningPanel.SetActive(false);
     }
 
     void Update()
