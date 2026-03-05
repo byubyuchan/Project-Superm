@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Photon.Pun.UtilityScripts
 {
@@ -43,9 +44,19 @@ namespace Photon.Pun.UtilityScripts
                 velocity.y = -2f; // 바닥에 붙어있도록 살짝 아래로 힘을 줌
             }
 
+            // 채팅 입력 중인지 체크 (UI 입력 필드가 선택된 경우 이동/공격 입력 무시)
+            bool isChatting = false;
+            if(EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
+            {
+                if (EventSystem.current.currentSelectedGameObject.GetComponent("TMP_InputField") != null)
+                {
+                    isChatting = true;
+                }
+            }
+
             // 2. 입력 받기
-            float horizontalInput = Input.GetAxisRaw("Horizontal");
-            float verticalInput = Input.GetAxisRaw("Vertical");
+            float horizontalInput = isChatting ? 0f : Input.GetAxisRaw("Horizontal");
+            float verticalInput = isChatting ? 0f : Input.GetAxisRaw("Vertical");
 
             bool isAttacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
 
@@ -58,7 +69,7 @@ namespace Photon.Pun.UtilityScripts
             }
 
 
-            if (Input.GetMouseButtonDown(0) && isGrounded && !isAttacking)
+            if (!isChatting && Input.GetMouseButtonDown(0) && isGrounded && !isAttacking)
             {
                 animator.SetTrigger("Attack");
             }
@@ -84,7 +95,7 @@ namespace Photon.Pun.UtilityScripts
                 controller.Move(move * Time.deltaTime);
 
                 // 점프 처리
-                if (Input.GetButtonDown("Jump") && isGrounded)
+                if (!isChatting && Input.GetButtonDown("Jump") && isGrounded)
                 {
                     animator.SetTrigger("Jump");
                     velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);

@@ -50,10 +50,12 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         {
             startButton.gameObject.SetActive(true);
             startButton.onClick.AddListener(StartGame);
+            OpenRoomSettingsPanel();
         }
         else
         {
             startButton.gameObject.SetActive(false);
+            CloseRoomSettingsPanel();
         }
 
         promoteButton.onClick.AddListener(DelegateHost);
@@ -266,6 +268,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         settingsMaxPlayersInput.text = room.MaxPlayers.ToString();
 
         Hashtable cp = room.CustomProperties;
+        if(cp.ContainsKey("roomName")) settingsNameInput.text = cp["roomName"].ToString();
         if (cp.ContainsKey("mode"))
         {
             string currentMode = cp["mode"].ToString();
@@ -277,8 +280,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
         bool isHost = PhotonNetwork.IsMasterClient;
 
-        settingsNameInput.interactable = false;
-
+        settingsNameInput.interactable = isHost;
         settingsModeDropdown.interactable = isHost;
         settingsMaxPlayersInput.interactable = isHost;
         settingsPrivateToggle.interactable = isHost;
@@ -297,6 +299,12 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) return;
 
         Room room = PhotonNetwork.CurrentRoom;
+
+        if (string.IsNullOrWhiteSpace(settingsNameInput.text))
+        { 
+            ShowWarning("Please enter a valid room name");
+            return;
+        }
 
         int max = 0;
         if (!int.TryParse(settingsMaxPlayersInput.text, out max) || max < 2 || max > 8)
@@ -325,6 +333,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         room.MaxPlayers = (byte)max;
 
         Hashtable cp = new Hashtable();
+        cp["roomName"] = settingsNameInput.text;
         cp["mode"] = settingsModeDropdown.options[settingsModeDropdown.value].text;
         cp["isPrivate"] = settingsPrivateToggle.isOn;
         cp["password"] = settingsPasswordInput.text;

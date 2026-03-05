@@ -13,7 +13,7 @@ public class RoomSlot : MonoBehaviour
 
     public void SetInfo(RoomInfo info)
     {
-        roomNameText.text = info.Name;
+        roomNameText.text = info.CustomProperties["roomName"].ToString();
 
         if (info.CustomProperties.ContainsKey("mode"))
             modeText.text = (string)info.CustomProperties["mode"];

@@ -197,14 +197,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = maxPlayers;
 
         Hashtable cp = new Hashtable();
+        cp["roomName"] = roomNameInput.text;
         cp["mode"] = modeDropdown.options[modeDropdown.value].text;
         cp["isPrivate"] = privateToggle.isOn;
         cp["password"] = passwordInput.text;
 
         roomOptions.CustomRoomProperties = cp;
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "mode", "isPrivate", "password" };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "roomName", "mode", "isPrivate", "password" };
 
-        PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions);
+        string randomRoomID = System.Guid.NewGuid().ToString();
+        PhotonNetwork.CreateRoom(randomRoomID, roomOptions);
     }
 
     private void ShowWarning(string message)
@@ -260,7 +262,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         foreach (var room in cachedRoomList)
         {
-            bool matchSearch = string.IsNullOrEmpty(searchText) || room.Name.ToLower().Contains(searchText);
+            string displayRoomName = "";
+            if (room.CustomProperties.ContainsKey("roomName"))
+            {
+                displayRoomName = room.CustomProperties["roomName"].ToString();
+            }
+
+            bool matchSearch = string.IsNullOrEmpty(searchText) || displayRoomName.ToLower().Contains(searchText);
 
             bool matchAvailable = true;
             bool isPrivate = false;
