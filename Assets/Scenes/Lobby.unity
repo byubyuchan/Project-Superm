@@ -3695,7 +3695,7 @@ MonoBehaviour:
   pageText: {fileID: 2059222804}
   warningPanel: {fileID: 965496922}
   warningText: {fileID: 1395911944}
-  nextSceneName: RunScene
+  nextSceneName: WarmupScene
 --- !u!4 &635496025
 Transform:
   m_ObjectHideFlags: 0
