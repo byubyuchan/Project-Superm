@@ -5,6 +5,7 @@ public class TPZone : MonoBehaviour
 {
     [SerializeField] private GameObject target;
     private Vector3 targetPosition;
+    private Quaternion targetRotation;
     [SerializeField] private bool isLastZone = false;
 
     private void Start()
@@ -12,6 +13,7 @@ public class TPZone : MonoBehaviour
         if (target != null)
         {
             targetPosition = target.transform.position;
+            targetRotation = target.transform.rotation;
         }
         else
         {
@@ -43,6 +45,7 @@ public class TPZone : MonoBehaviour
                     cc.enabled = false;
 
                     other.transform.position = targetPosition;
+                    other.transform.rotation = targetRotation;
 
                     cc.enabled = true;
                 }

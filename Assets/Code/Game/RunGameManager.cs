@@ -10,6 +10,8 @@ public class RunGameManager : BaseGameManager
     [Header("In-Game Player List UI")]
     public Transform playerListPanel;
     public GameObject playerSlotPrefab;
+    
+
 
     private Dictionary<int, RunPlayerSlot> playerSlots = new Dictionary<int, RunPlayerSlot>();
 
