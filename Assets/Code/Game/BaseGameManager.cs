@@ -80,7 +80,10 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
+            // 방을 다시 열어서 다른 플레이어가 들어올 수 있게 합니다
             PhotonNetwork.CurrentRoom.IsOpen = true;
+            // 방을 공개 상태로 변경
+            PhotonNetwork.CurrentRoom.IsVisible = true;
             PhotonNetwork.LoadLevel("WarmupScene");
         }
     }

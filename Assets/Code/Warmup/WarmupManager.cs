@@ -226,7 +226,10 @@ public class WarmupManager : MonoBehaviourPunCallbacks
             props.Add("CharacterType", "Warrior");
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
+            // IsOpen은 로비 방에는 여전히 뜨지만 다른 사람의 입장을 거부하는 설정
             PhotonNetwork.CurrentRoom.IsOpen = false;
+            // IsVisible은 방이 로비에서 보이지 않도록 설정
+            PhotonNetwork.CurrentRoom.IsVisible = false;
             photonView.RPC("RPC_StartCountdown", RpcTarget.All);
         }
     }
