@@ -9173,7 +9173,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1790634272}
-  - component: {fileID: 1790634271}
   - component: {fileID: 1790634270}
   m_Layer: 0
   m_Name: Photon
@@ -9196,21 +9195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5254184595196352773, guid: fd081dd7c470c6a4f9ed72287d847cbd, type: 3}
   canvas: {fileID: 0}
---- !u!114 &1790634271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1790634269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 238dfbb38dd5d9a4c912e04ead1e83dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_InputField: {fileID: 0}
-  m_textConnectLog: {fileID: 0}
-  m_textPlayerList: {fileID: 0}
 --- !u!4 &1790634272
 Transform:
   m_ObjectHideFlags: 0

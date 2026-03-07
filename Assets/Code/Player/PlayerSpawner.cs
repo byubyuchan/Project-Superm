@@ -44,7 +44,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
         // 다시 한 번 방 상태를 체크하고 생성
         if (PhotonNetwork.InRoom)
         {
-            PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
+            ball = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
         }
     }
 
@@ -52,7 +52,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("방을 떠났습니다.");
-        Destroy(ball);
+        // Player Object is automatically destroyed by Photon when leaving the room, so no need to manually destroy it here.
     }
 
     // 방 생성이 실패했을 때 (옵션)
