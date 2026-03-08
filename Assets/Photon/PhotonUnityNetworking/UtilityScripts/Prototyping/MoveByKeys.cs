@@ -69,10 +69,16 @@ namespace Photon.Pun.UtilityScripts
 
             if(EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
             {
+                GameObject selectedUI = EventSystem.current.currentSelectedGameObject;
+
                 if (EventSystem.current.currentSelectedGameObject.GetComponent("TMP_InputField") != null)
                 {
                     isChatting = true;
-                    isUIMode = false;
+
+                    if (selectedUI.name.ToLower().Contains("chat"))
+                    {
+                        isUIMode = false;
+                    }
                 }
             }
 

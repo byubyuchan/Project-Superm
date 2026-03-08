@@ -218,6 +218,11 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("Lobby");
     }
 
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        UpdatePlayerList();
+    }
+
     private void StartGame()
     {
         if (PhotonNetwork.IsMasterClient)
