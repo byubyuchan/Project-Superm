@@ -75,6 +75,12 @@ namespace Photon.Pun.UtilityScripts
                 }
             }
 
+            if (isChatting && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                isChatting = false;
+            }
+
             if (isChatting || isUIMode)
             {
                 Cursor.lockState = CursorLockMode.None;
