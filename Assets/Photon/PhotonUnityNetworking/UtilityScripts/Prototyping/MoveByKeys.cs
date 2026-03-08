@@ -72,6 +72,7 @@ namespace Photon.Pun.UtilityScripts
                 if (EventSystem.current.currentSelectedGameObject.GetComponent("TMP_InputField") != null)
                 {
                     isChatting = true;
+                    isUIMode = false;
                 }
             }
 
@@ -81,7 +82,7 @@ namespace Photon.Pun.UtilityScripts
                 isChatting = false;
             }
 
-            if (isChatting || isUIMode)
+            if (isUIMode)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;

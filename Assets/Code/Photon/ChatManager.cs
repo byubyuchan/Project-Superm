@@ -46,6 +46,9 @@ public class ChatManager : MonoBehaviourPunCallbacks
             }
         }
 
+        // Click outside to close chat
+        // This code is commented out because it is useless anymore
+        /*
         if (isChatActive && Input.GetMouseButtonDown(0))
         {
             // RectTransformUtility.RectangleContainsScreenPoint checks if the mouse click is within the chat window
@@ -54,6 +57,7 @@ public class ChatManager : MonoBehaviourPunCallbacks
                 SetChatUIActive(false);
             }
         }
+        */
     }
 
     private void SetChatUIActive(bool isActive)
