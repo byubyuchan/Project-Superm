@@ -24,6 +24,7 @@ namespace Photon.Pun.UtilityScripts
         public float downRange = 20f;
 
         private float verticalRotation = 0f; // 현재 수직 회전값 저장용
+        private bool isUIMode = false;
 
         public void Start()
         {
@@ -58,6 +59,11 @@ namespace Photon.Pun.UtilityScripts
                 velocity.y = -2f; // 바닥에 붙어있도록 살짝 아래로 힘을 줌
             }
 
+            if(Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
+            {
+                isUIMode = !isUIMode;
+            }
+
             // 채팅 입력 중인지 체크 (UI 입력 필드가 선택된 경우 이동/공격 입력 무시)
             bool isChatting = false;
 
@@ -68,13 +74,19 @@ namespace Photon.Pun.UtilityScripts
                     isChatting = true;
                 }
             }
-            if (isChatting)
+
+            if (isChatting || isUIMode)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
 
-            if (!isChatting)
+            if (!isChatting && !isUIMode)
             {
                 float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
                 transform.Rotate(Vector3.up * mouseX);
@@ -106,7 +118,7 @@ namespace Photon.Pun.UtilityScripts
             }
 
 
-            if (!isChatting && Input.GetMouseButtonDown(0) && !isAttacking)
+            if (!isChatting && !isUIMode && Input.GetMouseButtonDown(0) && !isAttacking)
             {
                 animator.SetTrigger("Attack");
             }
