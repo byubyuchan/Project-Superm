@@ -17,6 +17,14 @@ namespace Photon.Pun.UtilityScripts
         private Vector3 velocity;           // 수직 속도 (중력/점프용)
         private bool isGrounded;
 
+        [Header("Rotation Settings")]
+        public Transform cameraPivot;
+        public float mouseSensitivity = 3f;
+        public float upRange = 70f;
+        public float downRange = 20f;
+
+        private float verticalRotation = 0f; // 현재 수직 회전값 저장용
+
         public void Start()
         {
             controller = GetComponent<CharacterController>();
@@ -70,6 +78,17 @@ namespace Photon.Pun.UtilityScripts
             {
                 float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
                 transform.Rotate(Vector3.up * mouseX);
+
+                float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+                verticalRotation -= mouseY;
+                verticalRotation = Mathf.Clamp(verticalRotation, -downRange, upRange);
+
+                if (cameraPivot != null)
+                {
+                    // 피벗의 로컬 X축 회전 적용
+                    cameraPivot.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+                }
             }
 
             // 2. 입력 받기
