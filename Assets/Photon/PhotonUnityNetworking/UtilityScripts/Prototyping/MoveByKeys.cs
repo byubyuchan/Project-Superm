@@ -26,6 +26,12 @@ namespace Photon.Pun.UtilityScripts
         private float verticalRotation = 0f; // 현재 수직 회전값 저장용
         private bool isUIMode = false;
 
+        [Header("Projectile Settings")]
+        public string projectilePrefabName = "MyArrow"; // Resources 폴더 내 프리팹 이름
+        public Transform firePoint;
+
+        private Vector3 impact = Vector3.zero;
+
         public void Start()
         {
             controller = GetComponent<CharacterController>();
@@ -133,26 +139,71 @@ namespace Photon.Pun.UtilityScripts
 
             if (!isChatting && !isUIMode && Input.GetMouseButtonDown(0) && !isAttacking)
             {
-                animator.SetTrigger("Attack");
+                photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
             }
 
             // 수평 이동 처리
             Vector3 moveDir = (transform.forward * verticalInput) + (transform.right * horizontalInput);
-            controller.Move(moveDir.normalized * Speed * Time.deltaTime);
+
+            if (impact.magnitude > 0.2f)
+            {
+                // 5는 감쇠 속도입니다. 더 빠르게 멈추게 하려면 이 숫자를 키우세요.
+                impact = Vector3.Lerp(impact, Vector3.zero, 5f * Time.deltaTime);
+            }
+            else
+            {
+                impact = Vector3.zero;
+            }
+
+            Vector3 finalHorizontalMove = (moveDir.normalized * Speed) + impact;
+            controller.Move(finalHorizontalMove * Time.deltaTime);
 
             // 점프 처리
             if (!isChatting && Input.GetButtonDown("Jump") && isGrounded)
             {
-                animator.SetTrigger("Jump");
                 velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Jump");
             }
 
             // 6. 중력 적용
             velocity.y += Gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
         }
+        void Shoot()
+        {
+            if (!photonView.IsMine) return;
+
+            if (string.IsNullOrEmpty(projectilePrefabName)) return;
+            
+            // 마우스 상하 회전값이 적용된 카메라 피벗의 방향을 참고하여 발사
+            // 캐릭터 정면이 아니라 "카메라가 바라보는 곳"으로 날아가야 조준이 쉽습니다.
+            Quaternion shootRotation = cameraPivot != null ? cameraPivot.rotation : transform.rotation;
+
+            // 포톤 네트워크 상에 투사체 생성
+            PhotonNetwork.Instantiate(projectilePrefabName, firePoint.position, shootRotation);
+        }
+
+        [PunRPC]
+        public void RPC_AddKnockback(Vector3 force)
+        {
+            if (photonView.IsMine)
+            {
+                impact += force;
+                velocity.y = 0.5f;
+            }
+        }
+
+        [PunRPC]
+        public void RPC_TriggerAction(string triggerName)
+        {
+            if (animator != null)
+            {
+                animator.SetTrigger(triggerName);
+            }
+        }
     }
 }
+
 
 // ====================================================
 //if (Mathf.Abs(horizontalInput) > 0.1f)

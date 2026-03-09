@@ -10655,9 +10655,9 @@ GameObject:
   - component: {fileID: 2078170482}
   - component: {fileID: 2078170481}
   - component: {fileID: 2078170480}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Road 0
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
