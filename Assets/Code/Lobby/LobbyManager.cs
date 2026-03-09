@@ -56,6 +56,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [Header("What is the Next Scene?")]
     [SerializeField] private string nextSceneName = "WarmupScene";
 
+    [Header("System Menu UI")]
+    public GameObject systemMenuPanel;
+    public GameObject blurVolumeObject;
+    public Button quitButton;
+    public Button cancelButton;
+
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -108,6 +114,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 // 마스터 서버에는 있지만 로비가 아니라면 로비 진입
                 PhotonNetwork.JoinLobby();
             }
+        }
+
+        if (systemMenuPanel != null) systemMenuPanel.SetActive(false);
+        if (blurVolumeObject != null) blurVolumeObject.SetActive(false);
+        if (quitButton != null) quitButton.onClick.AddListener(QuitGame);
+        if (cancelButton != null) cancelButton.onClick.AddListener(CloseSystemMenu);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleSystemMenu();
         }
     }
 
@@ -408,5 +427,32 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         passwordPanel.SetActive(false);
         currentTargetRoom = null;
+    }
+
+    private void ToggleSystemMenu()
+    {
+        if (systemMenuPanel != null && blurVolumeObject != null)
+        {
+            bool isActive = systemMenuPanel.activeSelf;
+            systemMenuPanel.SetActive(!isActive);
+            blurVolumeObject.SetActive(!isActive);
+        }
+    }
+
+    private void CloseSystemMenu()
+    {
+        systemMenuPanel.SetActive(false);
+        if (blurVolumeObject != null) blurVolumeObject.SetActive(false);
+    }
+
+    private void QuitGame()
+    {
+        Debug.Log("게임을 종료합니다.");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
