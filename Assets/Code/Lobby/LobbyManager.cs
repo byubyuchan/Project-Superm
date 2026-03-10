@@ -58,7 +58,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Header("System Menu UI")]
     public GameObject systemMenuPanel;
-    public GameObject blurVolumeObject;
     public Button quitButton;
     public Button cancelButton;
 
@@ -117,7 +116,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
         if (systemMenuPanel != null) systemMenuPanel.SetActive(false);
-        if (blurVolumeObject != null) blurVolumeObject.SetActive(false);
         if (quitButton != null) quitButton.onClick.AddListener(QuitGame);
         if (cancelButton != null) cancelButton.onClick.AddListener(CloseSystemMenu);
     }
@@ -431,18 +429,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void ToggleSystemMenu()
     {
-        if (systemMenuPanel != null && blurVolumeObject != null)
+        if (systemMenuPanel != null)
         {
             bool isActive = systemMenuPanel.activeSelf;
             systemMenuPanel.SetActive(!isActive);
-            blurVolumeObject.SetActive(!isActive);
         }
     }
 
     private void CloseSystemMenu()
     {
         systemMenuPanel.SetActive(false);
-        if (blurVolumeObject != null) blurVolumeObject.SetActive(false);
     }
 
     private void QuitGame()
