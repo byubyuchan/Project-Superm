@@ -369,6 +369,7 @@ MonoBehaviour:
   mouseSensitivity: 3
   upRange: 70
   downRange: 20
+  isUIMode: 0
   projectilePrefabName: FireBall
   firePoint: {fileID: 3500724731734377054}
 --- !u!143 &4816682631914590940

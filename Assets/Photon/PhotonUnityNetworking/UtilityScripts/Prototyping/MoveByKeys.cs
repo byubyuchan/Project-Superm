@@ -24,7 +24,7 @@ namespace Photon.Pun.UtilityScripts
         public float downRange = 20f;
 
         private float verticalRotation = 0f; // 현재 수직 회전값 저장용
-        private bool isUIMode = false;
+        public bool isUIMode = false;
 
         [Header("Projectile Settings")]
         public string projectilePrefabName = "MyArrow"; // Resources 폴더 내 프리팹 이름
