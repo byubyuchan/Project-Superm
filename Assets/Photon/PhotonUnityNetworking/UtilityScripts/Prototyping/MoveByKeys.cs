@@ -123,8 +123,8 @@ namespace Photon.Pun.UtilityScripts
             }
 
             // 2. 입력 받기
-            float horizontalInput = isChatting ? 0f : Input.GetAxisRaw("Horizontal");
-            float verticalInput = isChatting ? 0f : Input.GetAxisRaw("Vertical");
+            float horizontalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Horizontal");
+            float verticalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Vertical");
 
             bool isAttacking = animator.GetCurrentAnimatorStateInfo(1).IsName("Attack");
 
@@ -159,7 +159,7 @@ namespace Photon.Pun.UtilityScripts
             controller.Move(finalHorizontalMove * Time.deltaTime);
 
             // 점프 처리
-            if (!isChatting && Input.GetButtonDown("Jump") && isGrounded)
+            if (!isChatting && !isUIMode && Input.GetButtonDown("Jump") && isGrounded)
             {
                 velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
                 photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Jump");
