@@ -18,14 +18,19 @@ public class Projectile : MonoBehaviourPun
     {
         // 발사 방향으로 속도 부여
         GetComponent<Rigidbody>().linearVelocity = transform.forward * speed;
-        if (GetComponent<PhotonView>().IsMine) Invoke("DestroySelf", lifeTime);
+        if (photonView.IsMine) Invoke("DestroySelf", lifeTime);
     }
 
-    void DestroySelf() { PhotonNetwork.Destroy(gameObject); }
+    void DestroySelf() {
+        if (!hasExploded && photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (hasExploded) return;
+        if (!photonView.IsMine || hasExploded) return;
 
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Map"))
         {
@@ -44,6 +49,7 @@ public class Projectile : MonoBehaviourPun
     void Explode()
     {
         hasExploded = true;
+        CancelInvoke("DestroySelf");
 
         // 1. 시각적 이펙트 생성 (모든 클라이언트에게 보이도록 RPC나 포톤 생성 고려)
         if (explosionEffect != null)
@@ -57,12 +63,21 @@ public class Projectile : MonoBehaviourPun
         {
             if (hit.CompareTag("Player"))
             {
-                // 상대방의 CharacterController나 Rigidbody에 힘을 전달
-                ApplyKnockback(hit.gameObject);
+                PhotonView targetPV = hit.gameObject.GetComponent<PhotonView>();
+
+                if (targetPV != null)
+                {
+                    if (targetPV.OwnerActorNr == photonView.OwnerActorNr)
+                    {
+                        continue;
+                    }
+
+                    ApplyKnockback(hit.gameObject);
+                }
             }
         }
 
-        if (GetComponent<PhotonView>().IsMine)
+        if (photonView.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);
         }

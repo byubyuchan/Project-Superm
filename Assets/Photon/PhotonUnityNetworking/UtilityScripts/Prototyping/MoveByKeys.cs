@@ -168,12 +168,14 @@ namespace Photon.Pun.UtilityScripts
             // 6. 중력 적용
             velocity.y += Gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
+
         }
         void Shoot()
         {
             if (!photonView.IsMine) return;
 
             if (string.IsNullOrEmpty(projectilePrefabName)) return;
+
             
             // 마우스 상하 회전값이 적용된 카메라 피벗의 방향을 참고하여 발사
             // 캐릭터 정면이 아니라 "카메라가 바라보는 곳"으로 날아가야 조준이 쉽습니다.
