@@ -389,6 +389,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
                 if(p.photonView.IsMine)
                 {
                     p.isUIMode = isActive;
+                    p.isMenuOpen = isActive;
                     break;
                 }
             }
@@ -408,6 +409,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
                 if (p.photonView.IsMine)
                 {
                     p.isUIMode = false;
+                    p.isMenuOpen = false;
                     break;
                 }
             }

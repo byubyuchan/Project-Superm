@@ -24,13 +24,15 @@ namespace Photon.Pun.UtilityScripts
         public float downRange = 20f;
 
         private float verticalRotation = 0f; // 현재 수직 회전값 저장용
-        public bool isUIMode = false;
 
         [Header("Projectile Settings")]
         public string projectilePrefabName = "MyArrow"; // Resources 폴더 내 프리팹 이름
         public Transform firePoint;
 
         private Vector3 impact = Vector3.zero;
+
+        public bool isUIMode = false;
+        public bool isMenuOpen = false;
 
         public void Start()
         {
@@ -65,7 +67,7 @@ namespace Photon.Pun.UtilityScripts
                 velocity.y = -2f; // 바닥에 붙어있도록 살짝 아래로 힘을 줌
             }
 
-            if(Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
+            if(!isMenuOpen && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt)))
             {
                 isUIMode = !isUIMode;
             }
