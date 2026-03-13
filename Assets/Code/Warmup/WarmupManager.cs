@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Collections;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.EventSystems;
 
 public class WarmupManager : MonoBehaviourPunCallbacks
 {
@@ -82,6 +83,12 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         if (systemMenuPanel != null) systemMenuPanel.SetActive(false);
         if (leaveRoomButton != null) leaveRoomButton.onClick.AddListener(LeaveRoom);
         if (cancelButton != null) cancelButton.onClick.AddListener(CloseSystemMenu);
+
+        TMP_InputField[] allInputs = FindObjectsByType<TMP_InputField>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var input in allInputs)
+        {
+            input.restoreOriginalTextOnEscape = false;
+        }
     }
 
     void Update()
@@ -97,6 +104,11 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if(EventSystem.current != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+
             ToggleSystemMenu();
         }
     }

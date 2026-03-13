@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -118,12 +119,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (systemMenuPanel != null) systemMenuPanel.SetActive(false);
         if (quitButton != null) quitButton.onClick.AddListener(QuitGame);
         if (cancelButton != null) cancelButton.onClick.AddListener(CloseSystemMenu);
+
+        TMP_InputField[] allInputs = FindObjectsByType<TMP_InputField>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var input in allInputs)
+        {
+            input.restoreOriginalTextOnEscape = false;
+        }
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (EventSystem.current != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+
             ToggleSystemMenu();
         }
     }
