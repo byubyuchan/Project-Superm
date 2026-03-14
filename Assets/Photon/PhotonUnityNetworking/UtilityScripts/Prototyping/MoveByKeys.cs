@@ -22,6 +22,8 @@ namespace Photon.Pun.UtilityScripts
         public float mouseSensitivity = 3f;
         public float upRange = 70f;
         public float downRange = 20f;
+        public float zoomUpRange = 90f;
+        public float zoomDownRange = 40f;
 
         private float verticalRotation = 0f; // 현재 수직 회전값 저장용
 
@@ -120,7 +122,8 @@ namespace Photon.Pun.UtilityScripts
                 float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
                 verticalRotation -= mouseY;
-                verticalRotation = Mathf.Clamp(verticalRotation, -downRange, upRange);
+                if (isLoadingAttack) verticalRotation = Mathf.Clamp(verticalRotation, -zoomDownRange, zoomUpRange);
+                else verticalRotation = Mathf.Clamp(verticalRotation, -downRange, upRange);
 
                 if (cameraPivot != null)
                 {
