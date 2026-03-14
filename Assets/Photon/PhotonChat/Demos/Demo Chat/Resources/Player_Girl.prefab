@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3036739974833999497}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.3227539, y: -0.6628263, z: -12.200439}
+  m_LocalPosition: {x: 5, y: -0.6628263, z: -12.200439}
   m_LocalScale: {x: 0.010000001, y: 0.010000001, z: 0.010000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -376,6 +376,9 @@ MonoBehaviour:
   firePoint: {fileID: 3500724731734377054}
   isUIMode: 0
   isMenuOpen: 0
+  aimLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0
@@ -442,10 +445,10 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: IsGround
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 1
     Name: Jump
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 1
     Name: Attack
   m_SynchronizeLayers:
   - SynchronizeType: 2

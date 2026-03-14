@@ -34,6 +34,9 @@ namespace Photon.Pun.UtilityScripts
         public bool isUIMode = false;
         public bool isMenuOpen = false;
 
+        [Header("Aim Settings")]
+        public LayerMask aimLayerMask;
+
         public void Start()
         {
             controller = GetComponent<CharacterController>();
@@ -176,16 +179,45 @@ namespace Photon.Pun.UtilityScripts
         {
             if (!photonView.IsMine) return;
 
-            if (string.IsNullOrEmpty(projectilePrefabName)) return;
+            // 1. 화면 중앙(조준선)에서 월드 공간으로 레이를 쏩니다.
+            // 0.5, 0.5는 화면 정중앙을 의미합니다.
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            RaycastHit hit;
+            Vector3 targetPoint;
 
-            
-            // 마우스 상하 회전값이 적용된 카메라 피벗의 방향을 참고하여 발사
-            // 캐릭터 정면이 아니라 "카메라가 바라보는 곳"으로 날아가야 조준이 쉽습니다.
-            Quaternion shootRotation = cameraPivot != null ? cameraPivot.rotation : transform.rotation;
+            // 2. 레이캐스트 (본인 캐릭터 레이어는 무시해야 함)
+            // 100m 거리 안에 부딪힌 게 있다면 그곳을 조준점으로, 없다면 100m 앞 허공을 조준점으로 잡습니다.
+            if (Physics.Raycast(ray, out hit, 100f, ~aimLayerMask))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                targetPoint = ray.GetPoint(100f);
+            }
 
-            // 포톤 네트워크 상에 투사체 생성
-            PhotonNetwork.Instantiate(projectilePrefabName, firePoint.position, shootRotation);
+            // 3. 방향 계산: (목표 지점 - 왼손 총구 위치)
+            // 캐릭터 정면이 아니라, 조준선이 가리키는 월드의 그 지점을 향하게 합니다.
+            Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
+
+            // 4. 발사 (회전값은 aimDirection을 바라보게 설정)
+            PhotonNetwork.Instantiate(projectilePrefabName, firePoint.position, Quaternion.LookRotation(aimDirection));
         }
+
+        //void Shoot()
+        //{
+        //    if (!photonView.IsMine) return;
+
+        //    if (string.IsNullOrEmpty(projectilePrefabName)) return;
+
+
+        //    // 마우스 상하 회전값이 적용된 카메라 피벗의 방향을 참고하여 발사
+        //    // 캐릭터 정면이 아니라 "카메라가 바라보는 곳"으로 날아가야 조준이 쉽습니다.
+        //    Quaternion shootRotation = cameraPivot != null ? cameraPivot.rotation : transform.rotation;
+
+        //    // 포톤 네트워크 상에 투사체 생성
+        //    PhotonNetwork.Instantiate(projectilePrefabName, firePoint.position, shootRotation);
+        //}
 
         [PunRPC]
         public void RPC_AddKnockback(Vector3 force)
