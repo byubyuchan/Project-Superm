@@ -34,6 +34,8 @@ namespace Photon.Pun.UtilityScripts
         public bool isUIMode = false;
         public bool isMenuOpen = false;
 
+        public bool isLoadingAttack = false;
+
         [Header("Aim Settings")]
         public LayerMask aimLayerMask;
 
@@ -133,6 +135,8 @@ namespace Photon.Pun.UtilityScripts
 
             bool isAttacking = animator.GetCurrentAnimatorStateInfo(1).IsName("Attack");
 
+            bool isReady = animator.GetCurrentAnimatorStateInfo(1).IsName("Ready");
+
             // 애니메이션 파라미터 전달 (보간 적용)
             if (animator != null)
             {
@@ -141,8 +145,13 @@ namespace Photon.Pun.UtilityScripts
                 animator.SetBool("IsGround", isGrounded);
             }
 
+            if (!isChatting && !isUIMode && Input.GetMouseButtonDown(1) && !isAttacking)
+            {
+                isLoadingAttack = !isLoadingAttack;
+                photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
+            }
 
-            if (!isChatting && !isUIMode && Input.GetMouseButtonDown(0) && !isAttacking)
+            if (!isChatting && !isUIMode && Input.GetMouseButtonDown(0) && !isAttacking && isLoadingAttack) 
             {
                 photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
             }
@@ -179,6 +188,9 @@ namespace Photon.Pun.UtilityScripts
         {
             if (!photonView.IsMine) return;
 
+            isLoadingAttack = false;
+            photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
+
             // 1. 화면 중앙(조준선)에서 월드 공간으로 레이를 쏩니다.
             // 0.5, 0.5는 화면 정중앙을 의미합니다.
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -204,21 +216,6 @@ namespace Photon.Pun.UtilityScripts
             PhotonNetwork.Instantiate(projectilePrefabName, firePoint.position, Quaternion.LookRotation(aimDirection));
         }
 
-        //void Shoot()
-        //{
-        //    if (!photonView.IsMine) return;
-
-        //    if (string.IsNullOrEmpty(projectilePrefabName)) return;
-
-
-        //    // 마우스 상하 회전값이 적용된 카메라 피벗의 방향을 참고하여 발사
-        //    // 캐릭터 정면이 아니라 "카메라가 바라보는 곳"으로 날아가야 조준이 쉽습니다.
-        //    Quaternion shootRotation = cameraPivot != null ? cameraPivot.rotation : transform.rotation;
-
-        //    // 포톤 네트워크 상에 투사체 생성
-        //    PhotonNetwork.Instantiate(projectilePrefabName, firePoint.position, shootRotation);
-        //}
-
         [PunRPC]
         public void RPC_AddKnockback(Vector3 force)
         {
@@ -229,7 +226,7 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        [PunRPC]
+        [PunRPC] // 좌클릭 공격
         public void RPC_TriggerAction(string triggerName)
         {
             if (animator != null)
@@ -237,22 +234,14 @@ namespace Photon.Pun.UtilityScripts
                 animator.SetTrigger(triggerName);
             }
         }
+
+        [PunRPC] // 우클릭 줌
+        public void RPC_LoadAction(string triggerName, bool state)
+        {
+            if (animator != null)
+            {
+                animator.SetBool(triggerName, state);
+            }
+        }
     }
 }
-
-
-// ====================================================
-//if (Mathf.Abs(horizontalInput) > 0.1f)
-//{
-//    // 앞뒤 이동 방향에 따라 회전 방향 반전 처리 (기존 로직 유지)
-//    float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
-//    transform.Rotate(Vector3.up * horizontalInput * directionModifier * rotationSpeed * Time.deltaTime);
-//}
-
-//// 회전 처리
-//if (Mathf.Abs(horizontalInput) > 0.1f)
-//{
-//    float directionModifier = (verticalInput < -0.1f) ? -1f : 1f;
-//    transform.Rotate(Vector3.up * horizontalInput * directionModifier * rotationSpeed * Time.deltaTime);
-//}
-// ====================================================
