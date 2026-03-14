@@ -7,6 +7,7 @@
   <Project Path="PhotonUnityNetworking.Demos.csproj" />
   <Project Path="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj" />
   <Project Path="PhotonUnityNetworking.Utilities.csproj" />
+  <Project Path="OccaSoftware.Crosshairs.Editor.csproj" />
   <Project Path="PunDemos.DemoHubEditor.csproj" />
   <Project Path="PunDemos.DemoSlotcarEditor.csproj" />
   <Project Path="PhotonUnityNetworking.Utilities.Culling.Editor.csproj" />
