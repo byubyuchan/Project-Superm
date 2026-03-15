@@ -41,6 +41,10 @@ namespace Photon.Pun.UtilityScripts
         [Header("Aim Settings")]
         public LayerMask aimLayerMask;
 
+        [Header("Attack Settings")]
+        public float attackCooldown = 0.5f;
+        private float lastAttackTime;
+
         public void Start()
         {
             controller = GetComponent<CharacterController>();
@@ -156,7 +160,11 @@ namespace Photon.Pun.UtilityScripts
 
             if (!isChatting && !isUIMode && Input.GetMouseButtonDown(0) && !isAttacking && isLoadingAttack) 
             {
-                photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
+                if (Time.time - lastAttackTime >= attackCooldown)
+                {
+                    lastAttackTime = Time.time;
+                    photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
+                }
             }
 
             // 수평 이동 처리
@@ -191,17 +199,13 @@ namespace Photon.Pun.UtilityScripts
         {
             if (!photonView.IsMine) return;
 
-            isLoadingAttack = false;
-            photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
+            //isLoadingAttack = false;
+            //photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
 
-            // 1. 화면 중앙(조준선)에서 월드 공간으로 레이를 쏩니다.
-            // 0.5, 0.5는 화면 정중앙을 의미합니다.
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;
             Vector3 targetPoint;
 
-            // 2. 레이캐스트 (본인 캐릭터 레이어는 무시해야 함)
-            // 100m 거리 안에 부딪힌 게 있다면 그곳을 조준점으로, 없다면 100m 앞 허공을 조준점으로 잡습니다.
             if (Physics.Raycast(ray, out hit, 100f, ~aimLayerMask))
             {
                 targetPoint = hit.point;
@@ -211,11 +215,8 @@ namespace Photon.Pun.UtilityScripts
                 targetPoint = ray.GetPoint(100f);
             }
 
-            // 3. 방향 계산: (목표 지점 - 왼손 총구 위치)
-            // 캐릭터 정면이 아니라, 조준선이 가리키는 월드의 그 지점을 향하게 합니다.
             Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
 
-            // 4. 발사 (회전값은 aimDirection을 바라보게 설정)
             PhotonNetwork.Instantiate(projectilePrefabName, firePoint.position, Quaternion.LookRotation(aimDirection));
         }
 
