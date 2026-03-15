@@ -111,6 +111,7 @@ MonoBehaviour:
   zoomYOffset: 3.6
   zoomFOV: 40
   zoomSpeed: 5
+  crosshairImage: {fileID: 0}
 --- !u!1 &5287247925783689289
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,6 +400,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   attackCooldown: 0.5
+  lastAttackTime: 0
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0

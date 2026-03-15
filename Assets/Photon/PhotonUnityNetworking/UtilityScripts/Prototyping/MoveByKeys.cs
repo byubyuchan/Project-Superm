@@ -43,7 +43,7 @@ namespace Photon.Pun.UtilityScripts
 
         [Header("Attack Settings")]
         public float attackCooldown = 0.5f;
-        private float lastAttackTime;
+        public float lastAttackTime;
 
         public void Start()
         {

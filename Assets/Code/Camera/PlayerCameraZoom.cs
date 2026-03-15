@@ -1,6 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 using Photon.Pun.UtilityScripts;
+using UnityEngine.UI;
 
 public class PlayerCameraZoom : MonoBehaviourPun
 {
@@ -14,6 +15,8 @@ public class PlayerCameraZoom : MonoBehaviourPun
     public float zoomFOV = 40f;
     public float zoomSpeed = 5f;
 
+    public GameObject crosshairImage;
+
     private float defaultXOffset;
     private float defaultYOffset;
     private float defaultFOV;
@@ -25,6 +28,13 @@ public class PlayerCameraZoom : MonoBehaviourPun
         if (!photonView.IsMine) return;
 
         if (cameraTransform == null) cameraTransform = Camera.main.transform;
+
+        crosshairImage = GameObject.FindWithTag("Crosshair");
+
+        if (crosshairImage != null)
+        {
+            crosshairImage.gameObject.SetActive(false);
+        }
 
         camComponent = cameraTransform.GetComponent<Camera>();
 
@@ -45,6 +55,9 @@ public class PlayerCameraZoom : MonoBehaviourPun
         float targetX = isAiming ? zoomXOffset : defaultXOffset;
         float targetY = isAiming ? zoomYOffset : defaultYOffset;
         float targetFOV = isAiming ? zoomFOV : defaultFOV;
+
+        if (isAiming) crosshairImage.gameObject.SetActive(true);
+        else crosshairImage.gameObject.SetActive(false);
 
         Vector3 localPos = cameraTransform.localPosition;
         localPos.x = Mathf.Lerp(localPos.x, targetX, Time.deltaTime * zoomSpeed);

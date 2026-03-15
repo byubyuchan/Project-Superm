@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Goal
   - Map
+  - Crosshair
   layers:
   - Default
   - TransparentFX
