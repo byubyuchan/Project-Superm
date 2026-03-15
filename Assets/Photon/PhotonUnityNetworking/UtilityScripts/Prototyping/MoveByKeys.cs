@@ -120,10 +120,12 @@ namespace Photon.Pun.UtilityScripts
 
             if (!isChatting && !isUIMode)
             {
-                float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+                float currentSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1.0f);
+
+                float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * currentSensitivity;
                 transform.Rotate(Vector3.up * mouseX);
 
-                float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+                float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * currentSensitivity;
 
                 verticalRotation -= mouseY;
                 if (isLoadingAttack) verticalRotation = Mathf.Clamp(verticalRotation, -zoomDownRange, zoomUpRange);
