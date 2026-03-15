@@ -42,11 +42,11 @@ public class CrosshairCooldown : MonoBehaviour
 
         if (progress < 1f)
         {
-            cooldownImage.color = new Color(1, 0, 0, 0.5f);
+            cooldownImage.color = new Color(0, 0, 0, 0.5f);
         }
         else
         {
-            cooldownImage.color = Color.red;
+            cooldownImage.color = Color.black;
         }
     }
 }
