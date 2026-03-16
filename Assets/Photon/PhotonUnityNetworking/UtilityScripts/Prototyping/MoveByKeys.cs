@@ -75,7 +75,7 @@ namespace Photon.Pun.UtilityScripts
             if (isGrounded && velocity.y < 0)
             {
 
-                velocity.y = -2f; // ¹Ù´Ú¿¡ ºÙ¾îÀÖµµ·Ï »ìÂ¦ ¾Æ·¡·Î ÈûÀ» ÁÜ
+                velocity.y = -100f; // ¹Ù´Ú¿¡ ºÙ¾îÀÖµµ·Ï »ìÂ¦ ¾Æ·¡·Î ÈûÀ» ÁÜ
             }
 
             if(!isMenuOpen && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt)))
