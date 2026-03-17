@@ -1,9 +1,10 @@
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Xml;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class OptionManager : MonoBehaviour
 {
@@ -17,15 +18,17 @@ public class OptionManager : MonoBehaviour
 
     [Header("Graphics Settings")]
     public TMP_Dropdown resolutionDropdown;
+    public TMP_Dropdown refreshRateDropdown;
     public TMP_Dropdown screenModeDropdown;
     public TMP_Dropdown qualityDropdown;
     public Button applyGraphicsButton;
 
+    private List<Vector2Int> uniqueResolutions = new List<Vector2Int>();
+    private List<Resolution> currentRefreshRates = new List<Resolution>();
+
     [Header("Control Settings")]
     public Slider sensitivitySlider;
     public TMP_InputField sensitivityInput;
-
-    private List<Resolution> filteredResolutions = new List<Resolution>();
 
     void Start()
     {
@@ -35,13 +38,13 @@ public class OptionManager : MonoBehaviour
 
         InitGraphicsSettings();
         applyGraphicsButton.onClick.AddListener(ApplyGraphicsSettings);
+        resolutionDropdown.onValueChanged.AddListener(UpdateRefreshRateDropdown);
 
         InitControlSettings();
         sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderChanged);
         sensitivityInput.onValueChanged.AddListener(OnSensitivityInputChanged);
 
         optionPanel.SetActive(false);
-        ShowGraphicsPage();
     }
 
     public void OpenOptionPanel()
@@ -77,32 +80,30 @@ public class OptionManager : MonoBehaviour
     private void InitGraphicsSettings()
     {
         Resolution[] allResolutions = Screen.resolutions;
-        filteredResolutions.Clear();
+        uniqueResolutions.Clear();
         resolutionDropdown.ClearOptions();
 
-        List<string> options = new List<string>();
         int currentResIndex = 0;
 
         for (int i = 0; i < allResolutions.Length; i++)
         {
             float ratio = (float)allResolutions[i].width / allResolutions[i].height;
-
-            bool is16by9 = Mathf.Abs(ratio - (16f / 9f)) < 0.05f;
-
-            if (is16by9 && allResolutions[i].width >= 1280) // Filter for 16:9 and minimum width
+            if (Mathf.Abs(ratio - (16f / 9f)) < 0.05f && allResolutions[i].width >= 1280)
             {
-                filteredResolutions.Add(allResolutions[i]);
+                Vector2Int size = new Vector2Int(allResolutions[i].width, allResolutions[i].height);
+                if (!uniqueResolutions.Contains(size))
+                {
+                    uniqueResolutions.Add(size);
+                }
             }
         }
 
-        for(int i = 0; i < filteredResolutions.Count; i++)
+        List<string> options = new List<string>();
+        for (int i = 0; i < uniqueResolutions.Count; i++)
         {
-            string option = filteredResolutions[i].width + " x " + filteredResolutions[i].height + 
-                " (" + filteredResolutions[i].refreshRateRatio.value.ToString("F0") + "Hz)";
-            options.Add(option);
+            options.Add(uniqueResolutions[i].x + " x " + uniqueResolutions[i].y);
 
-            if (filteredResolutions[i].width == Screen.currentResolution.width &&
-                filteredResolutions[i].height == Screen.currentResolution.height)
+            if (uniqueResolutions[i].x == Screen.width && uniqueResolutions[i].y == Screen.height)
             {
                 currentResIndex = i;
             }
@@ -112,6 +113,8 @@ public class OptionManager : MonoBehaviour
         resolutionDropdown.value = currentResIndex;
         resolutionDropdown.RefreshShownValue();
 
+        UpdateRefreshRateDropdown(currentResIndex);
+
         qualityDropdown.value = QualitySettings.GetQualityLevel();
 
         if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen) screenModeDropdown.value = 0;
@@ -119,9 +122,44 @@ public class OptionManager : MonoBehaviour
         else screenModeDropdown.value = 2;
     }
 
+    private void UpdateRefreshRateDropdown(int resIndex)
+    {
+        refreshRateDropdown.ClearOptions();
+        currentRefreshRates.Clear();
+
+        Vector2Int targetSize = uniqueResolutions[resIndex];
+        Resolution[] allResolutions = Screen.resolutions;
+
+        List<string> hzOptions = new List<string>();
+        int currentHzIndex = 0;
+
+        for (int i = 0; i < allResolutions.Length; i++)
+        {
+            if (allResolutions[i].width == targetSize.x && allResolutions[i].height == targetSize.y)
+            {
+                currentRefreshRates.Add(allResolutions[i]);
+                hzOptions.Add(allResolutions[i].refreshRateRatio.value.ToString("F0") + " Hz");
+
+                if (Mathf.Approximately((float)allResolutions[i].refreshRateRatio.value, (float)Screen.currentResolution.refreshRateRatio.value))
+                {
+                    currentHzIndex = currentRefreshRates.Count - 1;
+                }
+            }
+        }
+
+        if (currentHzIndex == 0 && currentRefreshRates.Count > 0)
+        {
+            currentHzIndex = currentRefreshRates.Count - 1; // Default to highest refresh rate if current isn't found
+        }
+
+        refreshRateDropdown.AddOptions(hzOptions);
+        refreshRateDropdown.value = currentHzIndex;
+        refreshRateDropdown.RefreshShownValue();
+    }
+
     private void ApplyGraphicsSettings()
     {
-        Resolution res = filteredResolutions[resolutionDropdown.value];
+        Resolution res = currentRefreshRates[resolutionDropdown.value];
 
         FullScreenMode mode = FullScreenMode.ExclusiveFullScreen;
         if (screenModeDropdown.value == 1) mode = FullScreenMode.FullScreenWindow;
