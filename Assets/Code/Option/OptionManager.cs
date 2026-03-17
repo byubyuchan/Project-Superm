@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class OptionManager : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class OptionManager : MonoBehaviour
     public Slider sensitivitySlider;
     public TMP_InputField sensitivityInput;
 
-    private Resolution[] resolutions;
+    private List<Resolution> filteredResolutions = new List<Resolution>();
 
     void Start()
     {
@@ -75,38 +76,52 @@ public class OptionManager : MonoBehaviour
     // =================
     private void InitGraphicsSettings()
     {
-        resolutions = Screen.resolutions;
+        Resolution[] allResolutions = Screen.resolutions;
+        filteredResolutions.Clear();
         resolutionDropdown.ClearOptions();
 
         List<string> options = new List<string>();
         int currentResIndex = 0;
 
-        for(int i = 0; i < resolutions.Length; i++)
+        for (int i = 0; i < allResolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height + " (" + resolutions[i].refreshRateRatio.value.ToString("F0") + "Hz)";
+            float ratio = (float)allResolutions[i].width / allResolutions[i].height;
+
+            bool is16by9 = Mathf.Abs(ratio - (16f / 9f)) < 0.05f;
+
+            if (is16by9 && allResolutions[i].width >= 1280) // Filter for 16:9 and minimum width
+            {
+                filteredResolutions.Add(allResolutions[i]);
+            }
+        }
+
+        for(int i = 0; i < filteredResolutions.Count; i++)
+        {
+            string option = filteredResolutions[i].width + " x " + filteredResolutions[i].height + 
+                " (" + filteredResolutions[i].refreshRateRatio.value.ToString("F0") + "Hz)";
             options.Add(option);
 
-            if(resolutions[i].width == Screen.currentResolution.width &&
-               resolutions[i].height == Screen.currentResolution.height)
+            if (filteredResolutions[i].width == Screen.currentResolution.width &&
+                filteredResolutions[i].height == Screen.currentResolution.height)
             {
                 currentResIndex = i;
             }
-
-            resolutionDropdown.AddOptions(options);
-            resolutionDropdown.value = currentResIndex;
-            resolutionDropdown.RefreshShownValue();
-
-            qualityDropdown.value = QualitySettings.GetQualityLevel();
-
-            if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen) screenModeDropdown.value = 0;
-            else if (Screen.fullScreenMode == FullScreenMode.FullScreenWindow) screenModeDropdown.value = 1;
-            else screenModeDropdown.value = 2;
         }
+
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResIndex;
+        resolutionDropdown.RefreshShownValue();
+
+        qualityDropdown.value = QualitySettings.GetQualityLevel();
+
+        if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen) screenModeDropdown.value = 0;
+        else if (Screen.fullScreenMode == FullScreenMode.FullScreenWindow) screenModeDropdown.value = 1;
+        else screenModeDropdown.value = 2;
     }
 
     private void ApplyGraphicsSettings()
     {
-        Resolution res = resolutions[resolutionDropdown.value];
+        Resolution res = filteredResolutions[resolutionDropdown.value];
 
         FullScreenMode mode = FullScreenMode.ExclusiveFullScreen;
         if (screenModeDropdown.value == 1) mode = FullScreenMode.FullScreenWindow;
