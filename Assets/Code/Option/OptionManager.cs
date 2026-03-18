@@ -137,12 +137,20 @@ public class OptionManager : MonoBehaviour
         {
             if (allResolutions[i].width == targetSize.x && allResolutions[i].height == targetSize.y)
             {
-                currentRefreshRates.Add(allResolutions[i]);
-                hzOptions.Add(allResolutions[i].refreshRateRatio.value.ToString("F0") + " Hz");
-
-                if (Mathf.Approximately((float)allResolutions[i].refreshRateRatio.value, (float)Screen.currentResolution.refreshRateRatio.value))
+                string hzString = Mathf.RoundToInt((float)allResolutions[i].refreshRateRatio.value).ToString() + " Hz";
+                
+                if(!hzOptions.Contains(hzString))
                 {
-                    currentHzIndex = currentRefreshRates.Count - 1;
+                    currentRefreshRates.Add(allResolutions[i]);
+                    hzOptions.Add(hzString);
+
+                    int currentScreenHz = Mathf.RoundToInt((float)Screen.currentResolution.refreshRateRatio.value);
+                    int optionHz = Mathf.RoundToInt((float)allResolutions[i].refreshRateRatio.value);
+
+                    if (currentScreenHz == optionHz)
+                    {
+                        currentHzIndex = currentRefreshRates.Count - 1;
+                    }
                 }
             }
         }
