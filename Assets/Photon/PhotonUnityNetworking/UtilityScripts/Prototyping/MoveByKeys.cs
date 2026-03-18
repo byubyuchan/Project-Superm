@@ -192,6 +192,7 @@ namespace Photon.Pun.UtilityScripts
                 photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Jump");
             }
 
+
             // 6. 중력 적용
             velocity.y += Gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
