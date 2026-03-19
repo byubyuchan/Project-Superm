@@ -30,15 +30,43 @@ public class OptionManager : MonoBehaviour
     public Slider sensitivitySlider;
     public TMP_InputField sensitivityInput;
 
+    [Header("Unsaved Warning UI")]
+    public GameObject unsavedWarningPanel;
+    public Button popupApplyButton;
+    public Button popupDiscardButton;
+    public Button popupCancelButton;
+
+    private bool hasUnsavedChanges = false;
+
+    private int savedResIndex;
+    private int savedHzIndex;
+    private int savedModeIndex;
+    private int savedQualityIndex;
+
+    // Action to execute after handling unsaved changes (apply, discard, or cancel)
+    private System.Action pendingAction = null;
+
     void Start()
     {
-        graphicsTabButton.onClick.AddListener(ShowGraphicsPage);
-        controlTabButton.onClick.AddListener(ShowControlPage);
-        closeButton.onClick.AddListener(CloseOptionPanel);
+        graphicsTabButton.onClick.AddListener(AttemptShowGraphicsPage);
+        controlTabButton.onClick.AddListener(AttemptShowControlPage);
+        closeButton.onClick.AddListener(AttemptCloseOptionPanel);
 
         InitGraphicsSettings();
         applyGraphicsButton.onClick.AddListener(ApplyGraphicsSettings);
         resolutionDropdown.onValueChanged.AddListener(UpdateRefreshRateDropdown);
+
+        // Mark settings as unsaved when any dropdown value changes
+        resolutionDropdown.onValueChanged.AddListener(delegate { hasUnsavedChanges = true; });
+        refreshRateDropdown.onValueChanged.AddListener(delegate { hasUnsavedChanges = true; });
+        screenModeDropdown.onValueChanged.AddListener(delegate { hasUnsavedChanges = true; });
+        qualityDropdown.onValueChanged.AddListener(delegate { hasUnsavedChanges = true; });
+
+        unsavedWarningPanel.SetActive(false);
+
+        popupApplyButton.onClick.AddListener(OnPopupApply);
+        popupDiscardButton.onClick.AddListener(OnPopupDiscard);
+        popupCancelButton.onClick.AddListener(OnPopupCancel);
 
         InitControlSettings();
         sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderChanged);
@@ -120,6 +148,8 @@ public class OptionManager : MonoBehaviour
         if (Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen) screenModeDropdown.value = 0;
         else if (Screen.fullScreenMode == FullScreenMode.FullScreenWindow) screenModeDropdown.value = 1;
         else screenModeDropdown.value = 2;
+
+        SaveCurrentStateAsApplied();
     }
 
     private void UpdateRefreshRateDropdown(int resIndex)
@@ -167,7 +197,7 @@ public class OptionManager : MonoBehaviour
 
     private void ApplyGraphicsSettings()
     {
-        Resolution res = currentRefreshRates[resolutionDropdown.value];
+        Resolution res = currentRefreshRates[refreshRateDropdown.value];
 
         FullScreenMode mode = FullScreenMode.ExclusiveFullScreen;
         if (screenModeDropdown.value == 1) mode = FullScreenMode.FullScreenWindow;
@@ -177,7 +207,63 @@ public class OptionManager : MonoBehaviour
 
         QualitySettings.SetQualityLevel(qualityDropdown.value);
 
-        Debug.Log("Graphics settings applied");
+        SaveCurrentStateAsApplied();
+    }
+
+    // ==========================================================
+    // Unsaved Changes Handling and Intercepting Close/Tab Switch
+    // ==========================================================
+
+    private void SaveCurrentStateAsApplied()
+    {
+        savedResIndex = resolutionDropdown.value;
+        savedHzIndex = refreshRateDropdown.value;
+        savedModeIndex = screenModeDropdown.value;
+        savedQualityIndex = qualityDropdown.value;
+        hasUnsavedChanges = false; // Reset unsaved changes flag after saving
+    }
+
+    private void AttemptShowGraphicsPage() { CheckUnsavedChanges(ShowGraphicsPage); }
+    private void AttemptShowControlPage() { CheckUnsavedChanges(ShowControlPage); }
+    public void AttemptCloseOptionPanel() { CheckUnsavedChanges(CloseOptionPanel); }
+
+    private void CheckUnsavedChanges(System.Action actionToPerform)
+    {
+        if (hasUnsavedChanges && graphicsPage.activeSelf)
+        {
+            pendingAction = actionToPerform;
+            unsavedWarningPanel.SetActive(true);
+        }
+        else
+        {
+            actionToPerform();
+        }
+    }
+
+    private void OnPopupApply()
+    {
+        ApplyGraphicsSettings();
+        unsavedWarningPanel.SetActive(false);
+        pendingAction?.Invoke();
+    }
+
+    private void OnPopupDiscard()
+    {
+        resolutionDropdown.value = savedResIndex;
+        UpdateRefreshRateDropdown(savedResIndex);
+        refreshRateDropdown.value = savedHzIndex;
+        screenModeDropdown.value = savedModeIndex;
+        qualityDropdown.value = savedQualityIndex;
+
+        hasUnsavedChanges = false;
+        unsavedWarningPanel.SetActive(false);
+        pendingAction?.Invoke();
+    }
+
+    private void OnPopupCancel()
+    {
+        unsavedWarningPanel.SetActive(false);
+        pendingAction = null;
     }
 
     // ================
