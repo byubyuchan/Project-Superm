@@ -32,18 +32,20 @@ public class Projectile : MonoBehaviourPun
     {
         if (!photonView.IsMine || hasExploded) return;
 
+        // Map이나 Player 태그 확인
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Map"))
         {
-            PhotonView targetPV = collision.gameObject.GetComponent<PhotonView>();
-            if (targetPV != null)
+            // 1. Player일 경우 팀킬 방지 로직
+            if (collision.gameObject.CompareTag("Player"))
             {
-                if (targetPV.OwnerActorNr == photonView.OwnerActorNr)
+                PhotonView targetPV = collision.gameObject.GetComponent<PhotonView>();
+                if (targetPV != null && targetPV.OwnerActorNr == photonView.OwnerActorNr)
                 {
                     return;
                 }
             }
-            Explode();
 
+            Explode();
         }
     }
     void Explode()

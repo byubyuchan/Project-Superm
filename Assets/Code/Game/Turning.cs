@@ -10,25 +10,39 @@ public class Turning : MonoBehaviourPun
 
     void FixedUpdate()
     {
+        // 다리는 모든 클라이언트에서 동일하게 돌아갑니다.
 
-        transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-
-        foreach (CharacterController player in playersOnPlatform)
+        if (PhotonNetwork.IsMasterClient)
         {
+            transform.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
+        }
+
+        for (int i = playersOnPlatform.Count - 1; i >= 0; i--)
+        {
+            CharacterController player = playersOnPlatform[i];
+
             if (player != null && player.enabled)
             {
-                Vector3 offset = player.transform.position - transform.position;
-
-                Vector3 rotatedOffset = Quaternion.Euler(0, rotationSpeed * Time.deltaTime, 0) * offset;
-
-                Vector3 moveDirection = rotatedOffset - offset;
-
-                if (player.isGrounded)
+                PhotonView pv = player.GetComponent<PhotonView>();
+                if (pv != null && pv.IsMine)
                 {
-                    moveDirection.y = -2f;
-                }
+                    float angle = rotationSpeed * Time.fixedDeltaTime;
 
-                player.Move(moveDirection);
+                    Vector3 offset = player.transform.position - transform.position;
+                    Vector3 rotatedOffset = Quaternion.Euler(0, angle, 0) * offset;
+                    Vector3 moveDirection = rotatedOffset - offset;
+
+                    if (player.isGrounded)
+                    {
+                        moveDirection.y = -2f;
+                    }
+
+                    player.Move(moveDirection);
+                }
+            }
+            else
+            {
+                playersOnPlatform.RemoveAt(i);
             }
         }
     }
