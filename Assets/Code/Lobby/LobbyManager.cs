@@ -125,24 +125,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             input.restoreOriginalTextOnEscape = false;
         }
-    }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (EventSystem.current != null)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-            }
-
-            ToggleSystemMenu();
-        }
+        UIManager.Instance.onEmptyEsc = OpenSystemMenu;
     }
 
     public void OpenCreateRoomPanel()
     {
-        createRoomPanel.SetActive(true);
+        // If close createRoomPanel, use CloseCreateRoomPanel function
+        UIManager.Instance.ShowPanel(createRoomPanel, CloseCreateRoomPanel);
 
         roomNameInput.text = "";
         if (modeDropdown != null) modeDropdown.value = 0;
@@ -241,7 +231,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void ShowWarning(string message)
     {
         if (warningText != null) warningText.text = message;
-        if (warningPanel != null) warningPanel.SetActive(true);
+        if (warningPanel != null) UIManager.Instance.ShowPanel(warningPanel, CloseWarningPanel);
     }
 
     public void CloseWarningPanel() { if (warningPanel != null) warningPanel.SetActive(false); }
@@ -405,7 +395,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void OpenPasswordPanel()
     {
-        passwordPanel.SetActive(true);
+        UIManager.Instance.ShowPanel(passwordPanel, ClosePasswordPanel);
         joinPasswordInput.text = "";
         joinPasswordInput.Select();
 
@@ -439,12 +429,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         currentTargetRoom = null;
     }
 
-    private void ToggleSystemMenu()
+    private void OpenSystemMenu()
     {
         if (systemMenuPanel != null)
         {
-            bool isActive = systemMenuPanel.activeSelf;
-            systemMenuPanel.SetActive(!isActive);
+            if (systemMenuPanel.activeSelf) CloseSystemMenu();
+            else UIManager.Instance.ShowPanel(systemMenuPanel, CloseSystemMenu);
         }
     }
 

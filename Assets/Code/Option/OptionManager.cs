@@ -77,7 +77,7 @@ public class OptionManager : MonoBehaviour
 
     public void OpenOptionPanel()
     {
-        optionPanel.SetActive(true);
+        UIManager.Instance.ShowPanel(optionPanel, AttemptCloseOptionPanel);
         ShowGraphicsPage();
     }
 
@@ -232,7 +232,7 @@ public class OptionManager : MonoBehaviour
         if (hasUnsavedChanges && graphicsPage.activeSelf)
         {
             pendingAction = actionToPerform;
-            unsavedWarningPanel.SetActive(true);
+            UIManager.Instance.ShowPanel(unsavedWarningPanel, OnPopupCancel);
         }
         else
         {

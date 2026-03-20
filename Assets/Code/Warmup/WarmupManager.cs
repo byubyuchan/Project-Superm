@@ -89,6 +89,8 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         {
             input.restoreOriginalTextOnEscape = false;
         }
+
+        UIManager.Instance.onEmptyEsc = OpenSystemMenu;
     }
 
     void Update()
@@ -100,16 +102,6 @@ public class WarmupManager : MonoBehaviourPunCallbacks
             {
                 CloseHostOptionPanel();
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(EventSystem.current != null)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-            }
-
-            ToggleSystemMenu();
         }
     }
 
@@ -205,7 +197,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         targetPlayer = player;
         targetNameText.text = player.NickName;
         hostOptionPanel.transform.position = mousePos;
-        hostOptionPanel.SetActive(true);
+        UIManager.Instance.ShowPanel(hostOptionPanel, CloseHostOptionPanel);
     }
 
     private void CloseHostOptionPanel()
@@ -294,7 +286,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
     public void OpenRoomSettingsPanel()
     {
-        roomSettingsPanel.SetActive(true);
+        UIManager.Instance.ShowPanel(roomSettingsPanel, CloseRoomSettingsPanel);
         Room room = PhotonNetwork.CurrentRoom;
 
         settingsNameInput.text = room.Name;
@@ -379,7 +371,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     private void ShowWarning(string message)
     {
         if (warningText != null) warningText.text = message;
-        if (warningPanel != null) warningPanel.SetActive(true);
+        if (warningPanel != null) UIManager.Instance.ShowPanel(warningPanel, CloseWarningPanel);
     }
 
     public void CloseWarningPanel()
@@ -387,21 +379,20 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         if (warningPanel != null) warningPanel.SetActive(false);
     }
 
-    private void ToggleSystemMenu()
+    public void OpenSystemMenu()
     {
         if (systemMenuPanel != null)
         {
-            bool isActive = !systemMenuPanel.activeSelf;
-            systemMenuPanel.SetActive(isActive);
+            UIManager.Instance.ShowPanel(systemMenuPanel, CloseSystemMenu);
 
-            Photon.Pun.UtilityScripts.MoveByKeys[] players = 
+            Photon.Pun.UtilityScripts.MoveByKeys[] players =
                 FindObjectsByType<Photon.Pun.UtilityScripts.MoveByKeys>(FindObjectsSortMode.None);
             foreach (var p in players)
             {
-                if(p.photonView.IsMine)
+                if (p.photonView.IsMine)
                 {
-                    p.isUIMode = isActive;
-                    p.isMenuOpen = isActive;
+                    p.isUIMode = true;
+                    p.isMenuOpen = true;
                     break;
                 }
             }
