@@ -7,6 +7,7 @@ public class ObstacleCar : Obstacle
     [Header("Car Movement")]
     public float driveSpeed = 10f;
     public Vector3 driveDirection = Vector3.forward;
+    public Vector3 wheelDirection = Vector3.forward;
     public GameObject[] wheel;
 
     private Vector3 startPosition;
@@ -41,7 +42,7 @@ public class ObstacleCar : Obstacle
         transform.Translate(driveDirection * driveSpeed * Time.deltaTime);
         for (int i = 0; i < wheel.Length; i++)
         {
-            wheel[i].transform.Rotate(Vector3.up, driveSpeed * 360f * Time.deltaTime);
+            wheel[i].transform.Rotate(wheelDirection, driveSpeed * 360f * Time.deltaTime);
         }
     }
 

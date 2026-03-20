@@ -1319,8 +1319,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleCar
   knockbackForce: 1000
   upwardForce: 0.5
-  driveSpeed: 150
+  driveSpeed: 1
   driveDirection: {x: 0, y: 0, z: 1}
+  wheelDirection: {x: 0, y: 1, z: 0}
   wheel:
   - {fileID: 6726507851631921938}
   - {fileID: 5502761480319072358}
