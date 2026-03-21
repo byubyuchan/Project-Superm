@@ -36,6 +36,9 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     public TMP_InputField settingsPasswordInput;
     public Button applySettingsButton;
 
+    [Header("Success Panel UI")]
+    public GameObject successPanel;
+
     [Header("Warning Panel UI")]
     public GameObject warningPanel;
     public TextMeshProUGUI warningText;
@@ -79,6 +82,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
             });
         }
 
+        if (successPanel != null) successPanel.SetActive(false);
         if (warningPanel != null) warningPanel.SetActive(false);
         if (systemMenuPanel != null) systemMenuPanel.SetActive(false);
         if (leaveRoomButton != null) leaveRoomButton.onClick.AddListener(LeaveRoom);
@@ -365,7 +369,17 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
         room.SetCustomProperties(cp);
 
-        CloseRoomSettingsPanel();
+        ShowSuccessMessage();
+    }
+
+    private void ShowSuccessMessage()
+    {
+        if (successPanel != null) UIManager.Instance.ShowPanel(successPanel, CloseSuccessPanel);
+    }
+
+    public void CloseSuccessPanel()
+    {
+        if (successPanel != null) successPanel.SetActive(false);
     }
 
     private void ShowWarning(string message)
