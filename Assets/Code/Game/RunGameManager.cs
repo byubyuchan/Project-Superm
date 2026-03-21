@@ -10,8 +10,6 @@ public class RunGameManager : BaseGameManager
     [Header("In-Game Player List UI")]
     public Transform playerListPanel;
     public GameObject playerSlotPrefab;
-    
-
 
     private Dictionary<int, RunPlayerSlot> playerSlots = new Dictionary<int, RunPlayerSlot>();
 
@@ -19,6 +17,7 @@ public class RunGameManager : BaseGameManager
     {
         InitializeUI();
     }
+
     void InitializeUI()
     {
         foreach (Player p in PhotonNetwork.PlayerList)
@@ -51,7 +50,6 @@ public class RunGameManager : BaseGameManager
                 playerSlots[actorNr].UpdateScore(currentScore);
 
                 bool isFirstPlace = (i == 0 && currentScore > 0);
-                playerSlots[actorNr].SetRankIcon(isFirstPlace);
             }
         }
     }
