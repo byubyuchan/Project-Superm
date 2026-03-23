@@ -7,6 +7,7 @@ TagManager:
   - Goal
   - Map
   - Crosshair
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
