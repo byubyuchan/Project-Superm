@@ -49,6 +49,7 @@ MonoBehaviour:
   - RPC_TriggerAction
   - RPC_AddKnockback
   - RPC_LoadAction
+  - RPC_SpeedUp
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

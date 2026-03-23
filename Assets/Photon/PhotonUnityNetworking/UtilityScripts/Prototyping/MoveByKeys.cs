@@ -1,4 +1,5 @@
 using Photon.Pun;
+using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -45,6 +46,10 @@ namespace Photon.Pun.UtilityScripts
         public float attackCooldown = 0.5f;
         public float lastAttackTime;
 
+        private float originalSpeed;
+        float horizontalInput;
+        float verticalInput;
+
         public void Start()
         {
             controller = GetComponent<CharacterController>();
@@ -57,6 +62,7 @@ namespace Photon.Pun.UtilityScripts
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                originalSpeed = Speed;
             }
 
             // CharacterController 사용 시 Rigidbody는 삭제하거나 IsKinematic을 켜야 합니다.
@@ -139,8 +145,8 @@ namespace Photon.Pun.UtilityScripts
             }
 
             // 2. 입력 받기
-            float horizontalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Horizontal");
-            float verticalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Vertical");
+            horizontalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Horizontal");
+            verticalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Vertical");
 
             bool isAttacking = animator.GetCurrentAnimatorStateInfo(1).IsName("Attack");
 
@@ -221,6 +227,17 @@ namespace Photon.Pun.UtilityScripts
             Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
 
             PhotonNetwork.Instantiate(projectilePrefabName, firePoint.position, Quaternion.LookRotation(aimDirection));
+        }
+
+        public void ApplySpeedBoost(float additionalSpeed)
+        {
+            if (verticalInput > 0.1f) Speed = originalSpeed + additionalSpeed;
+            else ResetSpeed();
+        }
+
+        public void ResetSpeed()
+        {
+            Speed = originalSpeed;
         }
 
         [PunRPC]
