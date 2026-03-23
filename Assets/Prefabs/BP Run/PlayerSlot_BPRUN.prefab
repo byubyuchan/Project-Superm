@@ -502,6 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e94e191b9c50b4e8e9cb9afaad7c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunPlayerSlot
+  backgroundImage: {fileID: 5195182519276319129}
   nameText: {fileID: 1918189877381401576}
   scoreText: {fileID: 5475430046964668870}
   rankText: {fileID: 2490883132646567045}
