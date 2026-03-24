@@ -43,7 +43,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 3
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -4592,7 +4592,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: f3053f8556ff7cf4fb59de5cf109104e, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4689,7 +4688,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 3
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -9247,7 +9246,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 417cbbf4755e392408e489080c4ede09, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13906,7 +13904,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 417cbbf4755e392408e489080c4ede09, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13993,9 +13990,9 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 0
+  observableSearch: 2
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: -4410229690966318261}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

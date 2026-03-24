@@ -9758,7 +9758,7 @@ MonoBehaviour:
   lifeTime: 10
   explosionRadius: 30
   explosionForce: 300
-  explosionEffect: FireEffect2
+  explosionEffect: {fileID: 1809022330002312, guid: d2e280a71e9d5b5439554b1f9a64f115, type: 3}
 --- !u!54 &3403300344688967946
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9895,7 +9895,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 6.3388352, y: 3.7448967, z: 4.204956, w: 4.665016}
+  m_BoundingSphereOverride: {x: 0.59055626, y: 1.5521967, z: 1.1326814, w: 0.1161281}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0

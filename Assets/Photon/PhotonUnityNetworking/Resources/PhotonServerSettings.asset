@@ -50,6 +50,8 @@ MonoBehaviour:
   - RPC_AddKnockback
   - RPC_LoadAction
   - RPC_SpeedUp
+  - RPC_PlayExplosionFX
+  - RPC_SpawnProjectile
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
