@@ -148,7 +148,6 @@ namespace Photon.Pun.UtilityScripts
             verticalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Vertical");
 
             bool isAttacking = animator.GetCurrentAnimatorStateInfo(1).IsName("Attack");
-
             bool isReady = animator.GetCurrentAnimatorStateInfo(1).IsName("Ready");
 
             // 애니메이션 파라미터 전달 (보간 적용)

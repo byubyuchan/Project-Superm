@@ -56,20 +56,18 @@ public class Projectile : MonoBehaviourPun
     {
         if (!photonView.IsMine || hasExploded) return;
 
-        // Map이나 Player 태그 확인
-        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Map"))
+        // 3. Player에 닿으면 넉백 처리
+        if (col.gameObject.CompareTag("Player"))
         {
-            // 1. Player일 경우 팀킬 방지 로직
-            if (col.gameObject.CompareTag("Player"))
-            {
-                PhotonView targetPV = col.gameObject.GetComponent<PhotonView>();
-                if (targetPV != null && targetPV.OwnerActorNr == photonView.OwnerActorNr)
-                {
-                    return;
-                }
-            }
+            PhotonView targetPV = col.gameObject.GetComponent<PhotonView>();
 
-            ExplodeNoFX();
+            if (targetPV != null)
+            {
+                // 팀킬 방지: 자신(발사자)은 제외
+                if (targetPV.OwnerActorNr == photonView.OwnerActorNr) return;
+                ApplyKnockback(col.gameObject);
+                hasExploded = true;
+            }
         }
     }
 
