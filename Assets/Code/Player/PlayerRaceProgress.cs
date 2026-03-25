@@ -8,14 +8,21 @@ public class PlayerRaceProgress : MonoBehaviourPun
 
     public int totalCheckpointsPerLap = 10; // 한 바퀴당 체크포인트 수 (결승선 포함)
 
+    // 초기 위치와 회전 저장
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
+    // 마지막 체크포인트 위치와 회전 저장
     private Vector3 lastCheckpointPosition;
     private Quaternion lastCheckpointRotation;
 
     private void Start()
     {
-        // 초기 위치와 회전 저장
         if(photonView.IsMine)
         {
+            initialPosition = transform.position;
+            initialRotation = transform.rotation;
+
             lastCheckpointPosition = transform.position;
             lastCheckpointRotation = transform.rotation;
         }
@@ -47,6 +54,7 @@ public class PlayerRaceProgress : MonoBehaviourPun
                 {
                     nextCheckpointIndex = 0; // 다음 랩의 첫 체크포인트로 리셋
                     currentLap++; // 랩 증가
+                    TeleportToStart();
                 }
 
                 ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
@@ -81,6 +89,27 @@ public class PlayerRaceProgress : MonoBehaviourPun
 
         transform.position = lastCheckpointPosition; // 마지막 체크포인트 위치로 이동
         transform.rotation = lastCheckpointRotation; // 마지막 체크포인트 회전으로 설정
+
+        if (cc != null) cc.enabled = true; // 캐릭터 컨트롤러 재활성화
+    }
+
+    private void TeleportToStart()
+    {
+        CharacterController cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false; // 캐릭터 컨트롤러 비활성화
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero; // 속도 초기화
+            rb.angularVelocity = Vector3.zero; // 각속도 초기화
+        }
+
+        transform.position = initialPosition; // 초기 위치로 이동
+        transform.rotation = initialRotation; // 초기 회전으로 설정
+
+        lastCheckpointPosition = initialPosition; // 마지막 체크포인트 위치도 초기 위치로 리셋
+        lastCheckpointRotation = initialRotation; // 마지막 체크포인트 회전도 초기 회전으로 리셋
 
         if (cc != null) cc.enabled = true; // 캐릭터 컨트롤러 재활성화
     }
