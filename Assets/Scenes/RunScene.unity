@@ -9129,7 +9129,7 @@ GameObject:
   - component: {fileID: 697779475}
   - component: {fileID: 697779474}
   - component: {fileID: 697779473}
-  - component: {fileID: 697779472}
+  - component: {fileID: 697779476}
   m_Layer: 0
   m_Name: UnderGround
   m_TagString: Map
@@ -9152,19 +9152,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1098094611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &697779472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697779470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  target: {fileID: 1765856787}
 --- !u!65 &697779473
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9242,6 +9229,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697779470}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &697779476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697779470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddf76933e0a98942b4679f7fa09889b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FallOutZone
 --- !u!1001 &697925795
 PrefabInstance:
   m_ObjectHideFlags: 0
