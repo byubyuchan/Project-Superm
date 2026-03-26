@@ -4,12 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RunGameManager : BaseGameManager
 {
     [Header("In-Game Player List UI")]
     public Transform playerListPanel;
     public GameObject playerSlotPrefab;
+
+    [Header("System Menu UI")]
+    public GameObject systemMenuPanel;
+    public Button leaveRoomButton;
+    public Button cancelButton;
 
     private int maxPlayers;
     private List<RunPlayerSlot> allSlots = new List<RunPlayerSlot>();
@@ -35,6 +42,15 @@ public class RunGameManager : BaseGameManager
         maxPlayers = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.MaxPlayers : 8;
         if (maxPlayers == 0) maxPlayers = 8; 
         InitializeUI();
+
+        if (systemMenuPanel != null) systemMenuPanel.SetActive(false);
+        if (leaveRoomButton != null) leaveRoomButton.onClick.AddListener(LeaveRoom);
+        if (cancelButton != null) cancelButton.onClick.AddListener(CloseSystemMenu);
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.onEmptyEsc = OpenSystemMenu;
+        }
     }
 
     void InitializeUI()
@@ -172,5 +188,55 @@ public class RunGameManager : BaseGameManager
         {
             SortPlayerUI();
         }
+    }
+
+    public void OpenSystemMenu()
+    {
+        if (systemMenuPanel != null && UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowPanel(systemMenuPanel, CloseSystemMenu);
+
+            Photon.Pun.UtilityScripts.MoveByKeys[] players = 
+                FindObjectsByType<Photon.Pun.UtilityScripts.MoveByKeys>(FindObjectsSortMode.None);
+            foreach (var p in players)
+            {
+                if (p.photonView.IsMine)
+                {
+                    p.isUIMode = true;
+                    p.isMenuOpen = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void CloseSystemMenu()
+    {
+        if (systemMenuPanel != null)
+        {
+            systemMenuPanel.SetActive(false);
+
+            Photon.Pun.UtilityScripts.MoveByKeys[] players =
+                FindObjectsByType<Photon.Pun.UtilityScripts.MoveByKeys>(FindObjectsSortMode.None);
+            foreach (var p in players)
+            {
+                if (p.photonView.IsMine)
+                {
+                    p.isUIMode = false;
+                    p.isMenuOpen = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Lobby");
     }
 }
