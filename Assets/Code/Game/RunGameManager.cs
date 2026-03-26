@@ -239,4 +239,15 @@ public class RunGameManager : BaseGameManager
     {
         SceneManager.LoadScene("Lobby");
     }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (activePlayerSlots.ContainsKey(otherPlayer.ActorNumber))
+        {
+            RunPlayerSlot slot = activePlayerSlots[otherPlayer.ActorNumber];
+            slot.SetEmpty();
+            activePlayerSlots.Remove(otherPlayer.ActorNumber);
+            SortPlayerUI();
+        }
+    }
 }
