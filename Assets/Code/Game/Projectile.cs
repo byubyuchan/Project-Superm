@@ -10,7 +10,9 @@ public class Projectile : MonoBehaviourPun
     [Header("Explosion Settings")]
     public float explosionRadius = 5f;   // 폭발 반경
     public float explosionForce = 15f;    // 밀어내는 힘
-    public GameObject explosionEffect;    // 펑! 하는 이펙트 프리팹 (있다면)
+
+    [SerializeField]
+    private int explosionEffectIndex = 0;
 
     private bool hasExploded = false;
 
@@ -76,10 +78,12 @@ public class Projectile : MonoBehaviourPun
         hasExploded = true;
         CancelInvoke("DestroySelf");
 
-        // 1. 시각적 이펙트 생성 (모든 클라이언트에게 보이도록 RPC나 포톤 생성 고려)
-        photonView.RPC("RPC_PlayExplosionFX", RpcTarget.All, transform.position);
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.RequestExplosion(explosionEffectIndex, transform.position);
+        }
 
-        // 2. 주변 플레이어 체크 및 밀어내기
+        // 주변 플레이어 체크 및 밀어내기
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider hit in colliders)
         {
@@ -151,12 +155,5 @@ public class Projectile : MonoBehaviourPun
         // 테두리 선
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explosionRadius);
-    }
-
-    [PunRPC]
-    void RPC_PlayExplosionFX(Vector3 pos)
-    {
-        GameObject fx = Instantiate(explosionEffect, pos, Quaternion.identity);
-        Destroy(fx, 2.0f);
     }
 }

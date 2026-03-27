@@ -8,6 +8,9 @@ TagManager:
   - Map
   - Crosshair
   - Checkpoint
+  - NPC
+  - Obstacle
+  - Projectile
   layers:
   - Default
   - TransparentFX

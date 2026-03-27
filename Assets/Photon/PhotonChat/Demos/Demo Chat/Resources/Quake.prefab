@@ -4924,7 +4924,7 @@ GameObject:
   - component: {fileID: 467482907779820657}
   m_Layer: 0
   m_Name: Quake
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9874,7 +9874,7 @@ MonoBehaviour:
   lifeTime: 10
   explosionRadius: 50
   explosionForce: 500
-  explosionEffect: {fileID: 0}
+  explosionEffectIndex: 0
 --- !u!54 &-250996157546534994
 Rigidbody:
   m_ObjectHideFlags: 0

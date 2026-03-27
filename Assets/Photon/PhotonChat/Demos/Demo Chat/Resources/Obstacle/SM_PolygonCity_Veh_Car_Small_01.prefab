@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23266439065948332}
   m_Layer: 0
   m_Name: SM_PolygonCity_Veh_Car_Small_SteeringW
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,11 +100,11 @@ GameObject:
   - component: {fileID: 4508286580018686}
   - component: {fileID: 33646224532480520}
   - component: {fileID: 23889050435259212}
-  - component: {fileID: 64091577265905638}
   - component: {fileID: 4714564344639276189}
+  - component: {fileID: 7253903333404269822}
   m_Layer: 0
   m_Name: SM_PolygonCity_Veh_Car_Small_01
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,28 +187,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64091577265905638
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1098664898953688}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -9120468805323552709, guid: c9b502cc8dfc8c04fa7e6ad2d3f017ae, type: 3}
 --- !u!114 &4714564344639276189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,11 +203,33 @@ MonoBehaviour:
   upwardForce: 0.5
   driveSpeed: 150
   driveDirection: {x: 0, y: 0, z: 1}
+  wheelDirection: {x: 0, y: 0, z: 1}
   wheel:
   - {fileID: 1227554559889778}
   - {fileID: 1869829906015034}
   - {fileID: 1819118115992832}
   - {fileID: 1412347233418504}
+--- !u!65 &7253903333404269822
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098664898953688}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0683348, y: 1.5729154, z: 4.0745316}
+  m_Center: {x: -0.012611389, y: 0.94772655, z: 0.12095249}
 --- !u!1 &1227554559889778
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,10 +241,9 @@ GameObject:
   - component: {fileID: 4780459556601488}
   - component: {fileID: 33659509810881646}
   - component: {fileID: 23713301760779848}
-  - component: {fileID: 135918761070855524}
   m_Layer: 0
   m_Name: SM_PolygonCity_Veh_Car_Small_Wheel_fl
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -320,27 +319,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &135918761070855524
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1227554559889778}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.332806
-  m_Center: {x: -0.06698948, y: 0, z: -0.0000003427267}
 --- !u!1 &1285209684300818
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +332,7 @@ GameObject:
   - component: {fileID: 23229125549938102}
   m_Layer: 0
   m_Name: SM_PolygonCity_Veh_Car_Small_Plates
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -441,10 +419,9 @@ GameObject:
   - component: {fileID: 4204578181419218}
   - component: {fileID: 33064757265718768}
   - component: {fileID: 23414387805680066}
-  - component: {fileID: 135115458227926190}
   m_Layer: 0
   m_Name: SM_PolygonCity_Veh_Car_Small_Wheel_rr
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -520,27 +497,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &135115458227926190
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1412347233418504}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.3328057
-  m_Center: {x: 0.06698948, y: 0, z: -0.00000014901161}
 --- !u!1 &1819118115992832
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,10 +508,9 @@ GameObject:
   - component: {fileID: 4813707125328556}
   - component: {fileID: 33023303779726342}
   - component: {fileID: 23277122319696274}
-  - component: {fileID: 135259066365143554}
   m_Layer: 0
   m_Name: SM_PolygonCity_Veh_Car_Small_Wheel_rl
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -631,27 +586,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &135259066365143554
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1819118115992832}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.3328057
-  m_Center: {x: -0.06698951, y: 0, z: -0.00000014901161}
 --- !u!1 &1820217718881792
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +599,7 @@ GameObject:
   - component: {fileID: 23531454878785312}
   m_Layer: 0
   m_Name: SM_PolygonCity_Veh_Car_Small_Glass
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -752,10 +686,9 @@ GameObject:
   - component: {fileID: 4842651712186468}
   - component: {fileID: 33007231198472852}
   - component: {fileID: 23516394748360564}
-  - component: {fileID: 135585611884400046}
   m_Layer: 0
   m_Name: SM_PolygonCity_Veh_Car_Small_Wheel_fr
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -831,24 +764,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &135585611884400046
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869829906015034}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.332806
-  m_Center: {x: 0.06698952, y: 0, z: -0.0000003427267}

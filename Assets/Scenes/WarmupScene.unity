@@ -7013,6 +7013,7 @@ GameObject:
   - component: {fileID: 1262670287}
   - component: {fileID: 1262670286}
   - component: {fileID: 1262670288}
+  - component: {fileID: 1262670289}
   m_Layer: 0
   m_Name: WarmupManager
   m_TagString: Untagged
@@ -7091,6 +7092,21 @@ MonoBehaviour:
   sceneViewId: 4
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1262670289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262670285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d7f16f5479262a46991ddd16a1d493e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectManager
+  explosionEffects:
+  - {fileID: 1809022330002312, guid: d2e280a71e9d5b5439554b1f9a64f115, type: 3}
+  - {fileID: 1159970587636746, guid: 8e15e87de75573143a7cf5f013a89d80, type: 3}
 --- !u!1 &1275495905
 GameObject:
   m_ObjectHideFlags: 0
