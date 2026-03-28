@@ -6,8 +6,6 @@ public class PlayerRaceProgress : MonoBehaviourPun
     private int currentProgress = 0; // 현재 진행도 ex) 0: 시작, 1: 체크포인트1, 2: 체크포인트2, 3: 결승선
     private int nextCheckpointIndex = 0; // 다음 체크포인트 인덱스
 
-    public int totalCheckpointsPerLap = 10; // 한 바퀴당 체크포인트 수 (결승선 포함)
-
     // 초기 위치와 회전 저장
     private Vector3 initialPosition;
     private Quaternion initialRotation;
@@ -30,16 +28,20 @@ public class PlayerRaceProgress : MonoBehaviourPun
 
     public void OnTriggerEnter(Collider other)
     {
-        if (!photonView.IsMine) return; // 내 캐릭터에 대해서만 처리
+        if (!photonView.IsMine) return;
 
         if (other.CompareTag("Checkpoint"))
         {
-            Checkpoint cp = other.GetComponent<Checkpoint>();
+            if (TrackManager.Instance == null || TrackManager.Instance.checkpoints.Count == 0) return;
 
-            if (cp != null && cp.index == nextCheckpointIndex)
+            Transform expectedCheckpoint = TrackManager.Instance.checkpoints[nextCheckpointIndex];
+
+            if (other.transform == expectedCheckpoint)
             {
-                lastCheckpointPosition = cp.transform.position;
-                lastCheckpointRotation = cp.transform.rotation;
+                Debug.Log($"[체크포인트 통과] {nextCheckpointIndex + 1}번째 체크포인트 갱신");
+
+                lastCheckpointPosition = expectedCheckpoint.position;
+                lastCheckpointRotation = expectedCheckpoint.rotation;
 
                 currentProgress++;
                 nextCheckpointIndex++;
@@ -50,10 +52,12 @@ public class PlayerRaceProgress : MonoBehaviourPun
                     currentLap = (int)PhotonNetwork.LocalPlayer.CustomProperties["Score"];
                 }
 
-                if (nextCheckpointIndex >= totalCheckpointsPerLap)
+                if (nextCheckpointIndex >= TrackManager.Instance.checkpoints.Count)
                 {
-                    nextCheckpointIndex = 0; // 다음 랩의 첫 체크포인트로 리셋
-                    currentLap++; // 랩 증가
+                    nextCheckpointIndex = 0;
+                    currentLap++;
+                    Debug.Log($"Lap {currentLap} completed!");
+
                     TeleportToStart();
                 }
 
@@ -69,6 +73,9 @@ public class PlayerRaceProgress : MonoBehaviourPun
                         RunGameManager.Instance.OnPlayerFinished();
                     }
                 }
+            }
+            else
+            {
             }
         }
     }

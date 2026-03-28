@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 4004883}
   - component: {fileID: 4004882}
   - component: {fileID: 4004881}
-  - component: {fileID: 4004880}
   m_Layer: 0
   m_Name: Checkpoint8
   m_TagString: Checkpoint
@@ -154,19 +153,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4004880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4004878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 8
 --- !u!65 &4004881
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1580,7 +1566,6 @@ GameObject:
   - component: {fileID: 120913534}
   - component: {fileID: 120913533}
   - component: {fileID: 120913532}
-  - component: {fileID: 120913531}
   m_Layer: 0
   m_Name: Checkpoint1
   m_TagString: Checkpoint
@@ -1603,19 +1588,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &120913531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120913529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 1
 --- !u!65 &120913532
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2729,7 +2701,6 @@ GameObject:
   - component: {fileID: 202641585}
   - component: {fileID: 202641584}
   - component: {fileID: 202641583}
-  - component: {fileID: 202641582}
   m_Layer: 0
   m_Name: Checkpoint6
   m_TagString: Checkpoint
@@ -2752,19 +2723,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &202641582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202641580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 6
 --- !u!65 &202641583
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5284,7 +5242,6 @@ GameObject:
   - component: {fileID: 430362883}
   - component: {fileID: 430362882}
   - component: {fileID: 430362881}
-  - component: {fileID: 430362880}
   m_Layer: 0
   m_Name: Checkpoint4
   m_TagString: Checkpoint
@@ -5307,19 +5264,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &430362880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430362878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 4
 --- !u!65 &430362881
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9289,7 +9233,6 @@ GameObject:
   - component: {fileID: 677032969}
   - component: {fileID: 677032968}
   - component: {fileID: 677032967}
-  - component: {fileID: 677032966}
   m_Layer: 0
   m_Name: Checkpoint9
   m_TagString: Checkpoint
@@ -9312,19 +9255,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &677032966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677032964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 9
 --- !u!65 &677032967
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19017,7 +18947,6 @@ GameObject:
   - component: {fileID: 1470929118}
   - component: {fileID: 1470929117}
   - component: {fileID: 1470929116}
-  - component: {fileID: 1470929115}
   m_Layer: 0
   m_Name: Checkpoint2
   m_TagString: Checkpoint
@@ -19040,19 +18969,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1470929115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470929113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 2
 --- !u!65 &1470929116
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19642,7 +19558,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
   target: {fileID: 1765856787}
-  isLastZone: 0
 --- !u!1 &1502176781
 GameObject:
   m_ObjectHideFlags: 0
@@ -20988,7 +20903,6 @@ GameObject:
   - component: {fileID: 1638694771}
   - component: {fileID: 1638694770}
   - component: {fileID: 1638694769}
-  - component: {fileID: 1638694772}
   m_Layer: 0
   m_Name: Checkpoint0
   m_TagString: Checkpoint
@@ -21088,19 +21002,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638694767}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1638694772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638694767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 0
 --- !u!1 &1646140710
 GameObject:
   m_ObjectHideFlags: 0
@@ -21336,6 +21237,61 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4424813063860964, guid: 8a4399818c2c7b742b175004818ed267, type: 3}
   m_PrefabInstance: {fileID: 1684051320}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1686736150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1686736152}
+  - component: {fileID: 1686736151}
+  m_Layer: 0
+  m_Name: TrackManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1686736151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686736150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97662bf860fb2a84682eb3b6f52d418c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrackManager
+  checkpoints:
+  - {fileID: 1638694768}
+  - {fileID: 120913530}
+  - {fileID: 1470929114}
+  - {fileID: 2064741992}
+  - {fileID: 430362879}
+  - {fileID: 1897099199}
+  - {fileID: 202641581}
+  - {fileID: 2115213534}
+  - {fileID: 4004879}
+  - {fileID: 677032965}
+--- !u!4 &1686736152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686736150}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -129.1582, y: 0, z: -4084.364}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1700053098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23755,7 +23711,6 @@ GameObject:
   - component: {fileID: 1897099203}
   - component: {fileID: 1897099202}
   - component: {fileID: 1897099201}
-  - component: {fileID: 1897099200}
   m_Layer: 0
   m_Name: Checkpoint5
   m_TagString: Checkpoint
@@ -23778,19 +23733,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1897099200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897099198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 5
 --- !u!65 &1897099201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25514,7 +25456,6 @@ GameObject:
   - component: {fileID: 2064741996}
   - component: {fileID: 2064741995}
   - component: {fileID: 2064741994}
-  - component: {fileID: 2064741993}
   m_Layer: 0
   m_Name: Checkpoint3
   m_TagString: Checkpoint
@@ -25537,19 +25478,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2064741993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2064741991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 3
 --- !u!65 &2064741994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26103,7 +26031,6 @@ GameObject:
   - component: {fileID: 2115213538}
   - component: {fileID: 2115213537}
   - component: {fileID: 2115213536}
-  - component: {fileID: 2115213535}
   m_Layer: 0
   m_Name: Checkpoint7
   m_TagString: Checkpoint
@@ -26126,19 +26053,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1424658599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2115213535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2115213533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68292a77a7fd78489b06e116b632d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 7
 --- !u!65 &2115213536
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26504,6 +26418,7 @@ SceneRoots:
   - {fileID: 1646140713}
   - {fileID: 637152345}
   - {fileID: 670200396}
+  - {fileID: 1686736152}
   - {fileID: 1852233199}
   - {fileID: 1841080411}
   - {fileID: 1424658599}

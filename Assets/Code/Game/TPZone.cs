@@ -6,7 +6,7 @@ public class TPZone : MonoBehaviour
     [SerializeField] private GameObject target;
     private Vector3 targetPosition;
     private Quaternion targetRotation;
-    [SerializeField] private bool isLastZone = false;
+    // [SerializeField] private bool isLastZone = false;
 
     private void Start()
     {
