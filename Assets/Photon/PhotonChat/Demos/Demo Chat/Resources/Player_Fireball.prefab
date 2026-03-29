@@ -509,7 +509,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b419ffa76e419548a3a74ed1e487ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRaceProgress
-  totalCheckpointsPerLap: 10
 --- !u!1001 &6880895129850252754
 PrefabInstance:
   m_ObjectHideFlags: 0

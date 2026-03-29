@@ -87,12 +87,12 @@ public class PlayerRaceProgress : MonoBehaviourPun
         CharacterController cc = GetComponent<CharacterController>();
         if (cc != null) cc.enabled = false; // 캐릭터 컨트롤러 비활성화
 
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero; // 속도 초기화
-            rb.angularVelocity = Vector3.zero; // 각속도 초기화
-        }
+        //Rigidbody rb = GetComponent<Rigidbody>();
+        //if (rb != null)
+        //{
+        //    rb.linearVelocity = Vector3.zero; // 속도 초기화
+        //    rb.angularVelocity = Vector3.zero; // 각속도 초기화
+        //}
 
         transform.position = lastCheckpointPosition; // 마지막 체크포인트 위치로 이동
         transform.rotation = lastCheckpointRotation; // 마지막 체크포인트 회전으로 설정
@@ -105,12 +105,12 @@ public class PlayerRaceProgress : MonoBehaviourPun
         CharacterController cc = GetComponent<CharacterController>();
         if (cc != null) cc.enabled = false; // 캐릭터 컨트롤러 비활성화
 
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero; // 속도 초기화
-            rb.angularVelocity = Vector3.zero; // 각속도 초기화
-        }
+        //Rigidbody rb = GetComponent<Rigidbody>();
+        //if (rb != null)
+        //{
+        //    rb.linearVelocity = Vector3.zero; // 속도 초기화
+        //    rb.angularVelocity = Vector3.zero; // 각속도 초기화
+        //}
 
         transform.position = initialPosition; // 초기 위치로 이동
         transform.rotation = initialRotation; // 초기 회전으로 설정

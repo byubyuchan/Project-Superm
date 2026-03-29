@@ -9,6 +9,7 @@ public class ObstacleCar : Obstacle
     public Vector3 driveDirection = Vector3.forward;
     public Vector3 wheelDirection = Vector3.forward;
     public GameObject[] wheel;
+    public float resetInterval = 5f;
 
     private Vector3 startPosition;
     private Quaternion startRotation;
@@ -27,7 +28,7 @@ public class ObstacleCar : Obstacle
     {
         while (true)
         {
-            yield return new WaitForSeconds(5f); // 5초 대기
+            yield return new WaitForSeconds(resetInterval); // 5초 대기
 
             // 위치와 회전을 처음 상태로 되돌림
             transform.position = startPosition;

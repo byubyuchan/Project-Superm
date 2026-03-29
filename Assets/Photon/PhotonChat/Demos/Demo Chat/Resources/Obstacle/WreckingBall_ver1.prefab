@@ -292,7 +292,7 @@ MonoBehaviour:
   upwardForce: 0.5
   pivot: {fileID: 3312915949494888805}
   swingSpeed: 2
-  swingAngle: 45
+  swingAngle: 90
   offset: 0
 --- !u!135 &2349609582015000282
 SphereCollider:

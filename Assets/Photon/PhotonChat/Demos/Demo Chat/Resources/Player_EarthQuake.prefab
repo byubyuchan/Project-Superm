@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b4daedc5e674a429acdf1e77da6a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PhotonUnityNetworking.Utilities::Photon.Pun.UtilityScripts.MoveByKeys
-  Speed: 50
+  Speed: 150
   JumpHeight: 10
   Gravity: -50
   rotationSpeed: 10
@@ -587,4 +587,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b419ffa76e419548a3a74ed1e487ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRaceProgress
-  totalCheckpointsPerLap: 10
