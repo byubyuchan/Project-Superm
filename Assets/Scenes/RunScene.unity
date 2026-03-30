@@ -20335,6 +20335,17 @@ MonoBehaviour:
   countdownText: {fileID: 662695431}
   playerListPanel: {fileID: 1433271917}
   playerSlotPrefab: {fileID: 5923610622262305399, guid: 72aa2abf2b649ab44832b7f856b41581, type: 3}
+  checkpoints:
+  - {fileID: 1638694768}
+  - {fileID: 120913530}
+  - {fileID: 1470929114}
+  - {fileID: 2064741992}
+  - {fileID: 430362879}
+  - {fileID: 1897099199}
+  - {fileID: 202641581}
+  - {fileID: 2115213534}
+  - {fileID: 4004879}
+  - {fileID: 677032965}
   systemMenuPanel: {fileID: 1734713119}
   leaveRoomButton: {fileID: 1570917525}
   cancelButton: {fileID: 1579409057}
@@ -22054,61 +22065,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4424813063860964, guid: 8a4399818c2c7b742b175004818ed267, type: 3}
   m_PrefabInstance: {fileID: 1684051320}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1686736150
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1686736152}
-  - component: {fileID: 1686736151}
-  m_Layer: 0
-  m_Name: TrackManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1686736151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686736150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97662bf860fb2a84682eb3b6f52d418c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TrackManager
-  checkpoints:
-  - {fileID: 1638694768}
-  - {fileID: 120913530}
-  - {fileID: 1470929114}
-  - {fileID: 2064741992}
-  - {fileID: 430362879}
-  - {fileID: 1897099199}
-  - {fileID: 202641581}
-  - {fileID: 2115213534}
-  - {fileID: 4004879}
-  - {fileID: 677032965}
---- !u!4 &1686736152
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686736150}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -129.1582, y: 0, z: -4084.364}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1698713082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27370,7 +27326,6 @@ SceneRoots:
   - {fileID: 1646140713}
   - {fileID: 637152345}
   - {fileID: 670200396}
-  - {fileID: 1686736152}
   - {fileID: 1852233199}
   - {fileID: 1841080411}
   - {fileID: 1424658599}

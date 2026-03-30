@@ -32,14 +32,12 @@ public class PlayerRaceProgress : MonoBehaviourPun
 
         if (other.CompareTag("Checkpoint"))
         {
-            if (TrackManager.Instance == null || TrackManager.Instance.checkpoints.Count == 0) return;
+            if (RunGameManager.Instance == null || RunGameManager.Instance.checkpoints.Count == 0) return;
 
-            Transform expectedCheckpoint = TrackManager.Instance.checkpoints[nextCheckpointIndex];
+            Transform expectedCheckpoint = RunGameManager.Instance.checkpoints[nextCheckpointIndex];
 
             if (other.transform == expectedCheckpoint)
             {
-                Debug.Log($"[체크포인트 통과] {nextCheckpointIndex + 1}번째 체크포인트 갱신");
-
                 lastCheckpointPosition = expectedCheckpoint.position;
                 lastCheckpointRotation = expectedCheckpoint.rotation;
 
@@ -52,7 +50,7 @@ public class PlayerRaceProgress : MonoBehaviourPun
                     currentLap = (int)PhotonNetwork.LocalPlayer.CustomProperties["Score"];
                 }
 
-                if (nextCheckpointIndex >= TrackManager.Instance.checkpoints.Count)
+                if (nextCheckpointIndex >= RunGameManager.Instance.checkpoints.Count)
                 {
                     nextCheckpointIndex = 0;
                     currentLap++;

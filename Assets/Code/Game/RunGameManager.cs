@@ -13,6 +13,9 @@ public class RunGameManager : BaseGameManager
     public Transform playerListPanel;
     public GameObject playerSlotPrefab;
 
+    [Header("Track Checkpoints")]
+    public List<Transform> checkpoints = new List<Transform>();
+
     [Header("System Menu UI")]
     public GameObject systemMenuPanel;
     public Button leaveRoomButton;
