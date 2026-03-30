@@ -98,6 +98,7 @@ public class PlayerRaceProgress : MonoBehaviourPun
         transform.rotation = lastCheckpointRotation; // 마지막 체크포인트 회전으로 설정
 
         if (cc != null) cc.enabled = true; // 캐릭터 컨트롤러 재활성화
+        cc.GetComponent<PhotonView>().RPC("RPC_SizeReset", RpcTarget.All);
     }
 
     private void TeleportToStart()
@@ -119,5 +120,6 @@ public class PlayerRaceProgress : MonoBehaviourPun
         lastCheckpointRotation = initialRotation; // 마지막 체크포인트 회전도 초기 회전으로 리셋
 
         if (cc != null) cc.enabled = true; // 캐릭터 컨트롤러 재활성화
+        cc.GetComponent<PhotonView>().RPC("RPC_SizeReset", RpcTarget.All);
     }
 }

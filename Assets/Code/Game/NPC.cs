@@ -92,10 +92,14 @@ public class NPC : MonoBehaviourPun
                 string selectedPrefab = respawnPrefabs[randomIndex];
                 RespawnManager.Instance.RespawnNPC(selectedPrefab, transform.position, respawnTime);
             }
-
-            // 본체 삭제
-            PhotonNetwork.Destroy(gameObject);
+            Death();
         }
+    }
+
+    void Death()
+    {
+        PhotonNetwork.Instantiate("Item", transform.position, Quaternion.identity);
+        PhotonNetwork.Destroy(gameObject);
     }
 
 }

@@ -49,10 +49,13 @@ namespace Photon.Pun.UtilityScripts
         float horizontalInput;
         float verticalInput;
 
+        private Vector3 localSize;
+
         public void Start()
         {
             controller = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
+            localSize = transform.localScale;
 
             // 본인 소유가 아니면 스크립트 비활성화
             enabled = photonView.IsMine;
@@ -269,6 +272,64 @@ namespace Photon.Pun.UtilityScripts
             if (animator != null)
             {
                 animator.SetBool(triggerName, state);
+            }
+        }
+
+        // ======================Item===========================
+
+        [PunRPC]
+        public void RPC_SizeDown()
+        {
+            transform.localScale *= 0.5f;
+        }
+
+        [PunRPC]
+        public void RPC_SizeUp()
+        {
+            transform.localScale *= 2f;
+        }
+
+        [PunRPC]
+        public void RPC_SizeReset()
+        {
+            transform.localScale = localSize;
+        }
+
+        [PunRPC]
+        public void RPC_Magnet(float radius, float totalStr)
+        {
+            if (!photonView.IsMine) return;
+
+            StartCoroutine(DoMagnet(radius, totalStr));
+        }
+
+        private System.Collections.IEnumerator DoMagnet(float radius, float totalStr)
+        {
+            float duration = 1.5f;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+                foreach (Collider hit in colliders)
+                {
+                    if (hit.CompareTag("Player") && hit.gameObject != this.gameObject)
+                    {
+                        PhotonView targetPV = hit.GetComponent<PhotonView>();
+                        if (targetPV != null)
+                        {
+                            Vector3 diff = transform.position - hit.transform.position;
+                            // 아주 가까워지면(1m 이내) 더 이상 당기지 않음 (뒤로 넘어가는 것 방지)
+                            if (diff.magnitude < 1.5f) continue;
+
+                            Vector3 pullDirection = diff.normalized;
+
+                            targetPV.RPC("RPC_AddKnockback", RpcTarget.All, pullDirection * (totalStr * Time.deltaTime));
+                        }
+                    }
+                }
+                elapsed += Time.deltaTime;
+                yield return null; // 다음 프레임까지 대기
             }
         }
     }

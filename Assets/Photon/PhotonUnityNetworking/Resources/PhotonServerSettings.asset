@@ -54,6 +54,10 @@ MonoBehaviour:
   - RPC_SpawnProjectile
   - RPC_NPCExplode
   - RPC_PlayEffect
+  - RPC_SizeDown
+  - RPC_SizeReset
+  - RPC_Magnet
+  - RPC_SizeUp
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
