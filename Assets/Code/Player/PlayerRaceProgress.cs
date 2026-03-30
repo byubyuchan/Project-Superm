@@ -54,7 +54,6 @@ public class PlayerRaceProgress : MonoBehaviourPun
                 {
                     nextCheckpointIndex = 0;
                     currentLap++;
-                    Debug.Log($"Lap {currentLap} completed!");
 
                     TeleportToStart();
                 }
@@ -64,13 +63,13 @@ public class PlayerRaceProgress : MonoBehaviourPun
                 props.Add("Progress", currentProgress);
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-                if (currentLap >= 3)
-                {
-                    if (RunGameManager.Instance != null)
-                    {
-                        RunGameManager.Instance.OnPlayerFinished();
-                    }
-                }
+                //if (currentLap >= 3)
+                //{
+                //    if (RunGameManager.Instance != null)
+                //    {
+                //        RunGameManager.Instance.OnPlayerFinished();
+                //    }
+                //}
             }
             else
             {

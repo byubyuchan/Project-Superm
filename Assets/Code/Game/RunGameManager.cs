@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 public class RunGameManager : BaseGameManager
 {
+    [Header("Game Rules")]
+    public int maxLap = 3;
+
     [Header("In-Game Player List UI")]
     public Transform playerListPanel;
     public GameObject playerSlotPrefab;
@@ -190,6 +193,16 @@ public class RunGameManager : BaseGameManager
         if (changedProps.ContainsKey("Score") || changedProps.ContainsKey("Progress"))
         {
             SortPlayerUI();
+        }
+
+        if (changedProps.ContainsKey("Score"))
+        {
+            int currentLap = (int)changedProps["Score"];
+
+            if (currentLap >= maxLap)
+            {
+                OnPlayerFinished();
+            }
         }
     }
 
