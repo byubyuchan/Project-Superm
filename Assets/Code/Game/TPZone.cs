@@ -1,26 +1,9 @@
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class TPZone : MonoBehaviour
 {
-    [SerializeField] private GameObject target;
-    private Vector3 targetPosition;
-    private Quaternion targetRotation;
-    // [SerializeField] private bool isLastZone = false;
-
-    private void Start()
-    {
-        if (target != null)
-        {
-            targetPosition = target.transform.position;
-            targetRotation = target.transform.rotation;
-        }
-        else
-        {
-            Debug.LogError("TPZone: Target is not assigned.");
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         PhotonView pv = other.GetComponent<PhotonView>();
@@ -54,16 +37,39 @@ public class TPZone : MonoBehaviour
 
         if (pv != null && pv.IsMine)
         {
-            CharacterController cc = other.GetComponent<CharacterController>();
+            Player targetPlayer = PhotonNetwork.LocalPlayer;
 
-            if (cc != null)
+            // Check if the player has a last checkpoint position saved
+            if (targetPlayer.CustomProperties.ContainsKey(RunGameManager.PROP_LAST_X))
             {
-                cc.enabled = false;
+                float x = (float)targetPlayer.CustomProperties[RunGameManager.PROP_LAST_X];
+                float y = (float)targetPlayer.CustomProperties[RunGameManager.PROP_LAST_Y];
+                float z = (float)targetPlayer.CustomProperties[RunGameManager.PROP_LAST_Z];
+                float rotY = (float)targetPlayer.CustomProperties[RunGameManager.PROP_LAST_ROT_Y];
 
-                other.transform.position = targetPosition;
-                other.transform.rotation = targetRotation;
+                Vector3 respawnPos = new Vector3(x, y, z);
+                Quaternion respawnRot = Quaternion.Euler(0, rotY, 0);
 
-                cc.enabled = true;
+                if (RunGameManager.Instance != null)
+                {
+                    RunGameManager.Instance.TeleportCharacter(other.gameObject, respawnPos, respawnRot);
+                }
+            }
+            // If no last checkpoint, check for initial position
+            else if (targetPlayer.CustomProperties.ContainsKey(RunGameManager.PROP_INIT_X))
+            {
+                float initX = (float)targetPlayer.CustomProperties[RunGameManager.PROP_INIT_X];
+                float initY = (float)targetPlayer.CustomProperties[RunGameManager.PROP_INIT_Y];
+                float initZ = (float)targetPlayer.CustomProperties[RunGameManager.PROP_INIT_Z];
+                float initRotY = (float)targetPlayer.CustomProperties[RunGameManager.PROP_INIT_ROT_Y];
+
+                Vector3 initPos = new Vector3(initX, initY, initZ);
+                Quaternion initRot = Quaternion.Euler(0, initRotY, 0);
+
+                if (RunGameManager.Instance != null)
+                {
+                    RunGameManager.Instance.TeleportCharacter(other.gameObject, initPos, initRot);
+                }
             }
         }
     }

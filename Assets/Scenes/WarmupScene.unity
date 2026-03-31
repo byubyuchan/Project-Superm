@@ -3061,7 +3061,7 @@ GameObject:
   - component: {fileID: 599292244}
   - component: {fileID: 599292243}
   - component: {fileID: 599292242}
-  - component: {fileID: 599292241}
+  - component: {fileID: 599292245}
   m_Layer: 0
   m_Name: SM_Env_Backgrouind_Streets_01
   m_TagString: Map
@@ -3084,20 +3084,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 352958873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &599292241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 599292239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  target: {fileID: 1765856787}
-  isLastZone: 0
 --- !u!65 &599292242
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3175,6 +3161,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599292239}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &599292245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599292239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TPZone
 --- !u!1 &625580641
 GameObject:
   m_ObjectHideFlags: 0
@@ -3740,8 +3738,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  target: {fileID: 584300133}
-  isLastZone: 0
 --- !u!1 &719039138
 GameObject:
   m_ObjectHideFlags: 0
@@ -6730,8 +6726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  target: {fileID: 1765856787}
-  isLastZone: 1
 --- !u!1 &1200206395
 GameObject:
   m_ObjectHideFlags: 0
@@ -8276,8 +8270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  target: {fileID: 1612046760}
-  isLastZone: 0
 --- !u!1 &1508383276
 GameObject:
   m_ObjectHideFlags: 0
@@ -8435,8 +8427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  target: {fileID: 92850819}
-  isLastZone: 0
 --- !u!1001 &1533310400
 PrefabInstance:
   m_ObjectHideFlags: 0

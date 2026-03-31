@@ -9728,9 +9728,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 697779470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ddf76933e0a98942b4679f7fa09889b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FallOutZone
+  m_EditorClassIdentifier: Assembly-CSharp::TPZone
 --- !u!1001 &697925795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20298,7 +20298,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  target: {fileID: 1765856787}
 --- !u!1 &1502176781
 GameObject:
   m_ObjectHideFlags: 0
@@ -20333,8 +20332,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RunGameManager
   winnerText: {fileID: 1775989061}
   countdownText: {fileID: 662695431}
-  playerListPanel: {fileID: 1433271917}
-  playerSlotPrefab: {fileID: 5923610622262305399, guid: 72aa2abf2b649ab44832b7f856b41581, type: 3}
   checkpoints:
   - {fileID: 1638694768}
   - {fileID: 120913530}
@@ -20346,6 +20343,9 @@ MonoBehaviour:
   - {fileID: 2115213534}
   - {fileID: 4004879}
   - {fileID: 677032965}
+  maxLap: 3
+  playerListPanel: {fileID: 1433271917}
+  playerSlotPrefab: {fileID: 5923610622262305399, guid: 72aa2abf2b649ab44832b7f856b41581, type: 3}
   systemMenuPanel: {fileID: 1734713119}
   leaveRoomButton: {fileID: 1570917525}
   cancelButton: {fileID: 1579409057}

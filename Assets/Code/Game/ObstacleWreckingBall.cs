@@ -25,18 +25,12 @@ public class ObstacleWreckingBall : Obstacle
 
         if (targetPV != null)
         {
-            Debug.Log($"레킹볼이 [{player.name}]을(를) 쳤습니다");
-
             Vector3 pushDir = (player.transform.position - transform.position).normalized;
             pushDir.y = 0f; // 수평으로만 날아가게
             pushDir = pushDir.normalized;
 
             // 플레이어에게 넉백 명령 전송
             targetPV.RPC("RPC_AddKnockback", RpcTarget.All, pushDir * knockbackForce);
-        }
-        else
-        {
-            Debug.LogWarning("맞은 플레이어에게 PhotonView가 없습니다");
         }
     }
 }
