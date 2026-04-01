@@ -98,7 +98,7 @@ public class NPC : MonoBehaviourPun
 
     void Death()
     {
-        PhotonNetwork.Instantiate("Item", transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("Item", transform.position + new Vector3(0,15f,0), Quaternion.identity);
         PhotonNetwork.Destroy(gameObject);
     }
 

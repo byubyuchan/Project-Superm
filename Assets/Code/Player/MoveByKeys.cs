@@ -233,7 +233,24 @@ namespace Photon.Pun.UtilityScripts
         void Quake()
         {
             if (!photonView.IsMine) return;
-            if (isGrounded) PhotonNetwork.Instantiate(projectile, transform.position + new Vector3(2f, 4f, 0), Quaternion.identity);
+
+            if (isGrounded)
+            {
+                RaycastHit hit;
+
+                Vector3 rayStart = transform.position + new Vector3(0,10f,0);
+
+                // 플레이어의 y축 10f 에서부터 아래로 50f까지 바닥 찾기
+                if (Physics.Raycast(rayStart, Vector3.down, out hit, 50f))
+                {
+                    // 맞은 곳이 있다면 ProjectOnPlane으로 경사면에 맞춰서 발사체 위치와 회전 계산
+                    Vector3 spawnPos = hit.point + (hit.normal * 0.05f);
+                    Vector3 forwardOnSlope = Vector3.ProjectOnPlane(transform.forward, hit.normal).normalized;
+                    Quaternion spawnRot = Quaternion.LookRotation(forwardOnSlope, hit.normal);
+
+                    PhotonNetwork.Instantiate(projectile, spawnPos, spawnRot);
+                }
+            }
         }
 
         public void ApplySpeedBoost(float additionalSpeed)

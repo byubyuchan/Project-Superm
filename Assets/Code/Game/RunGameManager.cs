@@ -198,17 +198,12 @@ public class RunGameManager : BaseGameManager
         CharacterController cc = playerObj.GetComponent<CharacterController>();
         if (cc != null) cc.enabled = false;
 
-        Rigidbody rb = playerObj.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-
         playerObj.transform.position = pos;
         playerObj.transform.rotation = rot;
 
         if (cc != null) cc.enabled = true;
+
+        playerObj.GetComponent<PhotonView>().RPC("RPC_SizeReset", RpcTarget.All);
     }
 
     // 플레이어가 결승선(Trigger)에 닿았을 때 호출
@@ -247,18 +242,6 @@ public class RunGameManager : BaseGameManager
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        //if (changedProps.ContainsKey("Score"))
-        //{
-        //    // 바뀐 바퀴 수를 UI 슬롯에 업데이트
-        //    if (playerSlots.ContainsKey(targetPlayer.ActorNumber))
-        //    {
-        //        int updatedLap = (int)changedProps["Score"];
-        //        playerSlots[targetPlayer.ActorNumber].UpdateScore(updatedLap);
-        //    }
-
-        //    SortPlayerUI();
-        //}
-
         // Score(바퀴 수)나 Progress(진행도) 중 하나라도 변경되면 UI 업데이트
         if (changedProps.ContainsKey(PROP_LAP) || changedProps.ContainsKey(PROP_PROG))
         {

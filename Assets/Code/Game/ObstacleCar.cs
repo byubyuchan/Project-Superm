@@ -33,8 +33,6 @@ public class ObstacleCar : Obstacle
             // 위치와 회전을 처음 상태로 되돌림
             transform.position = startPosition;
             transform.rotation = startRotation;
-
-            Debug.Log("자동차 위치 리셋 완료");
         }
     }
 
@@ -50,7 +48,6 @@ public class ObstacleCar : Obstacle
     // 자동차 특유의 처리가 필요하다면 재정의
     protected override void OnPlayerHit(GameObject player)
     {
-        Debug.Log("자동차가 플레이어를 쳤습니다!");
 
         PhotonView targetPV = player.GetComponent<PhotonView>();
         if (targetPV != null)
