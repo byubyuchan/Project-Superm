@@ -2,7 +2,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Item : MonoBehaviourPun
 {
@@ -18,11 +17,6 @@ public class Item : MonoBehaviourPun
 
     private void Start()
     {
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            gameObject.SetActive(false);
-        }
-
         if (photonView.IsMine) Invoke("DestroySelf", respawnTime);
     }
 
