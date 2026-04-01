@@ -52,6 +52,8 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        ResetRaceProperties();
+
         hostOptionPanel.SetActive(false);
         UpdatePlayerList();
 
@@ -95,6 +97,30 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         }
 
         UIManager.Instance.onEmptyEsc = OpenSystemMenu;
+    }
+
+    private void ResetRaceProperties()
+    {
+        if(PhotonNetwork.LocalPlayer != null)
+        {
+            ExitGames.Client.Photon.Hashtable resetProps = new ExitGames.Client.Photon.Hashtable();
+
+            resetProps.Add(RunGameManager.PROP_LAP, 0);
+            resetProps.Add(RunGameManager.PROP_PROG, 0);
+            resetProps.Add(RunGameManager.PROP_GOAL, 0);
+
+            resetProps.Add(RunGameManager.PROP_INIT_X, null);
+            resetProps.Add(RunGameManager.PROP_INIT_Y, null);
+            resetProps.Add(RunGameManager.PROP_INIT_Z, null);
+            resetProps.Add(RunGameManager.PROP_INIT_ROT_Y, null);
+
+            resetProps.Add(RunGameManager.PROP_LAST_X, null);
+            resetProps.Add(RunGameManager.PROP_LAST_Y, null);
+            resetProps.Add(RunGameManager.PROP_LAST_Z, null);
+            resetProps.Add(RunGameManager.PROP_LAST_ROT_Y, null);
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(resetProps);
+        }
     }
 
     void Update()
