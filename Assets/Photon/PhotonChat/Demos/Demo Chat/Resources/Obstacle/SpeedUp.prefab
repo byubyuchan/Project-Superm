@@ -283,7 +283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4118970330137676, guid: fd93487a48ead2d4abf6e668e4dcb15c, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198367504036919758, guid: fd93487a48ead2d4abf6e668e4dcb15c, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
