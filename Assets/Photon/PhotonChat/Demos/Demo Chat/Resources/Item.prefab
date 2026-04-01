@@ -4955,6 +4955,7 @@ MonoBehaviour:
   - RPC_SizeDown
   magnetRadius: 300
   magnetPower: 500
+  respawnTime: 10
 --- !u!54 &2664105664563138470
 Rigidbody:
   m_ObjectHideFlags: 0
