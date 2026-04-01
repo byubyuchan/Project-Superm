@@ -1,6 +1,8 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Item : MonoBehaviourPun
 {
@@ -10,6 +12,27 @@ public class Item : MonoBehaviourPun
     [Header("Magnet Settings")]
     public float magnetRadius = 200f;
     public float magnetPower = 100f;
+
+    [SerializeField]
+    private float respawnTime = 10f;
+
+    private void Start()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            gameObject.SetActive(false);
+        }
+
+        if (photonView.IsMine) Invoke("DestroySelf", respawnTime);
+    }
+
+    void DestroySelf()
+    {
+        if (photonView.IsMine && gameObject != null)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {

@@ -23,7 +23,7 @@ public class Projectile : MonoBehaviourPun
         if (photonView.IsMine) Invoke("DestroySelf", lifeTime);
     }
 
-
+    
     void DestroySelf() {
         if (!hasExploded && photonView.IsMine)
         {
