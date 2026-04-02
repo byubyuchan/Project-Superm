@@ -340,6 +340,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void OnSlotClicked(RoomInfo room)
     {
+        if (!PhotonNetwork.IsConnectedAndReady)
+        {
+            Debug.LogWarning("아직 서버 연결 중입니다. 잠시만 기다려주세요!");
+            return;
+        }
+
         bool isPrivate = false;
         if (room.CustomProperties.ContainsKey("isPrivate"))
             isPrivate = (bool)room.CustomProperties["isPrivate"];

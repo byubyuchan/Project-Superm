@@ -52,10 +52,17 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        ResetRaceProperties();
+        if (PhotonNetwork.InRoom)
+        {
+            ResetRaceProperties();
+        }
 
         hostOptionPanel.SetActive(false);
-        UpdatePlayerList();
+
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            UpdatePlayerList();
+        }
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -462,5 +469,18 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     private void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("방 입장 완료: 속성 초기화 및 리스트 업데이트");
+        ResetRaceProperties();
+        UpdatePlayerList();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            startButton.gameObject.SetActive(true);
+            OpenRoomSettingsPanel();
+        }
     }
 }

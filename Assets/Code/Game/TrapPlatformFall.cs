@@ -15,15 +15,39 @@ public class TrapPlatformFall : MovingPlatform
     private float timer = 0f;
     private bool isActivated = false;
 
-    void Start() { startPosition = lastPosition = transform.position; }
+    public bool isFake = false;
+
+    [SerializeField]
+    private TrapPlatformFall sibling;
+
+    void Start() 
+    { 
+        startPosition = lastPosition = transform.position;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (sibling != null)
+            {
+                isFake = Random.value > 0.5f;
+
+                sibling.isFake = !this.isFake;
+
+                // 모든 클라이언트에게 상태 동기화 (하지 않을 경우 호스트를 제외한 인원에게는 bool값 지정이 보이지 않음. 다만, 작동은 함.)
+                // 작동 한다면서 RPC는 왜 쏘죠? 재미나이의 대답으론 타이밍이 늦을 수 있다고 함. Host의 bool값을 다른 클라이언트가 받는 타이밍이 달라서 그런듯.
+                photonView.RPC("RPC_SetFakeStatus", RpcTarget.AllBuffered, isFake);
+                sibling.photonView.RPC("RPC_SetFakeStatus", RpcTarget.AllBuffered, !isFake);
+            }
+        }
+    }
 
     protected override void HandlePlatformMovement()
     {
-        // 마스터 클라이언트가 발판의 상태를 결정합니다.
+        if (!isFake) return;
+
         if (playersOnPlatform.Count > 0 && !isActivated)
         {
             isActivated = true;
-            timer = 0f; // 타이머 시작
+            timer = 0f;
         }
 
         if (isActivated)
@@ -60,5 +84,11 @@ public class TrapPlatformFall : MovingPlatform
     protected override void UpdatePlayerPositions()
     {
         return;
+    }
+
+    [PunRPC]
+    public void RPC_SetFakeStatus(bool value)
+    {
+        this.isFake = value;
     }
 }

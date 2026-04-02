@@ -35,11 +35,6 @@ public class NPC : MonoBehaviourPun
     {
         agent = GetComponent<NavMeshAgent>();
         timer = wanderTimer;
-
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            agent.enabled = false;
-        }
     }
 
     void Update()

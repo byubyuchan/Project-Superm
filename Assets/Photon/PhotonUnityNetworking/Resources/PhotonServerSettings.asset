@@ -58,6 +58,7 @@ MonoBehaviour:
   - RPC_SizeReset
   - RPC_Magnet
   - RPC_SizeUp
+  - RPC_SetFakeStatus
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
