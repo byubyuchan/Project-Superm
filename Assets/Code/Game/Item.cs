@@ -6,11 +6,7 @@ using UnityEngine;
 public class Item : MonoBehaviourPun
 {
     [SerializeField]
-    private string[] RPC = { "RPC_SizeDown", "RPC_SizeUp", "RPC_Magnet" };
-
-    [Header("Magnet Settings")]
-    public float magnetRadius = 200f;
-    public float magnetPower = 100f;
+    public ItemData[] dataSet;
 
     [SerializeField]
     private float respawnTime = 10f;
@@ -44,15 +40,9 @@ public class Item : MonoBehaviourPun
         PhotonView playerPV = player.GetComponent<PhotonView>();
         if (playerPV != null)
         {
+            int randomIndex = Random.Range(0, dataSet.Length);
 
-            int randomIndex = Random.Range(0, RPC.Length);
-            string selectedRPC = RPC[randomIndex];
-
-            if (selectedRPC == "RPC_Magnet")
-            {
-                playerPV.RPC("RPC_Magnet", RpcTarget.All, magnetRadius, magnetPower);
-            }
-            else playerPV.RPC(selectedRPC, RpcTarget.All);
+            playerPV.RPC("RPC_GetItem", playerPV.Owner, dataSet[randomIndex].name);
         }
     }
 }

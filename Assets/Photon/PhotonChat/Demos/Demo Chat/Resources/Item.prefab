@@ -4949,12 +4949,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fdfbbcbc9be31643ac6d2be0c000742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  RPC:
-  - RPC_Magnet
-  - RPC_SizeUp
-  - RPC_SizeDown
-  magnetRadius: 300
-  magnetPower: 500
+  dataSet:
+  - {fileID: 11400000, guid: a758fc1860efe374187de1707835e9c8, type: 2}
+  - {fileID: 11400000, guid: 0053361d193729f428b971ad9666a807, type: 2}
+  - {fileID: 11400000, guid: d8396ed7f828d134db797bd9de143d5d, type: 2}
   respawnTime: 10
 --- !u!54 &2664105664563138470
 Rigidbody:

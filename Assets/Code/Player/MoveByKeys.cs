@@ -51,6 +51,8 @@ namespace Photon.Pun.UtilityScripts
 
         private Vector3 localSize;
 
+        private ItemData currentItem;
+
         public void Start()
         {
             controller = GetComponent<CharacterController>();
@@ -78,11 +80,15 @@ namespace Photon.Pun.UtilityScripts
         {
             if (!photonView.IsMine) return;
 
+            if (!isMenuOpen && currentItem != null && Input.GetKeyDown(KeyCode.Q))
+            {
+                UseItem();
+            }
+
             // 1. 바닥 체크
             isGrounded = controller.isGrounded;
             if (isGrounded && velocity.y < 0)
             {
-
                 velocity.y = -100f; // 바닥에 붙어있도록 살짝 아래로 힘을 줌
             }
 
@@ -264,6 +270,25 @@ namespace Photon.Pun.UtilityScripts
             Speed = originalSpeed;
         }
 
+        private void UseItem()
+        {
+            if (!photonView.IsMine) return;
+
+            if (currentItem == null) return;
+
+            if (currentItem.RPCName == "RPC_Magnet")
+            {
+                photonView.RPC(currentItem.RPCName, RpcTarget.All, currentItem.range, currentItem.power);
+            }
+            else
+            {
+                photonView.RPC(currentItem.RPCName, RpcTarget.All);
+            }
+
+            // 사용 후 데이터 비우기
+            currentItem = null;
+        }
+
         [PunRPC]
         public void RPC_AddKnockback(Vector3 force)
         {
@@ -293,6 +318,28 @@ namespace Photon.Pun.UtilityScripts
         }
 
         // ======================Item===========================
+
+        [PunRPC]
+        public void RPC_GetItem(string itemName)
+        {
+            // 나(당사자)만 실행
+            if (!photonView.IsMine) return;
+
+            if (currentItem) return;
+
+            // 경로는 Assets/Resources/Items/ 안에 SO 파일들이 있어야 합니다.
+            currentItem = Resources.Load<ItemData>("Items/" + itemName);
+
+            if (currentItem != null)
+            {
+                Debug.Log($"<color=cyan>[아이템 획득]</color> {itemName}!");
+                // 여기서 UI 아이콘(currentItem.itemIcon) 등을 업데이트하면 됩니다.
+            }
+            else
+            {
+                Debug.LogError($"아이템 데이터를 찾을 수 없습니다: {itemName}. Resources/Items 폴더를 확인하세요!");
+            }
+        }
 
         [PunRPC]
         public void RPC_SizeDown()

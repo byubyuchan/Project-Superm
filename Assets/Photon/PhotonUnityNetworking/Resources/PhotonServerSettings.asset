@@ -59,6 +59,7 @@ MonoBehaviour:
   - RPC_Magnet
   - RPC_SizeUp
   - RPC_SetFakeStatus
+  - RPC_GetItem
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
