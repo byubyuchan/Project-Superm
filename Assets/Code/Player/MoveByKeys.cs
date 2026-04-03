@@ -17,6 +17,8 @@ namespace Photon.Pun.UtilityScripts
         private Vector3 velocity;           // 수직 속도 (중력/점프용)
         private bool isGrounded;
 
+        private VirtualJoystick virtualJoystick; // 모바일 조이스틱 입력용
+
         [Header("Rotation Settings")]
         public Transform cameraPivot;
         public float mouseSensitivity = 3f;
@@ -67,6 +69,8 @@ namespace Photon.Pun.UtilityScripts
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 originalSpeed = Speed;
+
+                virtualJoystick = FindAnyObjectByType<VirtualJoystick>();
             }
 
             // CharacterController 사용 시 Rigidbody는 삭제하거나 IsKinematic을 켜야 합니다.
@@ -153,8 +157,23 @@ namespace Photon.Pun.UtilityScripts
             }
 
             // 2. 입력 받기
-            horizontalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Horizontal");
-            verticalInput = (isChatting || isUIMode) ? 0f : Input.GetAxisRaw("Vertical");
+            // PC 키보드 입력: 채팅 중이거나, 메뉴 창이 열렸거나, UI 조작 모드(Alt)일 때 차단
+            float pcHorizontal = (isChatting || isMenuOpen || isUIMode) ? 0f : Input.GetAxisRaw("Horizontal");
+            float pcVertical = (isChatting || isMenuOpen || isUIMode) ? 0f : Input.GetAxisRaw("Vertical");
+
+            // 조이스틱 입력: 채팅이나 큰 메뉴 창이 열렸을 땐 막지만, UI 조작 모드(isUIMode)일 때는 허용
+            float joyHorizontal = 0f;
+            float joyVertical = 0f;
+
+            if (virtualJoystick != null && !isChatting && !isMenuOpen)
+            {
+                joyHorizontal = virtualJoystick.InputVector.x;
+                joyVertical = virtualJoystick.InputVector.y;
+            }
+
+            // 최종 계산: 두 입력을 합치고 -1 ~ 1 사이로 제한
+            horizontalInput = Mathf.Clamp(pcHorizontal + joyHorizontal, -1f, 1f);
+            verticalInput = Mathf.Clamp(pcVertical + joyVertical, -1f, 1f);
 
             bool isAttacking = animator.GetCurrentAnimatorStateInfo(1).IsName("Attack");
             bool isReady = animator.GetCurrentAnimatorStateInfo(1).IsName("Ready");
