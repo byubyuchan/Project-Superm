@@ -22,6 +22,8 @@ public class TPZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Player")) return;
+
         PhotonView pv = other.GetComponent<PhotonView>();
 
         if (pv != null && pv.IsMine)
