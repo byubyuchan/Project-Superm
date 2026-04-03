@@ -87,5 +87,4 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel("WarmupScene");
         }
     }
-
 }
