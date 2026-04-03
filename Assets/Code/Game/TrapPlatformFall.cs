@@ -58,7 +58,7 @@ public class TrapPlatformFall : MovingPlatform
             {
                 return;
             }
-            else if (timer < delayTime + 1f) // 1초 동안 급속 낙하
+            else if (timer < delayTime + 3f) // 1초 동안 급속 낙하
             {
                 Vector3 targetPos = startPosition + (Vector3.down * fallDistance);
                 transform.position = Vector3.MoveTowards(transform.position, targetPos, fallSpeed * Time.fixedDeltaTime);
