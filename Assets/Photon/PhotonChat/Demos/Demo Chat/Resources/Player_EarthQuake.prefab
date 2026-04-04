@@ -465,7 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b4daedc5e674a429acdf1e77da6a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PhotonUnityNetworking.Utilities::Photon.Pun.UtilityScripts.MoveByKeys
-  Speed: 150
+  Speed: 50
   JumpHeight: 10
   Gravity: -50
   rotationSpeed: 10
@@ -551,13 +551,13 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: IsGround
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Jump
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Attack
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: ReadyToAttack
   m_SynchronizeLayers:
   - SynchronizeType: 2
@@ -617,6 +617,6 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: df70fa95-8a34-4494-b137-73ab6b9c7d37
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

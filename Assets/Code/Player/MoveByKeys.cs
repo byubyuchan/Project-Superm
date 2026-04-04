@@ -18,8 +18,6 @@ namespace Photon.Pun.UtilityScripts
         private Vector3 velocity;           // 수직 속도 (중력/점프용)
         private bool isGrounded;
 
-        private VirtualJoystick virtualJoystick; // 모바일 조이스틱 입력용
-
         [Header("Rotation Settings")]
         public Transform cameraPivot;
         public float mouseSensitivity = 3f;
@@ -66,17 +64,22 @@ namespace Photon.Pun.UtilityScripts
             animator = GetComponent<Animator>();
             localSize = transform.localScale;
 
-            // 본인 소유가 아니면 스크립트 비활성화
-            enabled = photonView.IsMine;
-
-            if (photonView.IsMine)
+            if (!photonView.IsMine)
             {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                originalSpeed = Speed;
+                if (TryGetComponent<PlayerInput>(out PlayerInput pi))
+                {
+                    pi.enabled = false;
+                }
+                this.enabled = false;
 
-                virtualJoystick = FindAnyObjectByType<VirtualJoystick>();
+                return;
             }
+
+            //enabled = photonView.IsMine;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            originalSpeed = Speed;
 
             // CharacterController 사용 시 Rigidbody는 삭제하거나 IsKinematic을 켜야 합니다.
             if (TryGetComponent<Rigidbody>(out Rigidbody rb))
@@ -87,16 +90,24 @@ namespace Photon.Pun.UtilityScripts
 
         void OnMove(InputValue value)
         {
-            rawMoveInput = value.Get<Vector2>();
+            Vector2 val = value.Get<Vector2>();
+            // [중요] IsMine 상태와 ViewID를 같이 찍어보세요.
+            Debug.Log($"[OnMove] Value: {val} | IsMine: {photonView.IsMine} | ViewID: {photonView.ViewID} | Owner: {photonView.Owner.NickName}");
+
+            if (!photonView.IsMine) return;
+
+            rawMoveInput = val;
         }
 
         void OnLook(InputValue value)
         {
-            rawLookInput = value.Get<Vector2>() * 0.05f;
+            if (!photonView.IsMine) return;
+            rawLookInput = value.Get<Vector2>();
         }
 
         void OnJump()
         {
+            if (!photonView.IsMine) return; // 추가
             if (isChatting() || isUIMode || isMenuOpen) return;
 
             if (isGrounded)
@@ -106,8 +117,9 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        void OnAttack() // 좌클릭 (Fire)
+        void OnAttack()
         {
+            if (!photonView.IsMine) return; // 추가
             if (isChatting() || isUIMode || isMenuOpen) return;
 
             if (isLoadingAttack && !animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
@@ -120,8 +132,9 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        void OnAim() // 우클릭
+        void OnAim()
         {
+            if (!photonView.IsMine) return; // 추가
             if (isChatting() || isUIMode || isMenuOpen) return;
 
             if (!animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
@@ -131,18 +144,18 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        void OnOpenUI() // Alt 키
+        void OnOpenUI()
         {
+            if (!photonView.IsMine) return; // 추가
             if (isMenuOpen) return;
 
             isUIMode = !isUIMode;
             UpdateCursorState();
         }
 
-        void OnChatting() // Enter 키
+        void OnChatting()
         {
             if (!photonView.IsMine) return;
-
             if (isMenuOpen) return;
 
             if (ChatManager.Instance != null)
@@ -151,8 +164,9 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        void OnOpenESC() // Esc 키
+        void OnOpenESC()
         {
+            if (!photonView.IsMine) return; // 추가
             UIManager.Instance.OpenEscapeUI();
         }
 
@@ -173,12 +187,9 @@ namespace Photon.Pun.UtilityScripts
             }
             else
             {
-                // 조이스틱과 키보드 합산
-                float joyH = (virtualJoystick != null) ? virtualJoystick.InputVector.x : 0;
-                float joyV = (virtualJoystick != null) ? virtualJoystick.InputVector.y : 0;
 
-                horizontalInput = Mathf.Clamp(rawMoveInput.x + joyH, -1f, 1f);
-                verticalInput = Mathf.Clamp(rawMoveInput.y + joyV, -1f, 1f);
+                horizontalInput = Mathf.Clamp(rawMoveInput.x, -1f, 1f);
+                verticalInput = Mathf.Clamp(rawMoveInput.y, -1f, 1f);
                 mouseDelta = rawLookInput;
             }
 
