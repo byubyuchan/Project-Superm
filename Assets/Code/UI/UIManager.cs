@@ -22,33 +22,30 @@ public class UIManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    private void Update()
+    public void OpenEscapeUI()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
         {
-            if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
+            if (EventSystem.current.currentSelectedGameObject.GetComponent<TMPro.TMP_InputField>() != null)
             {
-                if (EventSystem.current.currentSelectedGameObject.GetComponent<TMPro.TMP_InputField>() != null)
-                {
-                    EventSystem.current.SetSelectedGameObject(null);
-                    return;
-                }
+                EventSystem.current.SetSelectedGameObject(null);
+                return;
             }
+        }
 
-            // Remove panel data that is null or inactive by the time Player clicks close button
-            panelStack.RemoveAll(p => p.panel == null || !p.panel.activeSelf);
+        // Remove panel data that is null or inactive by the time Player clicks close button
+        panelStack.RemoveAll(p => p.panel == null || !p.panel.activeSelf);
 
-            // close the top panel if there is any panel in the stack
-            if (panelStack.Count > 0)
-            {
-                PanelData topPanel = panelStack[panelStack.Count - 1];
-                topPanel.closeAction?.Invoke();
-            }
-            else
-            {
-                // If there is no panel in the stack, call onEmptyEsc action if it exists
-                onEmptyEsc?.Invoke();
-            }
+        // close the top panel if there is any panel in the stack
+        if (panelStack.Count > 0)
+        {
+            PanelData topPanel = panelStack[panelStack.Count - 1];
+            topPanel.closeAction?.Invoke();
+        }
+        else
+        {
+            // If there is no panel in the stack, call onEmptyEsc action if it exists
+            onEmptyEsc?.Invoke();
         }
     }
 

@@ -1,13 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ChatManager : MonoBehaviourPunCallbacks
 {
+    public static ChatManager Instance;
+
     [Header("Chat UI")]
     public TMP_InputField chatInput;
     public Transform content;
@@ -21,43 +24,34 @@ public class ChatManager : MonoBehaviourPunCallbacks
 
     private bool isChatActive = false;
 
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
     void Start()
     {
         SetChatUIActive(false);
         AddSystemMessage("You have joined the room.");
     }
 
-    void Update()
+    public void ToggleChat()
     {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (!isChatActive)
         {
-            if (!isChatActive)
-            {
-                SetChatUIActive(true);
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(chatInput.text))
-                {
-                    SendChatMessage();
-                }
-
-                SetChatUIActive(false);
-            }
+            SetChatUIActive(true);
         }
-
-        // Click outside to close chat
-        // This code is commented out because it is useless anymore
-        /*
-        if (isChatActive && Input.GetMouseButtonDown(0))
+        else
         {
-            // RectTransformUtility.RectangleContainsScreenPoint checks if the mouse click is within the chat window
-            if (!RectTransformUtility.RectangleContainsScreenPoint(chatWindowRect, Input.mousePosition))
+            if (!string.IsNullOrWhiteSpace(chatInput.text))
             {
-                SetChatUIActive(false);
+                SendChatMessage();
             }
+            SetChatUIActive(false);
+
+            EventSystem.current.SetSelectedGameObject(null);
         }
-        */
     }
 
     private void SetChatUIActive(bool isActive)
@@ -84,9 +78,11 @@ public class ChatManager : MonoBehaviourPunCallbacks
     {
         string message = chatInput.text;
 
-        string senderName = PhotonNetwork.NickName;
-
-        photonView.RPC("ReceiveMessage", RpcTarget.All, senderName, message);
+        if (!string.IsNullOrWhiteSpace(message))
+        {
+            string senderName = PhotonNetwork.NickName;
+            photonView.RPC("ReceiveMessage", RpcTarget.All, senderName, message);
+        }
 
         chatInput.text = "";
         chatInput.ActivateInputField();

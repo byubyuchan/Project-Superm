@@ -1,6 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace Photon.Pun.UtilityScripts
 {
@@ -52,8 +53,12 @@ namespace Photon.Pun.UtilityScripts
         float verticalInput;
 
         private Vector3 localSize;
-
         private ItemData currentItem;
+
+        [Header("Input System")]
+        private Vector2 rawMoveInput;
+        private Vector2 rawLookInput;
+        private Vector2 mouseDelta;
 
         public void Start()
         {
@@ -80,119 +85,32 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        public void Update()
+        void OnMove(InputValue value)
         {
-            if (!photonView.IsMine) return;
+            rawMoveInput = value.Get<Vector2>();
+        }
 
-            if (!isMenuOpen && currentItem != null && Input.GetKeyDown(KeyCode.Q))
+        void OnLook(InputValue value)
+        {
+            rawLookInput = value.Get<Vector2>() * 0.05f;
+        }
+
+        void OnJump()
+        {
+            if (isChatting() || isUIMode || isMenuOpen) return;
+
+            if (isGrounded)
             {
-                UseItem();
+                velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Jump");
             }
+        }
 
-            // 1. 바닥 체크
-            isGrounded = controller.isGrounded;
-            if (isGrounded && velocity.y < 0)
-            {
-                velocity.y = -100f; // 바닥에 붙어있도록 살짝 아래로 힘을 줌
-            }
+        void OnAttack() // 좌클릭 (Fire)
+        {
+            if (isChatting() || isUIMode || isMenuOpen) return;
 
-            if(!isMenuOpen && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt)))
-            {
-                isUIMode = !isUIMode;
-            }
-
-            // 채팅 입력 중인지 체크 (UI 입력 필드가 선택된 경우 이동/공격 입력 무시)
-            bool isChatting = false;
-
-            if(EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
-            {
-                GameObject selectedUI = EventSystem.current.currentSelectedGameObject;
-
-                if (EventSystem.current.currentSelectedGameObject.GetComponent("TMP_InputField") != null)
-                {
-                    isChatting = true;
-
-                    if (selectedUI.name.ToLower().Contains("chat"))
-                    {
-                        isUIMode = false;
-                    }
-                }
-            }
-
-            if (isChatting && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-                isChatting = false;
-            }
-
-            if (isUIMode)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-
-            if (!isChatting && !isUIMode)
-            {
-                float currentSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1.0f);
-
-                float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * currentSensitivity;
-                transform.Rotate(Vector3.up * mouseX);
-
-                float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * currentSensitivity;
-
-                verticalRotation -= mouseY;
-                if (isLoadingAttack) verticalRotation = Mathf.Clamp(verticalRotation, -zoomDownRange, zoomUpRange);
-                else verticalRotation = Mathf.Clamp(verticalRotation, -downRange, upRange);
-
-                if (cameraPivot != null)
-                {
-                    // 피벗의 로컬 X축 회전 적용
-                    cameraPivot.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
-                }
-            }
-
-            // 2. 입력 받기
-            // PC 키보드 입력: 채팅 중이거나, 메뉴 창이 열렸거나, UI 조작 모드(Alt)일 때 차단
-            float pcHorizontal = (isChatting || isMenuOpen || isUIMode) ? 0f : Input.GetAxisRaw("Horizontal");
-            float pcVertical = (isChatting || isMenuOpen || isUIMode) ? 0f : Input.GetAxisRaw("Vertical");
-
-            // 조이스틱 입력: 채팅이나 큰 메뉴 창이 열렸을 땐 막지만, UI 조작 모드(isUIMode)일 때는 허용
-            float joyHorizontal = 0f;
-            float joyVertical = 0f;
-
-            if (virtualJoystick != null && !isChatting && !isMenuOpen)
-            {
-                joyHorizontal = virtualJoystick.InputVector.x;
-                joyVertical = virtualJoystick.InputVector.y;
-            }
-
-            // 최종 계산: 두 입력을 합치고 -1 ~ 1 사이로 제한
-            horizontalInput = Mathf.Clamp(pcHorizontal + joyHorizontal, -1f, 1f);
-            verticalInput = Mathf.Clamp(pcVertical + joyVertical, -1f, 1f);
-
-            bool isAttacking = animator.GetCurrentAnimatorStateInfo(1).IsName("Attack");
-            bool isReady = animator.GetCurrentAnimatorStateInfo(1).IsName("Ready");
-
-            // 애니메이션 파라미터 전달 (보간 적용)
-            if (animator != null)
-            {
-                animator.SetFloat("H", horizontalInput, 0.1f, Time.deltaTime);
-                animator.SetFloat("V", verticalInput, 0.1f, Time.deltaTime);
-                animator.SetBool("IsGround", isGrounded);
-            }
-
-            if (!isChatting && !isUIMode && Input.GetMouseButtonDown(1) && !isAttacking)
-            {
-                isLoadingAttack = !isLoadingAttack;
-                photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
-            }
-
-            if (!isChatting && !isUIMode && Input.GetMouseButtonDown(0) && !isAttacking && isLoadingAttack) 
+            if (isLoadingAttack && !animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
             {
                 if (Time.time - lastAttackTime >= attackCooldown)
                 {
@@ -200,36 +118,120 @@ namespace Photon.Pun.UtilityScripts
                     photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
                 }
             }
+        }
 
-            // 수평 이동 처리
-            Vector3 moveDir = (transform.forward * verticalInput) + (transform.right * horizontalInput);
+        void OnAim() // 우클릭
+        {
+            if (isChatting() || isUIMode || isMenuOpen) return;
 
-            if (impact.magnitude > 0.2f)
+            if (!animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
             {
-                // 5는 감쇠 속도입니다. 더 빠르게 멈추게 하려면 이 숫자를 키우세요.
-                impact = Vector3.Lerp(impact, Vector3.zero, 5f * Time.deltaTime);
+                isLoadingAttack = !isLoadingAttack;
+                photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
+            }
+        }
+
+        void OnOpenUI() // Alt 키
+        {
+            if (isMenuOpen) return;
+
+            isUIMode = !isUIMode;
+            UpdateCursorState();
+        }
+
+        void OnChatting() // Enter 키
+        {
+            if (!photonView.IsMine) return;
+
+            if (isMenuOpen) return;
+
+            if (ChatManager.Instance != null)
+            {
+                ChatManager.Instance.ToggleChat();
+            }
+        }
+
+        void OnOpenESC() // Esc 키
+        {
+            UIManager.Instance.OpenEscapeUI();
+        }
+
+        // =================================================================
+
+        public void Update()
+        {
+            if (!photonView.IsMine) return;
+
+            // 1. 상태 체크 (채팅/메뉴/UI모드일 때 입력값 강제 0 처리)
+            bool isBlocked = isChatting() || isMenuOpen || isUIMode;
+
+            if (isBlocked)
+            {
+                horizontalInput = 0;
+                verticalInput = 0;
+                mouseDelta = Vector2.zero;
             }
             else
             {
-                impact = Vector3.zero;
+                // 조이스틱과 키보드 합산
+                float joyH = (virtualJoystick != null) ? virtualJoystick.InputVector.x : 0;
+                float joyV = (virtualJoystick != null) ? virtualJoystick.InputVector.y : 0;
+
+                horizontalInput = Mathf.Clamp(rawMoveInput.x + joyH, -1f, 1f);
+                verticalInput = Mathf.Clamp(rawMoveInput.y + joyV, -1f, 1f);
+                mouseDelta = rawLookInput;
             }
 
-            Vector3 finalHorizontalMove = (moveDir.normalized * Speed) + impact;
-            controller.Move(finalHorizontalMove * Time.deltaTime);
+            // 2. 바닥 체크
+            isGrounded = controller.isGrounded;
+            if (isGrounded && velocity.y < 0) velocity.y = -2f;
 
-            // 점프 처리
-            if (!isChatting && !isUIMode && Input.GetButtonDown("Jump") && isGrounded)
+            // 3. 회전 처리
+            if (!isBlocked)
             {
-                velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-                photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Jump");
+                float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1.0f);
+                transform.Rotate(Vector3.up * mouseDelta.x * rotationSpeed * sensitivity);
+
+                verticalRotation -= mouseDelta.y * mouseSensitivity * sensitivity;
+                float currentMax = isLoadingAttack ? zoomUpRange : upRange;
+                float currentMin = isLoadingAttack ? -zoomDownRange : -downRange;
+                verticalRotation = Mathf.Clamp(verticalRotation, currentMin, currentMax);
+
+                if (cameraPivot != null)
+                    cameraPivot.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
             }
 
+            // 4. 애니메이션 & 이동 로직 (기존과 동일)
+            if (animator != null)
+            {
+                animator.SetFloat("H", horizontalInput, 0.1f, Time.deltaTime);
+                animator.SetFloat("V", verticalInput, 0.1f, Time.deltaTime);
+                animator.SetBool("IsGround", isGrounded);
+            }
 
-            // 6. 중력 적용
+            Vector3 moveDir = (transform.forward * verticalInput) + (transform.right * horizontalInput);
+            if (impact.magnitude > 0.2f) impact = Vector3.Lerp(impact, Vector3.zero, 5f * Time.deltaTime);
+            else impact = Vector3.zero;
+
+            controller.Move(((moveDir.normalized * Speed) + impact) * Time.deltaTime);
+
             velocity.y += Gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-
         }
+
+        private void UpdateCursorState()
+        {
+            Cursor.lockState = isUIMode ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = isUIMode;
+        }
+
+        bool isChatting()
+        {
+            return EventSystem.current != null &&
+                   EventSystem.current.currentSelectedGameObject != null &&
+                   EventSystem.current.currentSelectedGameObject.GetComponent<TMPro.TMP_InputField>() != null;
+        }
+
         void Shoot()
         {
             if (!photonView.IsMine) return;
