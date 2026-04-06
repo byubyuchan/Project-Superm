@@ -13,9 +13,12 @@ using UnityEngine.EventSystems;
 public class WarmupManager : MonoBehaviourPunCallbacks
 {
     [Header("Player List UI")]
+    public GameObject playerListWindow;
     public Transform playerListPanel;
     public GameObject playerSlotPrefab;
     public TextMeshProUGUI playerCountText;
+    public Button openPlayerListButton;
+    public Button closePlayerListButton;
 
     [Header("Game Start UI")]
     public Button startButton;
@@ -69,11 +72,13 @@ public class WarmupManager : MonoBehaviourPunCallbacks
             startButton.gameObject.SetActive(true);
             startButton.onClick.AddListener(StartGame);
             OpenRoomSettingsPanel();
+            OpenPlayerList();
         }
         else
         {
             startButton.gameObject.SetActive(false);
             CloseRoomSettingsPanel();
+            ClosePlayerList();
         }
 
         promoteButton.onClick.AddListener(DelegateHost);
@@ -104,6 +109,21 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         }
 
         UIManager.Instance.onEmptyEsc = OpenSystemMenu;
+
+        if (openPlayerListButton != null) openPlayerListButton.onClick.AddListener(OpenPlayerList);
+        if (closePlayerListButton != null) closePlayerListButton.onClick.AddListener(ClosePlayerList);
+    }
+
+    public void OpenPlayerList()
+    {
+        if (playerListWindow != null) UIManager.Instance.ShowPanel(playerListWindow, ClosePlayerList);
+        if (openPlayerListButton != null) openPlayerListButton.gameObject.SetActive(false);
+    }
+
+    public void ClosePlayerList()
+    {
+        if (playerListWindow != null) playerListWindow.SetActive(false);
+        if (openPlayerListButton != null) openPlayerListButton.gameObject.SetActive(true);
     }
 
     private void ResetRaceProperties()
@@ -481,6 +501,11 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         {
             startButton.gameObject.SetActive(true);
             OpenRoomSettingsPanel();
+            OpenPlayerList();
+        }
+        else
+        {
+            ClosePlayerList();
         }
     }
 }
