@@ -22,6 +22,12 @@ public class ChatManager : MonoBehaviourPunCallbacks
     public Image scrollViewImage;
     public RectTransform chatWindowRect;
 
+    [Header("Preview Chat UI")]
+    public GameObject previewPanel;
+    public Transform previewContent;
+    public float previewShowTime = 3f;
+    public float previewFadeTime = 1f;
+
     private bool isChatActive = false;
 
     void Awake()
@@ -58,10 +64,19 @@ public class ChatManager : MonoBehaviourPunCallbacks
     {
         isChatActive = isActive;
 
-        chatInput.gameObject.SetActive(isActive);
+        if (chatWindowRect != null)
+        {
+            chatWindowRect.gameObject.SetActive(isActive);
+        }
+        else
+        {
+            chatInput.gameObject.SetActive(isActive);
+            chatScroolRect.gameObject.SetActive(isActive);
+            if (chatPanelImage != null) chatPanelImage.enabled = isActive;
+            if (scrollViewImage != null) scrollViewImage.enabled = isActive;
+        }
 
-        if (chatPanelImage != null) chatPanelImage.enabled = isActive;
-        if (scrollViewImage != null) scrollViewImage.enabled = isActive;
+        if (previewPanel != null) previewPanel.SetActive(!isActive);
 
         if (isActive)
         {
@@ -92,12 +107,10 @@ public class ChatManager : MonoBehaviourPunCallbacks
     public void ReceiveMessage(string senderName, string message)
     {
         GameObject newChat = Instantiate(chatPrefab, content);
-
         TextMeshProUGUI chatText = newChat.GetComponent<TextMeshProUGUI>();
-
         chatText.text = $"{senderName}: {message}";
-
         StartCoroutine(ScrollToBottom());
+        SpawnPreviewMessage($"{senderName}: {message}");
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -114,10 +127,43 @@ public class ChatManager : MonoBehaviourPunCallbacks
     {
         GameObject newChat = Instantiate(chatPrefab, content);
         TextMeshProUGUI chatText = newChat.GetComponent<TextMeshProUGUI>();
-
         chatText.text = $"<color=yellow>{message}</color>";
-
         StartCoroutine(ScrollToBottom());
+        SpawnPreviewMessage($"<color=yellow>{message}</color>");
+    }
+
+    private void SpawnPreviewMessage(string message)
+    {
+        if (previewContent == null) return;
+
+        GameObject newPreview = Instantiate(chatPrefab, previewContent);
+        TextMeshProUGUI previewText = newPreview.GetComponent<TextMeshProUGUI>();
+        previewText.text = message;
+
+        StartCoroutine(FadeOutAndDestroy(previewText));
+    }
+
+    private IEnumerator FadeOutAndDestroy(TextMeshProUGUI textComponent)
+    {
+        yield return new WaitForSeconds(previewShowTime);
+
+        float timer = 0f;
+        Color originalColor = textComponent.color;
+
+        while (timer < previewFadeTime)
+        {
+            if (textComponent == null) yield break;
+
+            timer += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, timer / previewFadeTime);
+            textComponent.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            yield return null;
+        }
+
+        if (textComponent != null)
+        {
+            Destroy(textComponent.gameObject);
+        }
     }
 
     IEnumerator ScrollToBottom()
