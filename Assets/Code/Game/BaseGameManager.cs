@@ -14,6 +14,11 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     public TextMeshProUGUI winnerText;
     public TextMeshProUGUI countdownText;
 
+    protected void Start()
+    {
+        Application.targetFrameRate = 244;
+    }
+
     protected void FinishGame()
     {
         // 변수 선언

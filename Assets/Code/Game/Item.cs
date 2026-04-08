@@ -24,10 +24,10 @@ public class Item : MonoBehaviourPun
         // 아이템 스폰은 15f 높이로 고정이기에 하드하게 코딩했음. 서로를 참조받는 형식보다 빠름.
         float transformY = originY - transform.position.y;
 
-        if (transformY >= 15f && !GetComponent<Rigidbody>().isKinematic)
+        if (transformY >= 10f && !GetComponent<Rigidbody>().isKinematic)
         {
             GetComponent<Rigidbody>().isKinematic = true;
-            transform.position = new Vector3(transform.position.x, originY - 15f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, originY - 10f, transform.position.z);
         }
     }
 

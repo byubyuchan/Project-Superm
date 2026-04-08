@@ -47,8 +47,10 @@ public class RunGameManager : BaseGameManager
     public const string PROP_LAST_Z = "LastZ";
     public const string PROP_LAST_ROT_Y = "LastRotY";
 
-    private void Start()
+    private new void Start()
     {
+        base.Start();
+
         maxPlayers = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.MaxPlayers : 8;
         if (maxPlayers == 0) maxPlayers = 8;
 
