@@ -27,6 +27,7 @@ public class ChatManager : MonoBehaviourPunCallbacks
     public Transform previewContent;
     public float previewShowTime = 3f;
     public float previewFadeTime = 1f;
+    public int maxPreviewCount = 4;
 
     private bool isChatActive = false;
 
@@ -135,6 +136,11 @@ public class ChatManager : MonoBehaviourPunCallbacks
     private void SpawnPreviewMessage(string message)
     {
         if (previewContent == null) return;
+
+        if (previewContent.childCount >= maxPreviewCount)
+        {
+            Destroy(previewContent.GetChild(0).gameObject);
+        }
 
         GameObject newPreview = Instantiate(chatPrefab, previewContent);
         TextMeshProUGUI previewText = newPreview.GetComponent<TextMeshProUGUI>();
