@@ -17,6 +17,8 @@ public class TrapPlatformFall : MovingPlatform
 
     public bool isFake = false;
 
+    public bool isRecycle = true;
+
     [SerializeField]
     private TrapPlatformFall sibling;
 
@@ -58,12 +60,22 @@ public class TrapPlatformFall : MovingPlatform
             {
                 return;
             }
-            else if (timer < delayTime + 3f) // 1초 동안 급속 낙하
+            else if (timer < delayTime + 3f)
             {
                 Vector3 targetPos = startPosition + (Vector3.down * fallDistance);
                 transform.position = Vector3.MoveTowards(transform.position, targetPos, fallSpeed * Time.fixedDeltaTime);
+
+                if (!isRecycle && Vector3.Distance(transform.position, targetPos) < 0.1f)
+                {
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        PhotonNetwork.Destroy(gameObject);
+                    }
+                    isActivated = false;
+                    return;
+                }
             }
-            else if (timer > resetTime) // 리셋 시간이 지나면 복구
+            else if (isRecycle && timer > resetTime ) // 리셋 시간이 지나면 복구
             {
                 if (playersOnPlatform.Count > 0)
                 {
@@ -90,5 +102,13 @@ public class TrapPlatformFall : MovingPlatform
     public void RPC_SetFakeStatus(bool value)
     {
         this.isFake = value;
+    }
+
+    [PunRPC]
+    public void RPC_VanishPlatform()
+    {
+        gameObject.SetActive(false);
+
+        playersOnPlatform.Clear();
     }
 }

@@ -60,6 +60,7 @@ MonoBehaviour:
   - RPC_SizeUp
   - RPC_SetFakeStatus
   - RPC_GetItem
+  - RPC_VanishPlatform
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
