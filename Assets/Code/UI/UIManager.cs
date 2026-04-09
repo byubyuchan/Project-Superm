@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+
+    private int lastEscFrame = -1;
 
     private class PanelData
     {
@@ -22,8 +25,19 @@ public class UIManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    private void Update()
+    {
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            OpenEscapeUI();
+        }
+    }
+
     public void OpenEscapeUI()
     {
+        if (Time.frameCount == lastEscFrame) return; // Prevent multiple calls in the same frame
+        lastEscFrame = Time.frameCount;
+
         if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
         {
             if (EventSystem.current.currentSelectedGameObject.GetComponent<TMPro.TMP_InputField>() != null)
