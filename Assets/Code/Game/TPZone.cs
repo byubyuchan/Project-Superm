@@ -23,57 +23,26 @@ public class TPZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-
         PhotonView pv = other.GetComponent<PhotonView>();
+        if (pv == null || !pv.IsMine) return;
 
-        if (pv != null && pv.IsMine)
+        // FindFirstObjectByType은 싱글톤보다 유연하게 작동합니다.
+        BaseGameManager manager = Object.FindFirstObjectByType<BaseGameManager>();
+
+        if (manager != null)
         {
-            if (RunGameManager.Instance != null)
+            // 매니저에게 최적의 부활 지점을 물어봄
+            if (manager.GetBestRespawnPoint(out Vector3 resPos, out Quaternion resRot))
             {
-                Player targetPlayer = PhotonNetwork.LocalPlayer;
-
-                // Check if the player has a last checkpoint position saved
-                if (targetPlayer.CustomProperties.ContainsKey(RunGameManager.PROP_LAST_X))
-                {
-                    float x = (float)targetPlayer.CustomProperties[RunGameManager.PROP_LAST_X];
-                    float y = (float)targetPlayer.CustomProperties[RunGameManager.PROP_LAST_Y];
-                    float z = (float)targetPlayer.CustomProperties[RunGameManager.PROP_LAST_Z];
-                    float rotY = (float)targetPlayer.CustomProperties[RunGameManager.PROP_LAST_ROT_Y];
-
-                    Vector3 respawnPos = new Vector3(x, y, z);
-                    Quaternion respawnRot = Quaternion.Euler(0, rotY, 0);
-
-                    if (RunGameManager.Instance != null)
-                    {
-                        RunGameManager.Instance.TeleportCharacter(other.gameObject, respawnPos, respawnRot);
-                    }
-                }
-
-                // If no last checkpoint, check for initial position
-                else if (targetPlayer.CustomProperties.ContainsKey(RunGameManager.PROP_INIT_X))
-                {
-                    float initX = (float)targetPlayer.CustomProperties[RunGameManager.PROP_INIT_X];
-                    float initY = (float)targetPlayer.CustomProperties[RunGameManager.PROP_INIT_Y];
-                    float initZ = (float)targetPlayer.CustomProperties[RunGameManager.PROP_INIT_Z];
-                    float initRotY = (float)targetPlayer.CustomProperties[RunGameManager.PROP_INIT_ROT_Y];
-
-                    Vector3 initPos = new Vector3(initX, initY, initZ);
-                    Quaternion initRot = Quaternion.Euler(0, initRotY, 0);
-
-                    if (RunGameManager.Instance != null)
-                    {
-                        RunGameManager.Instance.TeleportCharacter(other.gameObject, initPos, initRot);
-                    }
-                    return;
-                }
-            }
-            if (fallbackTarget != null)
-            {
-                TeleportCharacterLocal(other.gameObject, fallbackPosition, fallbackRotation);
+                manager.TeleportCharacter(other.gameObject, resPos, resRot);
+                return;
             }
         }
+        if (fallbackTarget != null)
+        {
+            TeleportCharacterLocal(other.gameObject, fallbackTarget.transform.position, fallbackTarget.transform.rotation);
+        }
     }
-
     private void TeleportCharacterLocal(GameObject playerObj, Vector3 pos, Quaternion rot)
     {
         CharacterController cc = playerObj.GetComponent<CharacterController>();

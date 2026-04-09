@@ -10,7 +10,7 @@ using System.Collections;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.EventSystems;
 
-public class WarmupManager : MonoBehaviourPunCallbacks
+public class WarmupManager : BaseGameManager
 {
     [Header("Player List UI")]
     public GameObject playerListWindow;
@@ -22,7 +22,6 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
     [Header("Game Start UI")]
     public Button startButton;
-    public TextMeshProUGUI countdownText;
 
     [Header("Host Option Popup")]
     public GameObject hostOptionPanel;
@@ -46,18 +45,15 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     public GameObject warningPanel;
     public TextMeshProUGUI warningText;
 
-    [Header("System Menu UI")]
-    public GameObject systemMenuPanel;
-    public Button leaveRoomButton;
-    public Button cancelButton;
-
     private Player targetPlayer;
 
-    void Start()
+    new void Start()
     {
+        base.Start();
+
         if (PhotonNetwork.InRoom)
         {
-            ResetRaceProperties();
+            ResetPlayerGameProperties();
         }
 
         hostOptionPanel.SetActive(false);
@@ -98,9 +94,6 @@ public class WarmupManager : MonoBehaviourPunCallbacks
 
         if (successPanel != null) successPanel.SetActive(false);
         if (warningPanel != null) warningPanel.SetActive(false);
-        if (systemMenuPanel != null) systemMenuPanel.SetActive(false);
-        if (leaveRoomButton != null) leaveRoomButton.onClick.AddListener(LeaveRoom);
-        if (cancelButton != null) cancelButton.onClick.AddListener(CloseSystemMenu);
 
         TMP_InputField[] allInputs = FindObjectsByType<TMP_InputField>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (var input in allInputs)
@@ -124,30 +117,6 @@ public class WarmupManager : MonoBehaviourPunCallbacks
     {
         if (playerListWindow != null) playerListWindow.SetActive(false);
         if (openPlayerListButton != null) openPlayerListButton.gameObject.SetActive(true);
-    }
-
-    private void ResetRaceProperties()
-    {
-        if(PhotonNetwork.LocalPlayer != null)
-        {
-            ExitGames.Client.Photon.Hashtable resetProps = new ExitGames.Client.Photon.Hashtable();
-
-            resetProps.Add(RunGameManager.PROP_LAP, 0);
-            resetProps.Add(RunGameManager.PROP_PROG, 0);
-            resetProps.Add(RunGameManager.PROP_GOAL, 0);
-
-            resetProps.Add(RunGameManager.PROP_INIT_X, null);
-            resetProps.Add(RunGameManager.PROP_INIT_Y, null);
-            resetProps.Add(RunGameManager.PROP_INIT_Z, null);
-            resetProps.Add(RunGameManager.PROP_INIT_ROT_Y, null);
-
-            resetProps.Add(RunGameManager.PROP_LAST_X, null);
-            resetProps.Add(RunGameManager.PROP_LAST_Y, null);
-            resetProps.Add(RunGameManager.PROP_LAST_Z, null);
-            resetProps.Add(RunGameManager.PROP_LAST_ROT_Y, null);
-
-            PhotonNetwork.LocalPlayer.SetCustomProperties(resetProps);
-        }
     }
 
     void Update()
@@ -287,10 +256,6 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnLeftRoom()
-    {
-        SceneManager.LoadScene("Lobby");
-    }
 
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
@@ -320,7 +285,7 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         StartCoroutine(CountdownCoroutine());
     }
 
-    private System.Collections.IEnumerator CountdownCoroutine()
+    private new System.Collections.IEnumerator CountdownCoroutine()
     {
         countdownText.gameObject.SetActive(true);
 
@@ -446,55 +411,12 @@ public class WarmupManager : MonoBehaviourPunCallbacks
         if (warningPanel != null) warningPanel.SetActive(false);
     }
 
-    public void OpenSystemMenu()
-    {
-        if (systemMenuPanel != null)
-        {
-            UIManager.Instance.ShowPanel(systemMenuPanel, CloseSystemMenu);
 
-            Photon.Pun.UtilityScripts.MoveByKeys[] players =
-                FindObjectsByType<Photon.Pun.UtilityScripts.MoveByKeys>(FindObjectsSortMode.None);
-            foreach (var p in players)
-            {
-                if (p.photonView.IsMine)
-                {
-                    p.isUIMode = true;
-                    p.isMenuOpen = true;
-                    break;
-                }
-            }
-        }
-    }
-
-    private void CloseSystemMenu()
-    {
-        if (systemMenuPanel != null)
-        {
-            systemMenuPanel.SetActive(false);
-            
-            Photon.Pun.UtilityScripts.MoveByKeys[] players = 
-                FindObjectsByType<Photon.Pun.UtilityScripts.MoveByKeys>(FindObjectsSortMode.None);
-            foreach (var p in players)
-            {
-                if (p.photonView.IsMine)
-                {
-                    p.isUIMode = false;
-                    p.isMenuOpen = false;
-                    break;
-                }
-            }
-        }
-    }
-
-    private void LeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 완료: 속성 초기화 및 리스트 업데이트");
-        ResetRaceProperties();
+        ResetPlayerGameProperties();
         UpdatePlayerList();
 
         if (PhotonNetwork.IsMasterClient)

@@ -4430,7 +4430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  fallbackTarget: {fileID: 0}
+  fallbackTarget: {fileID: 584300133}
 --- !u!1 &719039138
 GameObject:
   m_ObjectHideFlags: 0
@@ -7964,7 +7964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  fallbackTarget: {fileID: 0}
+  fallbackTarget: {fileID: 1765856787}
 --- !u!1 &1200206395
 GameObject:
   m_ObjectHideFlags: 0
@@ -8388,6 +8388,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d8b7b698811f04f8476b4aaf30dbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WarmupManager
+  winnerText: {fileID: 0}
+  countdownText: {fileID: 1064203300}
+  systemMenuPanel: {fileID: 805510347}
+  leaveRoomButton: {fileID: 2058891567}
+  cancelButton: {fileID: 49132266}
   playerListWindow: {fileID: 1554956}
   playerListPanel: {fileID: 1593590732}
   playerSlotPrefab: {fileID: 5923610622262305399, guid: 73fddfcf023038848b6f8f5a13e68ad3, type: 3}
@@ -8395,7 +8400,6 @@ MonoBehaviour:
   openPlayerListButton: {fileID: 1136090274}
   closePlayerListButton: {fileID: 1968905293}
   startButton: {fileID: 1275495906}
-  countdownText: {fileID: 1064203300}
   hostOptionPanel: {fileID: 923753945}
   targetNameText: {fileID: 1930934841}
   promoteButton: {fileID: 1341088554}
@@ -8410,9 +8414,6 @@ MonoBehaviour:
   successPanel: {fileID: 341164393}
   warningPanel: {fileID: 2079691479}
   warningText: {fileID: 1357521103}
-  systemMenuPanel: {fileID: 805510347}
-  leaveRoomButton: {fileID: 2058891567}
-  cancelButton: {fileID: 49132266}
 --- !u!4 &1262670287
 Transform:
   m_ObjectHideFlags: 0
@@ -9723,7 +9724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  fallbackTarget: {fileID: 0}
+  fallbackTarget: {fileID: 1612046760}
 --- !u!1 &1508383276
 GameObject:
   m_ObjectHideFlags: 0
@@ -9881,7 +9882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  fallbackTarget: {fileID: 0}
+  fallbackTarget: {fileID: 92850819}
 --- !u!1001 &1533310400
 PrefabInstance:
   m_ObjectHideFlags: 0
