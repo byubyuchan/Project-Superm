@@ -25,6 +25,7 @@ public class ChatManager : MonoBehaviourPunCallbacks
     [Header("Preview Chat UI")]
     public GameObject previewPanel;
     public Transform previewContent;
+    public ScrollRect previewScrollRect;
     public float previewShowTime = 3f;
     public float previewFadeTime = 1f;
     public int maxPreviewCount = 4;
@@ -147,6 +148,11 @@ public class ChatManager : MonoBehaviourPunCallbacks
         previewText.text = message;
 
         StartCoroutine(FadeOutAndDestroy(previewText));
+
+        if (previewScrollRect != null)
+        {
+            StartCoroutine(ScrollPreviewToBottom());
+        }
     }
 
     private IEnumerator FadeOutAndDestroy(TextMeshProUGUI textComponent)
@@ -180,5 +186,15 @@ public class ChatManager : MonoBehaviourPunCallbacks
         LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
 
         chatScroolRect.verticalNormalizedPosition = 0f;
+    }
+
+    public IEnumerator ScrollPreviewToBottom()
+    {
+        yield return null;
+        yield return null;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(previewContent.GetComponent<RectTransform>());
+
+        previewScrollRect.verticalNormalizedPosition = 0f;
     }
 }

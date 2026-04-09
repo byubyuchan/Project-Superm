@@ -216,6 +216,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Jump
       objectReference: {fileID: 0}
+    - target: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114344768413473294, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_ControlPath
       value: <Gamepad>/buttonSouth
@@ -2464,18 +2468,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 457979344}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1722617413}
   - {fileID: 1843195426}
-  m_Father: {fileID: 1841080411}
+  m_Father: {fileID: 1406139667}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 400}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &457979346
@@ -3486,18 +3490,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 597687509}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 911129304}
-  m_Father: {fileID: 1841080411}
+  m_Father: {fileID: 1406139667}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 20, y: 200}
-  m_SizeDelta: {x: 600, y: 144}
+  m_AnchoredPosition: {x: 10, y: 200}
+  m_SizeDelta: {x: 590, y: 144}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &597687511
 MonoBehaviour:
@@ -4020,6 +4024,7 @@ MonoBehaviour:
   chatWindowRect: {fileID: 457979345}
   previewPanel: {fileID: 597687509}
   previewContent: {fileID: 911129304}
+  previewScrollRect: {fileID: 0}
   previewShowTime: 3
   previewFadeTime: 1
   maxPreviewCount: 4
@@ -4049,6 +4054,10 @@ PrefabInstance:
     - target: {fileID: 1613174875475300, guid: f77f88b14a477764bb65a49d28c02d33, type: 3}
       propertyPath: m_Name
       value: RightStick_Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613174875475300, guid: f77f88b14a477764bb65a49d28c02d33, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114017654419583406, guid: f77f88b14a477764bb65a49d28c02d33, type: 3}
       propertyPath: m_Text
@@ -5882,7 +5891,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1841080411}
+    m_TransformParent: {fileID: 1846710316}
     m_Modifications:
     - target: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_Name
@@ -5946,7 +5955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_AnchorMin.x
@@ -5954,7 +5963,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_SizeDelta.x
@@ -5986,19 +5995,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -7701,6 +7710,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Aim
       objectReference: {fileID: 0}
+    - target: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114344768413473294, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_ControlPath
       value: <Gamepad>/rightShoulder
@@ -9345,6 +9358,43 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &1406139666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1406139667}
+  m_Layer: 5
+  m_Name: Chatting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1406139667
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406139666}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 597687510}
+  - {fileID: 457979345}
+  m_Father: {fileID: 1846710316}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 600, y: 400}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &1424658598
 GameObject:
   m_ObjectHideFlags: 0
@@ -11718,13 +11768,11 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 597687510}
-  - {fileID: 457979345}
+  - {fileID: 1846710316}
   - {fileID: 654849835}
   - {fileID: 1153505060}
   - {fileID: 29248283}
   - {fileID: 1957500153}
-  - {fileID: 976407206}
   - {fileID: 1210152422}
   - {fileID: 1746586215}
   - {fileID: 460287382}
@@ -11921,6 +11969,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1843195425}
   m_CullTransparentMesh: 1
+--- !u!1 &1846710315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1846710316}
+  - component: {fileID: 1846710317}
+  m_Layer: 5
+  m_Name: ChatContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1846710316
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846710315}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 976407206}
+  - {fileID: 1406139667}
+  m_Father: {fileID: 1841080411}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 20, y: 40}
+  m_SizeDelta: {x: 600, y: 480}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &1846710317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846710315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 20
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1882489110
 GameObject:
   m_ObjectHideFlags: 0
@@ -12965,6 +13077,10 @@ PrefabInstance:
     - target: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_Name
       value: Button_Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114344768413473294, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_ControlPath
