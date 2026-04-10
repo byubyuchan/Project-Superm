@@ -17,9 +17,11 @@ public class ChatManager : MonoBehaviourPunCallbacks
     public GameObject chatPrefab;
     public ScrollRect chatScroolRect;
 
-    [Header("Chat Backgrounds")]
-    public Image chatPanelImage;
-    public Image scrollViewImage;
+    //[Header("Chat Backgrounds")]
+    //public Image chatPanelImage;
+    //public Image scrollViewImage;
+
+    [Header("Chat Window")]
     public RectTransform chatWindowRect;
 
     [Header("Preview Chat UI")]
@@ -70,13 +72,13 @@ public class ChatManager : MonoBehaviourPunCallbacks
         {
             chatWindowRect.gameObject.SetActive(isActive);
         }
-        else
-        {
-            chatInput.gameObject.SetActive(isActive);
-            chatScroolRect.gameObject.SetActive(isActive);
-            if (chatPanelImage != null) chatPanelImage.enabled = isActive;
-            if (scrollViewImage != null) scrollViewImage.enabled = isActive;
-        }
+        //else
+        //{
+        //    chatInput.gameObject.SetActive(isActive);
+        //    chatScroolRect.gameObject.SetActive(isActive);
+        //    if (chatPanelImage != null) chatPanelImage.enabled = isActive;
+        //    if (scrollViewImage != null) scrollViewImage.enabled = isActive;
+        //}
 
         if (previewPanel != null) previewPanel.SetActive(!isActive);
 
