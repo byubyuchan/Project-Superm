@@ -11630,6 +11630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96f02b57c6b5f148b7267cea5ad5c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  escapeAction: {fileID: 1439782922}
 --- !u!4 &670200396
 Transform:
   m_ObjectHideFlags: 0
@@ -23615,6 +23616,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1439782922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: UI/OpenESC
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  m_ActionId: a0d72b96-8037-4a82-871d-91d8d08588b4
 --- !u!1001 &1442486546
 PrefabInstance:
   m_ObjectHideFlags: 0

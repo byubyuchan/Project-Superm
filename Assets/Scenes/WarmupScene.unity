@@ -4440,6 +4440,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
   fallbackTarget: {fileID: 584300133}
+--- !u!114 &695145087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: UI/OpenESC
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  m_ActionId: a0d72b96-8037-4a82-871d-91d8d08588b4
 --- !u!1 &719039138
 GameObject:
   m_ObjectHideFlags: 0
@@ -9602,6 +9616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96f02b57c6b5f148b7267cea5ad5c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  escapeAction: {fileID: 695145087}
 --- !u!4 &1462920430
 Transform:
   m_ObjectHideFlags: 0

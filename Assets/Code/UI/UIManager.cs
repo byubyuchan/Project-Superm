@@ -5,9 +5,12 @@ using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Input Settings")]
+    public InputActionReference escapeAction;
+
     public static UIManager Instance;
 
-    private int lastEscFrame = -1;
+    private float lastEscTime = 0f;
 
     private class PanelData
     {
@@ -21,22 +24,49 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (Instance == this)
         {
-            OpenEscapeUI();
+            Instance = null;
         }
+    }
+
+    private void OnEnable()
+    {
+        if (escapeAction != null)
+        {
+            escapeAction.action.Enable();
+            escapeAction.action.performed += OnEscapePressed;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (escapeAction != null)
+        {
+            escapeAction.action.performed -= OnEscapePressed;
+            escapeAction.action.Disable();
+        }
+    }
+
+    private void OnEscapePressed(InputAction.CallbackContext context)
+    {
+        OpenEscapeUI();
     }
 
     public void OpenEscapeUI()
     {
-        if (Time.frameCount == lastEscFrame) return; // Prevent multiple calls in the same frame
-        lastEscFrame = Time.frameCount;
+        if (Time.realtimeSinceStartup - lastEscTime < 0.15f) return;
+        lastEscTime = Time.realtimeSinceStartup;
 
         if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
         {
