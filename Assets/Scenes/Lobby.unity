@@ -8791,6 +8791,7 @@ GameObject:
   - component: {fileID: 841945011}
   - component: {fileID: 841945013}
   - component: {fileID: 841945012}
+  - component: {fileID: 841945014}
   m_Layer: 5
   m_Name: SafeAreaPanel
   m_TagString: Untagged
@@ -8858,6 +8859,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841945010}
   m_CullTransparentMesh: 1
+--- !u!114 &841945014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841945010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b015bd0442f266a41912f3b1caaf3096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SafeArea
 --- !u!1 &887989458
 GameObject:
   m_ObjectHideFlags: 0
