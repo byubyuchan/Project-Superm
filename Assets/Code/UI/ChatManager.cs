@@ -95,7 +95,8 @@ public class ChatManager : MonoBehaviourPunCallbacks
 
     public void SendChatMessage()
     {
-        string message = chatInput.text;
+        // 완성된 메시지에 현재 입력 중인 조합 문자열을 포함하여 보냅니다
+        string message = chatInput.text + Input.compositionString;
 
         if (!string.IsNullOrWhiteSpace(message))
         {
