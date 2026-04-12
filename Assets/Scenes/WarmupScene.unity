@@ -4019,12 +4019,10 @@ MonoBehaviour:
   content: {fileID: 1751432294}
   chatPrefab: {fileID: 7239586865880895622, guid: e2398fb45ba7d364ab7ac4c902962680, type: 3}
   chatScroolRect: {fileID: 1722617414}
-  chatPanelImage: {fileID: 457979346}
-  scrollViewImage: {fileID: 1722617415}
   chatWindowRect: {fileID: 457979345}
   previewPanel: {fileID: 597687509}
   previewContent: {fileID: 911129304}
-  previewScrollRect: {fileID: 0}
+  previewScrollRect: {fileID: 597687514}
   previewShowTime: 3
   previewFadeTime: 1
   maxPreviewCount: 4
