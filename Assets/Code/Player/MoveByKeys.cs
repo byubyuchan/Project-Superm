@@ -224,7 +224,7 @@ namespace Photon.Pun.UtilityScripts
             if (impact.magnitude > 0.2f) impact = Vector3.Lerp(impact, Vector3.zero, 5f * Time.deltaTime);
             else impact = Vector3.zero;
 
-            Vector3 finalMove = (moveDir.normalized * Speed) + impact;
+            Vector3 finalMove = (moveDir * Speed) + impact;
 
             if (isGrounded && velocity.y <= 0)
             {
