@@ -23,12 +23,15 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
     private float pointerDownTime;
     private bool isDragging;
 
+    private Vector2 currentDragDelta;
+
     public void OnPointerDown(PointerEventData eventData)
     {
         // 터치 시작 시 위치와 시간을 기록
         pointerDownPosition = eventData.position;
         pointerDownTime = Time.unscaledTime;
         isDragging = false;
+        currentDragDelta = Vector2.zero;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -40,12 +43,25 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
 
         if (isDragging)
         {
-            SendValueToControl(eventData.delta * lookSensitivity);
+            currentDragDelta = eventData.delta;
+        }
+    }
+
+    private void Update()
+    {
+        if (isDragging)
+        {
+            // 저장해둔 드래그 델타를 카메라 회전에 적용
+            SendValueToControl(currentDragDelta * lookSensitivity);
+
+            // 전송 후 드래그 델타 초기화 (다음 프레임에서 0이 전송되면서 카메라 회전이 멈추도록)
+            currentDragDelta = Vector2.zero;
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        isDragging = false;
         SendValueToControl(Vector2.zero); // 드래그가 끝나면 카메라 회전 정지
 
         // 드래그가 아니고, 탭으로 간주되는 시간과 이동 거리 내에 있다면 공격 트리거
