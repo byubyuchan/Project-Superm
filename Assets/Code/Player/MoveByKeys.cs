@@ -92,7 +92,7 @@ namespace Photon.Pun.UtilityScripts
         {
             Vector2 val = value.Get<Vector2>();
             // [중요] IsMine 상태와 ViewID를 같이 찍어보세요.
-            Debug.Log($"[OnMove] Value: {val} | IsMine: {photonView.IsMine} | ViewID: {photonView.ViewID} | Owner: {photonView.Owner.NickName}");
+            //Debug.Log($"[OnMove] Value: {val} | IsMine: {photonView.IsMine} | ViewID: {photonView.ViewID} | Owner: {photonView.Owner.NickName}");
 
             if (!photonView.IsMine) return;
 

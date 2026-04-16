@@ -8,8 +8,8 @@ public class NPC : MonoBehaviourPun
     public float wanderRadius = 150f;
     public float wanderTimer = 7f;
 
-    private NavMeshAgent agent;
-    private float timer;
+    protected NavMeshAgent agent;
+    protected float timer;
 
     [Header("Settings")]
     [SerializeField]
@@ -20,7 +20,7 @@ public class NPC : MonoBehaviourPun
     private float respawnTime;
     public bool isExploded = false;
 
-    void OnEnable()
+    public void OnEnable()
     {
         isExploded = false;
 
@@ -37,7 +37,7 @@ public class NPC : MonoBehaviourPun
         timer = wanderTimer;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
@@ -50,8 +50,8 @@ public class NPC : MonoBehaviourPun
             timer = 0;
         }
     }
-
-    public Vector3 RandomNavMeshLocation(float radius)
+    // 저격수 상속
+    protected Vector3 RandomNavMeshLocation(float radius)
     {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
         randomDirection += transform.position;
@@ -65,7 +65,8 @@ public class NPC : MonoBehaviourPun
         return finalPosition;
     }
 
-    void OnTriggerEnter(Collider other)
+    // 저격수 트리거 끄기? 그냥 콜라이더를 빼면 되나?
+    protected void OnTriggerEnter(Collider other)
     {
 
         if (!PhotonNetwork.IsMasterClient || isExploded) return;
@@ -90,6 +91,7 @@ public class NPC : MonoBehaviourPun
             Death();
         }
     }
+    // 아마 죽일 수 있게 만들면 재밌을듯
 
     void Death()
     {
