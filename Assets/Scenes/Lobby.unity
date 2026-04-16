@@ -4344,9 +4344,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 122204235}
     m_Modifications:
+    - target: {fileID: 2060252466760380857, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Name
       value: RoomSlot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188002611027212027, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6314654594090784769, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Pivot.x
@@ -4427,6 +4439,26 @@ PrefabInstance:
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124249658408348643, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077847971372293638, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380610956272030579, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983629434485537973, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010156165563754132, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6398,9 +6430,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 122204235}
     m_Modifications:
+    - target: {fileID: 2060252466760380857, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Name
       value: RoomSlot5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188002611027212027, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6314654594090784769, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Pivot.x
@@ -6481,6 +6525,26 @@ PrefabInstance:
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124249658408348643, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077847971372293638, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380610956272030579, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983629434485537973, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010156165563754132, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9445,9 +9509,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 122204235}
     m_Modifications:
+    - target: {fileID: 2060252466760380857, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Name
       value: RoomSlot3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188002611027212027, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6314654594090784769, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Pivot.x
@@ -9528,6 +9604,26 @@ PrefabInstance:
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124249658408348643, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077847971372293638, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380610956272030579, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983629434485537973, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010156165563754132, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12523,9 +12619,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 122204235}
     m_Modifications:
+    - target: {fileID: 2060252466760380857, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Name
       value: RoomSlot7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188002611027212027, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6314654594090784769, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Pivot.x
@@ -12606,6 +12714,26 @@ PrefabInstance:
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124249658408348643, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077847971372293638, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380610956272030579, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983629434485537973, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010156165563754132, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16787,9 +16915,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 122204235}
     m_Modifications:
+    - target: {fileID: 2060252466760380857, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Name
       value: RoomSlot4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188002611027212027, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6314654594090784769, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Pivot.x
@@ -16870,6 +17010,26 @@ PrefabInstance:
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124249658408348643, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077847971372293638, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380610956272030579, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983629434485537973, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010156165563754132, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19087,9 +19247,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 122204235}
     m_Modifications:
+    - target: {fileID: 2060252466760380857, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Name
       value: RoomSlot6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188002611027212027, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6314654594090784769, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Pivot.x
@@ -19170,6 +19342,26 @@ PrefabInstance:
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124249658408348643, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077847971372293638, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380610956272030579, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983629434485537973, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010156165563754132, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20226,9 +20418,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 122204235}
     m_Modifications:
+    - target: {fileID: 2060252466760380857, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Name
       value: RoomSlot2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188002611027212027, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6314654594090784769, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Pivot.x
@@ -20309,6 +20513,26 @@ PrefabInstance:
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124249658408348643, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077847971372293638, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380610956272030579, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983629434485537973, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010156165563754132, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20968,9 +21192,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 122204235}
     m_Modifications:
+    - target: {fileID: 2060252466760380857, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Name
       value: RoomSlot0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182427319556993715, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5188002611027212027, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6314654594090784769, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_Pivot.x
@@ -21051,6 +21291,26 @@ PrefabInstance:
     - target: {fileID: 6509137099965211937, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124249658408348643, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077847971372293638, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380610956272030579, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983629434485537973, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010156165563754132, guid: 7912e5e5207f01b4aab133a06a2f5098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
