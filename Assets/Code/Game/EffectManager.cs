@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using System.Collections;
 
 public class EffectManager : MonoBehaviourPun
 {
@@ -18,14 +19,24 @@ public class EffectManager : MonoBehaviourPun
     {
         photonView.RPC("RPC_PlayEffect", RpcTarget.All, index, pos);
     }
+    private IEnumerator ReturnEffectToPool(GameObject fx, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (fx != null)
+        {
+            PhotonNetwork.Destroy(fx);
+        }
+    }
 
     [PunRPC]
     void RPC_PlayEffect(int index, Vector3 pos)
     {
         if (index < explosionEffects.Length)
         {
-            GameObject fx = Instantiate(explosionEffects[index], pos, Quaternion.identity);
-            Destroy(fx, 2.0f);
+            string prefabName = explosionEffects[index].name;
+            GameObject fx = PhotonNetwork.Instantiate("VFX/" + prefabName, pos, Quaternion.identity);
+
+            StartCoroutine(ReturnEffectToPool(fx, 2.0f));
         }
     }
 }

@@ -13,9 +13,22 @@ public class Item : MonoBehaviourPun
 
     private float originY;
 
-    private void Start()
+    public void OnEnable()
     {
-        if (photonView.IsMine) Invoke("DestroySelf", respawnTime);
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            CancelInvoke("DestroySelf");
+            Invoke("DestroySelf", respawnTime);
+        }
+
+        // 3. 기준 Y값 갱신
         originY = transform.position.y;
     }
 

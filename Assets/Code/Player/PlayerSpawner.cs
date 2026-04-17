@@ -7,7 +7,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject playerPrefab; // Inspector에서 PlayerBall 프리팹을 드래그하여 할당
-    protected GameObject ball;
+    protected GameObject player;
 
     [SerializeField]
     private GameObject canvas;
@@ -41,10 +41,20 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     {
         if (playerPrefab == null) return;
 
-        // 다시 한 번 방 상태를 체크하고 생성
         if (PhotonNetwork.InRoom)
         {
-            ball = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in players)
+            {
+                PhotonView pv = p.GetComponent<PhotonView>();
+                if (pv != null && pv.IsMine)
+                {
+                    PhotonNetwork.Destroy(p);
+                    player = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
+                    return;
+                }
+            }
+            player = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
         }
     }
 

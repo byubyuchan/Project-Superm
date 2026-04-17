@@ -19,15 +19,23 @@ public class NPC : MonoBehaviourPun
     [SerializeField]
     private float respawnTime;
     public bool isExploded = false;
-
     public void OnEnable()
     {
+        // 1. 논리 상태 리셋
         isExploded = false;
+        timer = wanderTimer;
 
         if (PhotonNetwork.IsMasterClient)
         {
             if (agent == null) agent = GetComponent<NavMeshAgent>();
-            agent.enabled = true;
+
+            // 2. 에이전트 초기화 (이게 핵심!)
+            if (agent != null)
+            {
+                agent.enabled = false;
+                agent.enabled = true;
+                agent.ResetPath(); // 이전 경로 삭제
+            }
         }
     }
 
@@ -86,7 +94,7 @@ public class NPC : MonoBehaviourPun
             {
                 int randomIndex = Random.Range(0, respawnPrefabs.Length);
                 string selectedPrefab = respawnPrefabs[randomIndex];
-                RespawnManager.Instance.RespawnNPC(selectedPrefab, transform.position, respawnTime);
+                RespawnManager.Instance.RespawnNPC("NPC/" + selectedPrefab, transform.position, respawnTime);
             }
             Death();
         }
@@ -95,8 +103,7 @@ public class NPC : MonoBehaviourPun
 
     void Death()
     {
-        PhotonNetwork.Instantiate("Item", transform.position + new Vector3(0,15f,0), Quaternion.identity);
+        PhotonNetwork.Instantiate("NPC/Item", transform.position + new Vector3(0,15f,0), Quaternion.identity);
         PhotonNetwork.Destroy(gameObject);
     }
-
 }

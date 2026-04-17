@@ -16,14 +16,26 @@ public class Projectile : MonoBehaviourPun
 
     private bool hasExploded = false;
 
-    void Start()
+    public void OnEnable()
     {
-        // 발사 방향으로 속도 부여
-        GetComponent<Rigidbody>().linearVelocity = transform.forward * speed;
-        if (photonView.IsMine) Invoke("DestroySelf", lifeTime);
+        hasExploded = false;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.linearVelocity = transform.forward * speed;
+        }
+
+        // 3. 수명 타이머 재시작
+        if (photonView.IsMine)
+        {
+            CancelInvoke("DestroySelf");
+            Invoke("DestroySelf", lifeTime);
+        }
     }
 
-    
+
     void DestroySelf() {
         if (!hasExploded && photonView.IsMine)
         {

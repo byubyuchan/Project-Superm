@@ -272,7 +272,7 @@ namespace Photon.Pun.UtilityScripts
 
             Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
 
-            PhotonNetwork.Instantiate(projectile, firePoint.position, Quaternion.LookRotation(aimDirection));
+            PhotonNetwork.Instantiate("Projectile/" + projectile, firePoint.position, Quaternion.LookRotation(aimDirection));
         }
 
         void Quake()
@@ -293,7 +293,7 @@ namespace Photon.Pun.UtilityScripts
                     Vector3 forwardOnSlope = Vector3.ProjectOnPlane(transform.forward, hit.normal).normalized;
                     Quaternion spawnRot = Quaternion.LookRotation(forwardOnSlope, hit.normal);
 
-                    PhotonNetwork.Instantiate(projectile, spawnPos, spawnRot);
+                    PhotonNetwork.Instantiate("Projectile/" + projectile, spawnPos, spawnRot);
                 }
             }
         }
