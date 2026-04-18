@@ -9754,7 +9754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20080117a56a82a43a39e4b77bb79222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  speed: 200
+  speed: 500
   lifeTime: 3
   explosionRadius: 10
   explosionForce: 300

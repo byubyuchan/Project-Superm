@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using UnityEngine;
 
 public class NPC_Sniper : NPC
@@ -22,10 +23,16 @@ public class NPC_Sniper : NPC
     [SerializeField]
     private string projectileName = "NPCProjectile";
 
+    [Header("Laser Settings")]
+    [SerializeField] private LineRenderer laserLine;
+
+    private Transform targetTransform;
+
     private new void OnEnable()
     {
         base.OnEnable();
 
+        if (laserLine != null) laserLine.enabled = false;
         targetPlayer = null;
         lockOnTimer = 0f;
     }
@@ -42,7 +49,9 @@ public class NPC_Sniper : NPC
 
             if (agent.hasPath) agent.ResetPath();
 
-            RotateTowards(targetPlayer.position);
+            RotateTowards(targetTransform.position);
+
+            DrawLaser(targetTransform.position);
 
             if (lockOnTimer >= lockOnTime)
             {
@@ -52,6 +61,7 @@ public class NPC_Sniper : NPC
         }
         else
         {
+            if (laserLine != null) laserLine.enabled = false;
             lockOnTimer = Mathf.Max(0, lockOnTimer - Time.deltaTime);
             base.Update();
         }
@@ -59,7 +69,6 @@ public class NPC_Sniper : NPC
 
     void DetectClosestPlayer()
     {
-        // NonAlloc으로 메모리 할당 없이 주변 플레이어만 훑음
         int count = Physics.OverlapSphereNonAlloc(transform.position, detectionRange, targets, playerLayer);
 
         float closestDist = float.MaxValue;
@@ -69,28 +78,54 @@ public class NPC_Sniper : NPC
         {
             Transform t = targets[i].transform;
 
-            // 거리 및 각도 체크
-            Vector3 dir = (t.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dir) < viewAngle * 0.5f)
+            Transform tAimPoint = t.GetComponent<MoveByKeys>().aimPoint;
+
+            Vector3 dirToTarget = (t.position - transform.position).normalized;
+
+            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle * 0.5f)
             {
                 float dist = Vector3.Distance(transform.position, t.position);
+
                 if (dist < closestDist)
                 {
-                    closestDist = dist;
-                    bestTarget = t;
+                    if (IsTargetVisible(tAimPoint.position, t))
+                    {
+                        closestDist = dist;
+                        bestTarget = t;
+                    }
                 }
             }
         }
 
-        // 타겟 변경 시에만 타이머 초기화 (안정적인 조준 유지)
         if (targetPlayer != bestTarget)
         {
             targetPlayer = bestTarget;
             lockOnTimer = 0;
         }
+
+        if (targetPlayer != null)
+        {
+            targetTransform = targetPlayer.GetComponent<MoveByKeys>().aimPoint;
+        }
     }
 
-    // IsPlayerInSight나 FindClosestVisiblePlayer는 이제 필요 없으므로 삭제해도 됩니다.
+    bool IsTargetVisible(Vector3 targetPos, Transform targetRoot)
+    {
+        Vector3 start = firePoint.position;
+        Vector3 dir = (targetPos - start).normalized;
+        float dist = Vector3.Distance(start, targetPos);
+        int layerMask = playerLayer | LayerMask.GetMask("Map");
+
+        RaycastHit hit;
+        if (Physics.Raycast(start, dir, out hit, dist, layerMask))
+        {
+            if (hit.transform.root == targetRoot.root)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     void RotateTowards(Vector3 targetPos)
     {
@@ -108,8 +143,35 @@ public class NPC_Sniper : NPC
 
         if (targetPlayer == null) return;
 
-        Vector3 fireDir = (targetPlayer.position - firePoint.position).normalized;
+        Vector3 fireDir = (targetTransform.position - firePoint.position).normalized;
 
         PhotonNetwork.Instantiate("NPC/"+projectileName, firePoint.position, Quaternion.LookRotation(fireDir));
+    }
+
+    void DrawLaser(Vector3 targetPos)
+    {
+        if (laserLine == null) return;
+
+        if (!laserLine.enabled) laserLine.enabled = true;
+
+        float currentWidth = Mathf.Lerp(0.3f, 0.01f, lockOnTimer / lockOnTime);
+
+        laserLine.startWidth = currentWidth;
+
+        laserLine.SetPosition(0, firePoint.position);
+
+        Vector3 dir = (targetPos - firePoint.position).normalized;
+        RaycastHit hit;
+
+        int layerMask = playerLayer | LayerMask.GetMask("Map");
+
+        if (Physics.Raycast(firePoint.position, dir, out hit, detectionRange, layerMask))
+        {
+            laserLine.SetPosition(1, hit.point);
+        }
+        else
+        {
+            laserLine.SetPosition(1, firePoint.position + (dir * detectionRange));
+        }
     }
 }

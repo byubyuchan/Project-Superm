@@ -31,6 +31,7 @@ namespace Photon.Pun.UtilityScripts
         [Header("Projectile Settings")]
         public string projectile;
         public Transform firePoint;
+        public Transform aimPoint;
 
         private Vector3 impact = Vector3.zero;
 
