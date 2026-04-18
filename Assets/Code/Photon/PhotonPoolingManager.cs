@@ -28,18 +28,58 @@ public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
             Destroy(gameObject);
         }
     }
+    // Legacy 풀링
+    //public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)
+    //{
+    //    string actualKey = prefabId;
 
-    // 포톤이 Instantiate를 호출할 때 내부적으로 이 메소드를 실행함
+    //    if (!poolDict.ContainsKey(prefabId))
+    //    {
+    //        poolDict.Add(prefabId, new Queue<GameObject>());
+    //    }
+
+    //    if (poolDict[prefabId].Count > 0)
+    //    {
+    //        GameObject obj = poolDict[prefabId].Dequeue();
+    //        obj.transform.position = position;
+    //        obj.transform.rotation = rotation;
+    //        return obj;
+    //    }
+
+    //    GameObject prefab = Resources.Load<GameObject>(prefabId);
+    //    GameObject newObj = Object.Instantiate(prefab, position, rotation);
+
+    //    newObj.transform.SetParent(poolRoot);
+    //    newObj.SetActive(false);
+    //    return newObj;
+
+    //}
+
+    // 주소가 다르더라도 이름이 같으면 오류가 생기는 문제를 해결하기위한 개선된 풀링
     public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)
     {
-        if (!poolDict.ContainsKey(prefabId))
+        string actualKey = prefabId;
+
+        if (!poolDict.ContainsKey(actualKey))
         {
-            poolDict.Add(prefabId, new Queue<GameObject>());
+            foreach (string key in poolDict.Keys)
+            {
+                if (key.EndsWith("/" + actualKey) || actualKey.EndsWith("/" + key))
+                {
+                    actualKey = key;
+                    break;
+                }
+            }
         }
 
-        if (poolDict[prefabId].Count > 0)
+        if (!poolDict.ContainsKey(actualKey))
         {
-            GameObject obj = poolDict[prefabId].Dequeue();
+            poolDict.Add(actualKey, new Queue<GameObject>());
+        }
+
+        if (poolDict[actualKey].Count > 0)
+        {
+            GameObject obj = poolDict[actualKey].Dequeue();
             obj.transform.position = position;
             obj.transform.rotation = rotation;
             return obj;
@@ -47,6 +87,8 @@ public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
 
         GameObject prefab = Resources.Load<GameObject>(prefabId);
         GameObject newObj = Object.Instantiate(prefab, position, rotation);
+
+        newObj.name = actualKey;
 
         newObj.transform.SetParent(poolRoot);
         newObj.SetActive(false);
@@ -60,7 +102,18 @@ public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
 
         if (!poolDict.ContainsKey(prefabId))
         {
-            poolDict.Add(prefabId, new Queue<GameObject>());
+            foreach (string key in poolDict.Keys)
+            {
+                if (key.EndsWith("/" + prefabId))
+                {
+                    prefabId = key;
+                    break;
+                }
+            }
+            if (!poolDict.ContainsKey(prefabId))
+            {
+                poolDict.Add(prefabId, new Queue<GameObject>());
+            }
         }
 
         gameObject.SetActive(false);

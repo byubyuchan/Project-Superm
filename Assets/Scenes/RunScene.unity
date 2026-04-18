@@ -32633,6 +32633,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WalkWay
       objectReference: {fileID: 0}
+    - target: {fileID: 8998821448205333825, guid: 89ce552a652546641b74ed1213963537, type: 3}
+      propertyPath: m_TagString
+      value: Map
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

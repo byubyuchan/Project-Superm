@@ -16,9 +16,13 @@ public class Projectile : MonoBehaviourPun
 
     private bool hasExploded = false;
 
+    private bool isNPCProjectile;
+
     public void OnEnable()
     {
         hasExploded = false;
+
+        isNPCProjectile = gameObject.CompareTag("NPCProjectile");
 
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
@@ -37,7 +41,10 @@ public class Projectile : MonoBehaviourPun
 
 
     void DestroySelf() {
-        if (!hasExploded && photonView.IsMine)
+
+        if (hasExploded) return;
+
+        if (photonView.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);
         }
@@ -52,7 +59,7 @@ public class Projectile : MonoBehaviourPun
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Map"))
         {
             // 1. Player일 경우 팀킬 방지 로직
-            if (collision.gameObject.CompareTag("Player"))
+            if (collision.gameObject.CompareTag("Player") && !isNPCProjectile)
             {
                 PhotonView targetPV = collision.gameObject.GetComponent<PhotonView>();
                 if (targetPV != null && targetPV.OwnerActorNr == photonView.OwnerActorNr)
@@ -105,7 +112,7 @@ public class Projectile : MonoBehaviourPun
 
                 if (targetPV != null)
                 {
-                    if (targetPV.OwnerActorNr == photonView.OwnerActorNr)
+                    if (targetPV.OwnerActorNr == photonView.OwnerActorNr && !isNPCProjectile)
                     {
                         continue;
                     }

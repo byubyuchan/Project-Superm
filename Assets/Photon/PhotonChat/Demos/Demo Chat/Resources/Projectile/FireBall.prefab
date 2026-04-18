@@ -9755,7 +9755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   speed: 100
-  lifeTime: 10
+  lifeTime: 4
   explosionRadius: 10
   explosionForce: 300
   explosionEffectIndex: 0

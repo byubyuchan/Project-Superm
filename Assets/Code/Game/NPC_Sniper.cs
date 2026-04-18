@@ -16,6 +16,20 @@ public class NPC_Sniper : NPC
     public LayerMask playerLayer; 
     private Collider[] targets = new Collider[20];
 
+    [Header("Shoot Settings")]
+    [SerializeField] 
+    private Transform firePoint;
+    [SerializeField]
+    private string projectileName = "NPCProjectile";
+
+    private new void OnEnable()
+    {
+        base.OnEnable();
+
+        targetPlayer = null;
+        lockOnTimer = 0f;
+    }
+
     protected override void Update()
     {
         if (!PhotonNetwork.IsMasterClient) return;
@@ -90,13 +104,12 @@ public class NPC_Sniper : NPC
 
     void FireRPC()
     {
-        if (targetPlayer == null) return;
-        photonView.RPC("RPC_SpawnProjectile", RpcTarget.All, targetPlayer.position);
-    }
+        if (!PhotonNetwork.IsMasterClient) return;
 
-    [PunRPC]
-    void RPC_SpawnProjectile(Vector3 targetPos)
-    {
-        Debug.Log($"[Sniper] {targetPos} 방향으로 발사!");
+        if (targetPlayer == null) return;
+
+        Vector3 fireDir = (targetPlayer.position - firePoint.position).normalized;
+
+        PhotonNetwork.Instantiate("NPC/"+projectileName, firePoint.position, Quaternion.LookRotation(fireDir));
     }
 }

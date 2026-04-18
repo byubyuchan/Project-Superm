@@ -19,6 +19,7 @@ public class NPC : MonoBehaviourPun
     [SerializeField]
     private float respawnTime;
     public bool isExploded = false;
+
     public void OnEnable()
     {
         // 1. 논리 상태 리셋
@@ -80,7 +81,7 @@ public class NPC : MonoBehaviourPun
         if (!PhotonNetwork.IsMasterClient || isExploded) return;
 
         // 장애물(Obstacle) 혹은 투사체(Projectile) 태그 확인
-        if (other.CompareTag("Obstacle") || other.CompareTag("Projectile"))
+        if (other.CompareTag("Obstacle") || other.CompareTag("Projectile") || other.CompareTag("NPCProjectile"))
         {
 
             isExploded = true;
