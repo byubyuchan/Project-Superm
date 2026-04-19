@@ -11,13 +11,32 @@ public class UIVisibility : MonoBehaviour
     [Tooltip("Hide this UI when a gamepad is connected")]
     public bool hideIfGamepadConnected = true;
 
+    private CanvasGroup canvasGroup;
+    private int lastState = -1;
+
+    private void Awake()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+    }
+
     private void Update()
     {
         // Check platform If PC or Mobile
-        bool isMobile = Application.isMobilePlatform;
+        bool isMobile = SystemInfo.deviceType == DeviceType.Handheld;
 
         // Check if a gamepad is connected
-        bool isGamepadConnected = Gamepad.current != null;
+        bool isGamepadConnected = false;
+
+#if !UNITY_EDITOR
+        if (Gamepad.current != null)
+        {
+            isGamepadConnected = true;
+        }
+#endif
 
         // Determine if the UI should be shown based on platform and gamepad status
         bool shouldShow = true;
@@ -34,10 +53,15 @@ public class UIVisibility : MonoBehaviour
             if (!isMobile && !showOnPC) shouldShow = false;
         }
 
-        // Set the active state of the GameObject based on the determined visibility
-        if (gameObject.activeSelf != shouldShow)
+        int currentState = shouldShow ? 1 : 0;
+
+        // Only update the canvas group if the visibility state has changed
+        if (lastState != currentState)
         {
-            gameObject.SetActive(shouldShow);
+            lastState = currentState;
+            canvasGroup.alpha = shouldShow ? 1 : 0; // visible or invisible
+            canvasGroup.interactable = shouldShow; // clickable or not
+            canvasGroup.blocksRaycasts = shouldShow; // block or ignore raycasts
         }
     }
 }
