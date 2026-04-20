@@ -310,7 +310,7 @@ namespace Photon.Pun.UtilityScripts
             Speed = originalSpeed;
         }
 
-        private void UseItem()
+        public void UseItem()
         {
             if (!photonView.IsMine) return;
 
@@ -327,6 +327,11 @@ namespace Photon.Pun.UtilityScripts
 
             // 사용 후 데이터 비우기
             currentItem = null;
+
+            if (ItemSlotUI.Instance != null)
+            {
+                ItemSlotUI.Instance.ClearSlot();
+            }
         }
 
         [PunRPC]
@@ -374,6 +379,11 @@ namespace Photon.Pun.UtilityScripts
             {
                 Debug.Log($"<color=cyan>[아이템 획득]</color> {itemName}!");
                 // 여기서 UI 아이콘(currentItem.itemIcon) 등을 업데이트하면 됩니다.
+
+                if (ItemSlotUI.Instance != null)
+                {
+                    ItemSlotUI.Instance.SetItem(currentItem.itemIcon);
+                }
             }
             else
             {
@@ -434,6 +444,22 @@ namespace Photon.Pun.UtilityScripts
                 }
                 elapsed += Time.deltaTime;
                 yield return null; // 다음 프레임까지 대기
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (photonView.IsMine)
+            {
+                ItemSlotUI.OnItemButtonClicked += UseItem;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (photonView.IsMine)
+            {
+                ItemSlotUI.OnItemButtonClicked -= UseItem;
             }
         }
     }
