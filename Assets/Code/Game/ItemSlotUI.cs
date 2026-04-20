@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class ItemSlotUI : MonoBehaviour
 {
     public static ItemSlotUI Instance { get; private set; }
-    public static event Action OnItemButtonClicked;
 
     [Header("UI Components")]
     public Image itemIconImage;
@@ -26,10 +25,5 @@ public class ItemSlotUI : MonoBehaviour
     {
         itemIconImage.sprite = null;
         itemIconImage.enabled = false; // 아이콘이 없을 때 이미지 비활성화
-    }
-
-    public void OnClickItemSlot()
-    {
-        OnItemButtonClicked?.Invoke();
     }
 }

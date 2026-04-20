@@ -171,6 +171,30 @@ namespace Photon.Pun.UtilityScripts
             UIManager.Instance.OpenEscapeUI();
         }
 
+        public void OnUseItem()
+        {
+            if (!photonView.IsMine) return;
+
+            if (currentItem == null) return;
+
+            if (currentItem.RPCName == "RPC_Magnet")
+            {
+                photonView.RPC(currentItem.RPCName, RpcTarget.All, currentItem.range, currentItem.power);
+            }
+            else
+            {
+                photonView.RPC(currentItem.RPCName, RpcTarget.All);
+            }
+
+            // 사용 후 데이터 비우기
+            currentItem = null;
+
+            if (ItemSlotUI.Instance != null)
+            {
+                ItemSlotUI.Instance.ClearSlot();
+            }
+        }
+
         // =================================================================
 
         public void Update()
@@ -310,30 +334,6 @@ namespace Photon.Pun.UtilityScripts
             Speed = originalSpeed;
         }
 
-        public void UseItem()
-        {
-            if (!photonView.IsMine) return;
-
-            if (currentItem == null) return;
-
-            if (currentItem.RPCName == "RPC_Magnet")
-            {
-                photonView.RPC(currentItem.RPCName, RpcTarget.All, currentItem.range, currentItem.power);
-            }
-            else
-            {
-                photonView.RPC(currentItem.RPCName, RpcTarget.All);
-            }
-
-            // 사용 후 데이터 비우기
-            currentItem = null;
-
-            if (ItemSlotUI.Instance != null)
-            {
-                ItemSlotUI.Instance.ClearSlot();
-            }
-        }
-
         [PunRPC]
         public void RPC_AddKnockback(Vector3 force)
         {
@@ -444,22 +444,6 @@ namespace Photon.Pun.UtilityScripts
                 }
                 elapsed += Time.deltaTime;
                 yield return null; // 다음 프레임까지 대기
-            }
-        }
-
-        private void OnEnable()
-        {
-            if (photonView.IsMine)
-            {
-                ItemSlotUI.OnItemButtonClicked += UseItem;
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (photonView.IsMine)
-            {
-                ItemSlotUI.OnItemButtonClicked -= UseItem;
             }
         }
     }
