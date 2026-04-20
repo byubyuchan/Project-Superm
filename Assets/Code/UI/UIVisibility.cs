@@ -31,12 +31,16 @@ public class UIVisibility : MonoBehaviour
         // Check if a gamepad is connected
         bool isGamepadConnected = false;
 
-#if !UNITY_EDITOR
         if (Gamepad.current != null)
         {
-            isGamepadConnected = true;
+            string deviceName = Gamepad.current.name.ToLower();
+            string displayName = Gamepad.current.displayName.ToLower();
+
+            if (!deviceName.Contains("wacom") && !deviceName.Contains("vjoy") && deviceName != "gamepad" && displayName != "gamepad")
+            {
+                isGamepadConnected = true;
+            }
         }
-#endif
 
         // Determine if the UI should be shown based on platform and gamepad status
         bool shouldShow = true;

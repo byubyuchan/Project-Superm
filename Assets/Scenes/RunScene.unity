@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 4520576}
   - component: {fileID: 4520575}
   - component: {fileID: 4520574}
+  - component: {fileID: 4520577}
   m_Layer: 5
   m_Name: MoveZone
   m_TagString: Untagged
@@ -401,6 +402,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4520572}
   m_CullTransparentMesh: 1
+--- !u!114 &4520577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4520572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c76355790b385e49ba07fc673bcdcdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIVisibility
+  showOnPC: 0
+  showOnMobile: 1
+  hideIfGamepadConnected: 1
 --- !u!1001 &14242076
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11431,13 +11447,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       insertIndex: -1
       addedObject: {fileID: 981263562}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 705544873}
   m_SourcePrefab: {fileID: 100100000, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
 --- !u!224 &705544871 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
   m_PrefabInstance: {fileID: 705544870}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &705544872 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+  m_PrefabInstance: {fileID: 705544870}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &705544873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705544872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c76355790b385e49ba07fc673bcdcdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIVisibility
+  showOnPC: 0
+  showOnMobile: 1
+  hideIfGamepadConnected: 1
 --- !u!1 &706103483
 GameObject:
   m_ObjectHideFlags: 0
@@ -13901,13 +13940,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1649161550}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 854419400}
   m_SourcePrefab: {fileID: 100100000, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
 --- !u!224 &854419398 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
   m_PrefabInstance: {fileID: 854419397}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &854419399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+  m_PrefabInstance: {fileID: 854419397}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &854419400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854419399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c76355790b385e49ba07fc673bcdcdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIVisibility
+  showOnPC: 0
+  showOnMobile: 1
+  hideIfGamepadConnected: 1
 --- !u!1001 &857358611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17994,13 +18056,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2038915966}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1147216955}
   m_SourcePrefab: {fileID: 100100000, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
 --- !u!224 &1147216953 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224771122883764374, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
   m_PrefabInstance: {fileID: 1147216952}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1147216954 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1728513650105062, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+  m_PrefabInstance: {fileID: 1147216952}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1147216955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147216954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c76355790b385e49ba07fc673bcdcdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIVisibility
+  showOnPC: 0
+  showOnMobile: 1
+  hideIfGamepadConnected: 1
 --- !u!1001 &1147521573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29074,6 +29159,7 @@ GameObject:
   - component: {fileID: 1881251736}
   - component: {fileID: 1881251735}
   - component: {fileID: 1881251734}
+  - component: {fileID: 1881251737}
   m_Layer: 5
   m_Name: TouchZone
   m_TagString: Untagged
@@ -29156,6 +29242,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881251732}
   m_CullTransparentMesh: 1
+--- !u!114 &1881251737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881251732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c76355790b385e49ba07fc673bcdcdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIVisibility
+  showOnPC: 0
+  showOnMobile: 1
+  hideIfGamepadConnected: 1
 --- !u!1001 &1895991293
 PrefabInstance:
   m_ObjectHideFlags: 0
