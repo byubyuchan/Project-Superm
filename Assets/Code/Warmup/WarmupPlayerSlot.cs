@@ -4,49 +4,48 @@ using TMPro;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class WarmupPlayerSlot : MonoBehaviour
+public class WarmupPlayerSlot : BasePlayerSlot
 {
-    public Image backgroundImage;
-    public TextMeshProUGUI nameText;
+    [Header("Warmup UI Components")]
     public GameObject crownIcon;
     public Button optionButton;
 
-    private Player myPlayer;
-    private WarmupManager warmupManager;
-
-    public void SetEmpty()
+    public override void SetEmpty()
     {
-        myPlayer = null;
-        backgroundImage.color = Color.gray;
-        nameText.text = "";
-        crownIcon.SetActive(false);
-        optionButton.gameObject.SetActive(false);
+        base.SetEmpty();
+
+        if (crownIcon != null) crownIcon.SetActive(false);
+        if (optionButton != null) optionButton.gameObject.SetActive(false);
     }
 
-    public void Setup(Player player, WarmupManager manager)
+    public override void Setup(Player player)
     {
-        myPlayer = player;
-        warmupManager = manager;
-        backgroundImage.color = Color.white;
-        nameText.text = player.NickName;
+        base.Setup(player);
 
         if (player.IsMasterClient)
         {
-            crownIcon.SetActive(true);
-            optionButton.gameObject.SetActive(false);
+            if (crownIcon != null) crownIcon.SetActive(true);
+            if (optionButton != null) optionButton.gameObject.SetActive(false);
         }
         else
         {
-            crownIcon.SetActive(false);
-            optionButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+            if (crownIcon != null) crownIcon.SetActive(false);
+            if (optionButton != null) optionButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
         }
 
-        optionButton.onClick.RemoveAllListeners();
-        optionButton.onClick.AddListener(OnOptionButtonClicked);
+        if (optionButton != null)
+        {
+            optionButton.onClick.RemoveAllListeners();
+            optionButton.onClick.AddListener(OnOptionButtonClicked);
+        }
     }
 
     private void OnOptionButtonClicked()
     {
-        warmupManager.OpenHostOptionPanel(myPlayer, Input.mousePosition);
+        WarmupManager wm = gameManager as WarmupManager;
+        if (wm != null && TargetPlayer != null)
+        {
+            wm.OpenHostOptionPanel(TargetPlayer, Input.mousePosition);
+        }
     }
 }

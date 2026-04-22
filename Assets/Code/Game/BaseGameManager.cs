@@ -1,6 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -40,6 +40,65 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     public GameObject systemMenuPanel;
     public Button leaveRoomButton;
     public Button cancelButton;
+
+    [Header("Player List UI (Base)")]
+    public Transform playerListPanel;
+    public GameObject playerSlotPrefab;
+
+    protected int maxPlayers;
+    protected List<BasePlayerSlot> allSlots = new List<BasePlayerSlot>();
+    protected Dictionary<int, BasePlayerSlot> activePlayerSlots = new Dictionary<int, BasePlayerSlot>();
+
+    protected virtual void InitializePlayerUI()
+    {
+        if (playerListPanel == null || playerSlotPrefab == null) return;
+
+        maxPlayers = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.MaxPlayers : 8;
+        if (maxPlayers == 0) maxPlayers = 8;
+
+        for (int i = 0; i < maxPlayers; i++)
+        {
+            GameObject slotObj = Instantiate(playerSlotPrefab, playerListPanel);
+            BasePlayerSlot slot = slotObj.GetComponent<BasePlayerSlot>();
+
+            if (slot != null)
+            {
+                slot.Init(this);
+
+                allSlots.Add(slot);
+                slot.SetEmpty();
+            }
+        }
+    }
+
+    protected void RefreshAndSortSlots(List<Player> sortedPlayers)
+    {
+        if (allSlots.Count == 0) return;
+
+        activePlayerSlots.Clear();
+        int siblingIndex = 0;
+
+        for (int i = 0; i < sortedPlayers.Count; i++)
+        {
+            if (i < allSlots.Count)
+            {
+                BasePlayerSlot slot = allSlots[i];
+                slot.Setup(sortedPlayers[i]);
+                slot.transform.SetSiblingIndex(siblingIndex);
+
+                activePlayerSlots.Add(sortedPlayers[i].ActorNumber, slot);
+                siblingIndex++;
+            }
+        }
+
+        for (int i = sortedPlayers.Count; i < allSlots.Count; i++)
+        {
+            BasePlayerSlot slot = allSlots[i];
+            slot.SetEmpty();
+            slot.transform.SetSiblingIndex(siblingIndex);
+            siblingIndex++;
+        }
+    }
 
     protected void Start()
     {

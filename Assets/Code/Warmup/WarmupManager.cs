@@ -1,21 +1,20 @@
-using UnityEngine;
-using TMPro;
+using NUnit.Framework;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using NUnit.Framework;
-using System.Collections.Generic;
 using System.Collections;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class WarmupManager : BaseGameManager
 {
     [Header("Player List UI")]
     public GameObject playerListWindow;
-    public Transform playerListPanel;
-    public GameObject playerSlotPrefab;
     public TextMeshProUGUI playerCountText;
     public Button openPlayerListButton;
     public Button closePlayerListButton;
@@ -50,6 +49,7 @@ public class WarmupManager : BaseGameManager
     new void Start()
     {
         base.Start();
+        InitializePlayerUI();
 
         if (PhotonNetwork.InRoom)
         {
@@ -133,42 +133,13 @@ public class WarmupManager : BaseGameManager
 
     private void UpdatePlayerList()
     {
-        foreach (Transform child in playerListPanel)
-        {
-            Destroy(child.gameObject);
-        }
+        List<Player> sortedPlayers = PhotonNetwork.PlayerList
+            .OrderByDescending(p => p.IsMasterClient)
+            .ToList();
+
+        RefreshAndSortSlots(sortedPlayers);
 
         int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
-        Player[] rawPlayers = PhotonNetwork.PlayerList;
-
-        List<Player> sortedPlayers = new List<Player>();
-        foreach (Player p in rawPlayers)
-        {
-            if (p.IsMasterClient)
-            {
-                sortedPlayers.Insert(0, p);
-            }
-            else
-            {
-                sortedPlayers.Add(p);
-            }
-        }
-
-        for (int i = 0; i < maxPlayers; i++)
-        {
-            GameObject slotObj = Instantiate(playerSlotPrefab, playerListPanel);
-            WarmupPlayerSlot slot = slotObj.GetComponent<WarmupPlayerSlot>();
-
-            if (i < sortedPlayers.Count)
-            {
-                slot.Setup(sortedPlayers[i], this);
-            }
-            else
-            {
-                slot.SetEmpty();
-            }
-        }
-
         playerCountText.text = $"{sortedPlayers.Count} / {maxPlayers}";
     }
 

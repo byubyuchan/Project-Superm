@@ -20,14 +20,6 @@ public class RunGameManager : BaseGameManager
     public List<Transform> checkpoints = new List<Transform>();
     public int maxLap = 3;
 
-    [Header("In-Game Player List UI")]
-    public Transform playerListPanel;
-    public GameObject playerSlotPrefab;
-
-    private int maxPlayers;
-    private List<RunPlayerSlot> allSlots = new List<RunPlayerSlot>();
-    private Dictionary<int, RunPlayerSlot> activePlayerSlots = new Dictionary<int, RunPlayerSlot>();
-
     private new void Start()
     {
         base.Start();
@@ -35,34 +27,16 @@ public class RunGameManager : BaseGameManager
         maxPlayers = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.MaxPlayers : 8;
         if (maxPlayers == 0) maxPlayers = 8;
 
-        InitializeUI();
+        InitializePlayerUI();
+
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            SortPlayerUI();
+        }
 
         if (UIManager.Instance != null)
         {
             UIManager.Instance.onEmptyEsc = OpenSystemMenu;
-        }
-    }
-
-    void InitializeUI()
-    {
-        Player[] rawPlayers = PhotonNetwork.PlayerList;
-
-        for (int i = 0; i < maxPlayers; i++)
-        {
-            GameObject slotObj = Instantiate(playerSlotPrefab, playerListPanel);
-            RunPlayerSlot slot = slotObj.GetComponent<RunPlayerSlot>();
-            allSlots.Add(slot);
-
-            if (i < rawPlayers.Length)
-            {
-                Player p = rawPlayers[i];
-                slot.Setup(p);
-                activePlayerSlots.Add(p.ActorNumber, slot);
-            }
-            else
-            {
-                slot.SetEmpty();
-            }
         }
     }
 
@@ -76,30 +50,21 @@ public class RunGameManager : BaseGameManager
             .ThenByDescending(p => p.CustomProperties.ContainsKey(PhotonKeys.PROGRESS) ? (int)p.CustomProperties[PhotonKeys.PROGRESS] : 0)
             .ToList();
 
-        int siblingIndex = 0;
+        RefreshAndSortSlots(sortedPlayers);
 
-        // 2. 정렬된 순서대로 UI의 Hierarchy 순서 변경 (SetSiblingIndex)
         for (int i = 0; i < sortedPlayers.Count; i++)
         {
             int actorNr = sortedPlayers[i].ActorNumber;
             if (activePlayerSlots.ContainsKey(actorNr))
             {
-                RunPlayerSlot slot = activePlayerSlots[actorNr];
-                // SetSiblingIndex로 UI 순서 변경
-                slot.transform.SetSiblingIndex(siblingIndex);
-                slot.UpdateScore(sortedPlayers[i].CustomProperties.ContainsKey(PhotonKeys.LAP) ? 
-                    (int)sortedPlayers[i].CustomProperties[PhotonKeys.LAP] : 0);
-                slot.UpdateRank(i + 1);
-                siblingIndex++;
-            }
-        }
-
-        foreach (var slot in allSlots)
-        {
-            if(slot.IsEmpty)
-            {
-                slot.transform.SetSiblingIndex(siblingIndex);
-                siblingIndex++;
+                // 부모의 BasePlayerSlot을 RunPlayerSlot으로 변환
+                RunPlayerSlot slot = activePlayerSlots[actorNr] as RunPlayerSlot;
+                if (slot != null)
+                {
+                    int lap = sortedPlayers[i].CustomProperties.ContainsKey(PhotonKeys.LAP) ? (int)sortedPlayers[i].CustomProperties[PhotonKeys.LAP] : 0;
+                    slot.UpdateScore(lap);
+                    slot.UpdateRank(i + 1);
+                }
             }
         }
     }

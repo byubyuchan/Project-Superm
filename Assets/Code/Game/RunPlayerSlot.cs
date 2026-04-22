@@ -3,34 +3,23 @@ using TMPro;
 using Photon.Realtime;
 using UnityEngine.UI;
 
-public class RunPlayerSlot : MonoBehaviour
+public class RunPlayerSlot : BasePlayerSlot
 {
-    [Header("UI Components")]
-    public Image backgroundImage;
-    public TextMeshProUGUI nameText;
+    [Header("Run UI Components")]
     public TextMeshProUGUI scoreText; // 점수나 진행도 표시
     public TextMeshProUGUI rankText;
 
-    public Player TargetPlayer { get; private set; }
-    public bool IsEmpty {  get; private set; }
-
-    public void SetEmpty()
+    public override void SetEmpty()
     {
-        TargetPlayer = null;
-        IsEmpty = true;
-        if (backgroundImage != null) backgroundImage.color = Color.gray;
-        nameText.text = "";
-        scoreText.text = "";
-        rankText.text = "";
+        base.SetEmpty();
+        if (scoreText != null) scoreText.text = "";
+        if (rankText != null) rankText.text = "";
     }
 
-    public void Setup(Player player)
+    public override void Setup(Player player)
     {
-        TargetPlayer = player;
-        IsEmpty = false;
-        if (backgroundImage != null) backgroundImage.color = Color.white;
-        nameText.text = player.NickName;
-        UpdateScore(0); // 초기 점수
+        base.Setup(player);
+        UpdateScore(0);
         UpdateRank(0);
     }
 
@@ -64,6 +53,6 @@ public class RunPlayerSlot : MonoBehaviour
             suffix = "rd";
         }
 
-        rankText.text = $"{rank}{suffix}";
+        if (rankText != null) rankText.text = $"{rank}{suffix}";
     }
 }
