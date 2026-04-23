@@ -76,16 +76,26 @@ namespace Photon.Pun.UtilityScripts
                 return;
             }
 
-            //enabled = photonView.IsMine;
-
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             originalSpeed = Speed;
 
-            // CharacterController 사용 시 Rigidbody는 삭제하거나 IsKinematic을 켜야 합니다.
             if (TryGetComponent<Rigidbody>(out Rigidbody rb))
             {
                 rb.isKinematic = true;
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (photonView.IsMine)
+            {
+                isUIMode = false;
+                isMenuOpen = false;
+                isLoadingAttack = false;
+                rawMoveInput = Vector2.zero;
+                rawLookInput = Vector2.zero;
+                UpdateCursorState();
             }
         }
 

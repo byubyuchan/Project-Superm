@@ -23,37 +23,7 @@ public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
             DontDestroyOnLoad(poolRoot.gameObject);
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
-    // Legacy 풀링
-    //public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)
-    //{
-    //    string actualKey = prefabId;
-
-    //    if (!poolDict.ContainsKey(prefabId))
-    //    {
-    //        poolDict.Add(prefabId, new Queue<GameObject>());
-    //    }
-
-    //    if (poolDict[prefabId].Count > 0)
-    //    {
-    //        GameObject obj = poolDict[prefabId].Dequeue();
-    //        obj.transform.position = position;
-    //        obj.transform.rotation = rotation;
-    //        return obj;
-    //    }
-
-    //    GameObject prefab = Resources.Load<GameObject>(prefabId);
-    //    GameObject newObj = Object.Instantiate(prefab, position, rotation);
-
-    //    newObj.transform.SetParent(poolRoot);
-    //    newObj.SetActive(false);
-    //    return newObj;
-
-    //}
 
     // 주소가 다르더라도 이름이 같으면 오류가 생기는 문제를 해결하기위한 개선된 풀링
     public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)

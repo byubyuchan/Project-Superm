@@ -9,44 +9,39 @@ public class CrosshairCooldown : MonoBehaviour
     public MoveByKeys playerMovement;
     public Image cooldownImage;
 
-    void Start()
+    void OnEnable()
     {
-        playerMovement = FindAnyObjectByType<MoveByKeys>();
-
-        // 처음에 꽉 차 있는 상태로 시작
-        if (cooldownImage != null)
-            cooldownImage.fillAmount = 1f;
+        FindMyPlayer();
+    }
+    private void FindMyPlayer()
+    {
+        var allPlayers = FindObjectsByType<MoveByKeys>(FindObjectsSortMode.None);
+        foreach (var p in allPlayers)
+        {
+            PhotonView pv = p.GetComponent<PhotonView>();
+            if (pv != null && pv.IsMine)
+            {
+                playerMovement = p;
+                break;
+            }
+        }
     }
 
     void Update()
     {
-        if (playerMovement == null) 
+        // 만약 플레이어를 잃어버렸다면(캐릭터 파괴/재생성 시) 다시 찾기 시도
+        if (playerMovement == null)
         {
-            var allPlayers = FindObjectsByType<MoveByKeys>(FindObjectsSortMode.None);
-            foreach (var p in allPlayers)
-            {
-                if (p.GetComponent<PhotonView>().IsMine)
-                {
-                    playerMovement = p;
-                    break;
-                }
-            }
+            FindMyPlayer();
+            if (playerMovement == null) return;
         }
 
-        if (playerMovement == null || cooldownImage == null) return;
+        if (cooldownImage == null) return;
 
         float timePassed = Time.time - playerMovement.lastAttackTime;
         float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
-
         cooldownImage.fillAmount = progress;
 
-        if (progress < 1f)
-        {
-            cooldownImage.color = new Color(0, 0, 0, 0.5f);
-        }
-        else
-        {
-            cooldownImage.color = Color.black;
-        }
+        cooldownImage.color = (progress < 1f) ? new Color(0, 0, 0, 0.5f) : Color.black;
     }
 }

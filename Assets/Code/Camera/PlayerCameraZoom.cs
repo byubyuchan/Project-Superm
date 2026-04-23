@@ -22,26 +22,31 @@ public class PlayerCameraZoom : MonoBehaviourPun
     private float defaultFOV;
     private Camera camComponent;
 
-    void Start()
+    private bool isInit= false;
+
+    void Awake()
     {
-        // 본인 소유가 아니면 작동 안함
+        // 최초 생성 시의 값을 보존합니다.
+        if (!isInit)
+        {
+            if (cameraTransform == null) cameraTransform = Camera.main.transform;
+            camComponent = cameraTransform.GetComponent<Camera>();
+
+            defaultXOffset = cameraTransform.localPosition.x;
+            defaultYOffset = cameraTransform.localPosition.y;
+            defaultFOV = camComponent.fieldOfView;
+            isInit = true;
+        }
+    }
+
+    void OnEnable()
+    {
         if (!photonView.IsMine) return;
 
-        if (cameraTransform == null) cameraTransform = Camera.main.transform;
+        if (playerMovement != null) playerMovement.isLoadingAttack = false;
 
         crosshairImage = GameObject.FindWithTag("Crosshair");
-
-        if (crosshairImage != null)
-        {
-            crosshairImage.gameObject.SetActive(false);
-        }
-
-        camComponent = cameraTransform.GetComponent<Camera>();
-
-        // 초기값 저장
-        defaultXOffset = cameraTransform.localPosition.x;
-        defaultYOffset = cameraTransform.localPosition.y;
-        defaultFOV = camComponent.fieldOfView;
+        if (crosshairImage != null) crosshairImage.SetActive(false);
     }
 
     void Update()
@@ -52,6 +57,13 @@ public class PlayerCameraZoom : MonoBehaviourPun
 
     void HandleZoom(bool isAiming)
     {
+        if (crosshairImage == null)
+        {
+            crosshairImage = GameObject.FindWithTag("Crosshair");
+
+            if (crosshairImage == null) return;
+        }
+
         float targetX = isAiming ? zoomXOffset : defaultXOffset;
         float targetY = isAiming ? zoomYOffset : defaultYOffset;
         float targetFOV = isAiming ? zoomFOV : defaultFOV;

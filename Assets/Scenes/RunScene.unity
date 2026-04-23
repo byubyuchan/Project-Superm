@@ -23915,6 +23915,8 @@ MonoBehaviour:
   systemMenuPanel: {fileID: 1734713119}
   leaveRoomButton: {fileID: 1570917525}
   cancelButton: {fileID: 1579409057}
+  playerListPanel: {fileID: 1433271917}
+  playerSlotPrefab: {fileID: 5923610622262305399, guid: 72aa2abf2b649ab44832b7f856b41581, type: 3}
   checkpoints:
   - {fileID: 1638694768}
   - {fileID: 120913530}
@@ -23927,8 +23929,6 @@ MonoBehaviour:
   - {fileID: 4004879}
   - {fileID: 677032965}
   maxLap: 3
-  playerListPanel: {fileID: 1433271917}
-  playerSlotPrefab: {fileID: 5923610622262305399, guid: 72aa2abf2b649ab44832b7f856b41581, type: 3}
 --- !u!4 &1502176783
 Transform:
   m_ObjectHideFlags: 0

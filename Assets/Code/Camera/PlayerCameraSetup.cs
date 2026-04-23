@@ -6,7 +6,7 @@ public class PlayerCameraSetup : MonoBehaviourPun
     [SerializeField] private Camera playerCamera;
     [SerializeField] private AudioListener audioListener;
 
-    void Start()
+    void OnEnable()
     {
         if (photonView.IsMine)
         {
