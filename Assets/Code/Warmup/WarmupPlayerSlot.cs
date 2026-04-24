@@ -13,7 +13,7 @@ public class WarmupPlayerSlot : BasePlayerSlot
     public override void SetEmpty()
     {
         base.SetEmpty();
-
+        if (backgroundImage != null) backgroundImage.color = Color.gray;
         if (crownIcon != null) crownIcon.SetActive(false);
         if (optionButton != null) optionButton.gameObject.SetActive(false);
     }
@@ -21,6 +21,8 @@ public class WarmupPlayerSlot : BasePlayerSlot
     public override void Setup(Player player)
     {
         base.Setup(player);
+
+        if (backgroundImage != null) backgroundImage.color = Color.white;
 
         if (player.IsMasterClient)
         {

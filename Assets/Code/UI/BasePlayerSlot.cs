@@ -23,7 +23,6 @@ public abstract class BasePlayerSlot : MonoBehaviour
     {
         TargetPlayer = null;
         IsEmpty = true;
-        if (backgroundImage != null) backgroundImage.color = Color.gray;
         if (nameText != null) nameText.text = "";
     }
 
@@ -31,7 +30,6 @@ public abstract class BasePlayerSlot : MonoBehaviour
     {
         TargetPlayer = player;
         IsEmpty = false;
-        if (backgroundImage != null) backgroundImage.color = Color.white;
         if (nameText != null) nameText.text = player.NickName;
     }
 }

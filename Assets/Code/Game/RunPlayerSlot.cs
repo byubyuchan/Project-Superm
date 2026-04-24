@@ -12,6 +12,7 @@ public class RunPlayerSlot : BasePlayerSlot
     public override void SetEmpty()
     {
         base.SetEmpty();
+        if (backgroundImage != null) backgroundImage.enabled = false;
         if (scoreText != null) scoreText.text = "";
         if (rankText != null) rankText.text = "";
     }
@@ -19,6 +20,7 @@ public class RunPlayerSlot : BasePlayerSlot
     public override void Setup(Player player)
     {
         base.Setup(player);
+        if (backgroundImage != null) backgroundImage.enabled = true;
         UpdateScore(0);
         UpdateRank(0);
     }
@@ -26,7 +28,7 @@ public class RunPlayerSlot : BasePlayerSlot
     public void UpdateScore(int score)
     {
         if (IsEmpty) return;
-        scoreText.text = $"{score} / 3 Laps "; // 예: 달린 거리
+        scoreText.text = $"{score} / 3"; // 예: 달린 거리
     }
 
     public void UpdateRank(int rank)
