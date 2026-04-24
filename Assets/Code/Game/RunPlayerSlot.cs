@@ -21,6 +21,14 @@ public class RunPlayerSlot : BasePlayerSlot
     {
         base.Setup(player);
         if (backgroundImage != null) backgroundImage.enabled = true;
+
+        // 자기 자신은 노란색, 다른 플레이어는 흰색으로 표시
+        Color textColor = player.IsLocal ? Color.yellow : Color.white;
+
+        if (nameText != null) nameText.color = textColor;
+        if (scoreText != null) scoreText.color = textColor;
+        if (rankText != null) rankText.color = textColor;
+
         UpdateScore(0);
         UpdateRank(0);
     }
