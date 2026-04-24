@@ -427,6 +427,14 @@ namespace Photon.Pun.UtilityScripts
             StartCoroutine(DoMagnet(radius, totalStr));
         }
 
+        [PunRPC]
+        public void RPC_Sleep(float time)
+        {
+            if (!photonView.IsMine) return;
+
+            Debug.Log("Äí¿ïÄí¿ï ÀßÀÜ´Ù");
+        }
+
         private System.Collections.IEnumerator DoMagnet(float radius, float totalStr)
         {
             float duration = 1.5f;

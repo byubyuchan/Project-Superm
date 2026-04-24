@@ -12,11 +12,11 @@ public class Projectile : MonoBehaviourPun
     public float explosionForce = 15f;    // 밀어내는 힘
 
     [SerializeField]
-    private int explosionEffectIndex = 0;
+    protected int explosionEffectIndex = 0;
 
-    private bool hasExploded = false;
+    protected bool hasExploded = false;
 
-    private bool isNPCProjectile;
+    protected bool isNPCProjectile;
 
     public void OnEnable()
     {
@@ -51,7 +51,7 @@ public class Projectile : MonoBehaviourPun
     }
 
     // 투사체는 트리거를 끄고 충돌 처리
-    public void OnCollisionEnter(Collision collision)
+    virtual protected void OnCollisionEnter(Collision collision)
     {
         if (!photonView.IsMine || hasExploded) return;
 
@@ -73,7 +73,7 @@ public class Projectile : MonoBehaviourPun
     }
 
     // 땅울림 같은 광역기는 이펙트가 따로 없고, 트리거가 켜져있어야 함.
-    public void OnTriggerEnter(Collider col)
+    virtual protected void OnTriggerEnter(Collider col)
     {
         if (!photonView.IsMine || hasExploded) return;
 
@@ -92,7 +92,7 @@ public class Projectile : MonoBehaviourPun
         }
     }
 
-    void Explode()
+    virtual protected void Explode(GameObject target = null)
     {
         hasExploded = true;
         CancelInvoke("DestroySelf");

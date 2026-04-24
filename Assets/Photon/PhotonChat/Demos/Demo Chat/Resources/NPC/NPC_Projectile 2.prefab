@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 199198863465783300}
   - component: {fileID: 5555045464823991315}
   - component: {fileID: 4584423260480265919}
-  - component: {fileID: 7878644336955402168}
   - component: {fileID: 2826221469370096314}
   - component: {fileID: 6722959396344308584}
+  - component: {fileID: 9144782136181545576}
   m_Layer: 0
   m_Name: NPC_Projectile 2
   m_TagString: NPCProjectile
@@ -4977,23 +4977,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &7878644336955402168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945864579541184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20080117a56a82a43a39e4b77bb79222, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  speed: 100
-  lifeTime: 0.6
-  explosionRadius: 5
-  explosionForce: 15
-  explosionEffectIndex: 1
 --- !u!54 &2826221469370096314
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5042,3 +5025,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9144782136181545576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945864579541184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb557fa2afb2004b9fcddfaf5034bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SleepProjectile
+  speed: 300
+  lifeTime: 0.6
+  explosionRadius: 5
+  explosionForce: 15
+  explosionEffectIndex: 1

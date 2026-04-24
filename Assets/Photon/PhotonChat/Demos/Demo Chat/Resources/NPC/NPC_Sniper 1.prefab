@@ -275,8 +275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482f6eb7fb00b75469b323d41844ff19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC_Sniper
-  wanderRadius: 10
-  wanderTimer: 7
+  wanderRadius: 150
+  wanderTimer: 30
   explosionEffectIndex: 1
   respawnPrefabs:
   - NPC_Sniper
@@ -285,7 +285,7 @@ MonoBehaviour:
   isExploded: 0
   viewAngle: 90
   lockOnTime: 3
-  detectionRange: 50000
+  detectionRange: 500
   targetPlayer: {fileID: 0}
   lockOnTimer: 0
   playerLayer:
