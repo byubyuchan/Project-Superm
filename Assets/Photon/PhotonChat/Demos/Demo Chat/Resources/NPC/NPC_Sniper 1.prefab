@@ -292,7 +292,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   firePoint: {fileID: 3502275023337254177}
-  projectileName: NPC_Projectile
+  projectileName: NPC_Projectile 2
   laserLine: {fileID: 2295966987823505446}
 --- !u!120 &2295966987823505446
 LineRenderer:
