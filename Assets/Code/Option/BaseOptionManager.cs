@@ -48,6 +48,8 @@ public abstract class BaseOptionManager : MonoBehaviour
 
         InitPlatformGraphics();
         InitPlatformControls();
+
+        hasUnsavedChanges = false;
     }
 
     public void OpenOptionPanel()
