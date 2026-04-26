@@ -37,6 +37,7 @@ namespace Photon.Pun.UtilityScripts
 
         public bool isUIMode = false;
         public bool isMenuOpen = false;
+        public bool isSleep = false;
 
         public bool isLoadingAttack = false;
 
@@ -58,6 +59,8 @@ namespace Photon.Pun.UtilityScripts
         private Vector2 rawMoveInput;
         private Vector2 rawLookInput;
         private Vector2 mouseDelta;
+
+        private Coroutine sleepCoroutine;
 
         public void Start()
         {
@@ -119,7 +122,7 @@ namespace Photon.Pun.UtilityScripts
         void OnJump()
         {
             if (!photonView.IsMine) return; // 추가
-            if (isChatting() || isUIMode || isMenuOpen) return;
+            if (isChatting() || isUIMode || isMenuOpen || isSleep) return;
 
             if (isGrounded)
             {
@@ -131,7 +134,7 @@ namespace Photon.Pun.UtilityScripts
         void OnAttack()
         {
             if (!photonView.IsMine) return; // 추가
-            if (isChatting() || isUIMode || isMenuOpen) return;
+            if (isChatting() || isUIMode || isMenuOpen || isSleep) return;
 
             if (isLoadingAttack && !animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
             {
@@ -146,7 +149,7 @@ namespace Photon.Pun.UtilityScripts
         void OnAim()
         {
             if (!photonView.IsMine) return; // 추가
-            if (isChatting() || isUIMode || isMenuOpen) return;
+            if (isChatting() || isUIMode || isMenuOpen || isSleep) return;
 
             if (!animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
             {
@@ -212,7 +215,7 @@ namespace Photon.Pun.UtilityScripts
             if (!photonView.IsMine) return;
 
             // 1. 상태 체크 (채팅/메뉴/UI모드일 때 입력값 강제 0 처리)
-            bool isBlocked = isChatting() || isMenuOpen || isUIMode;
+            bool isBlocked = isChatting() || isMenuOpen || isUIMode || isSleep;
 
             if (isBlocked)
             {
@@ -344,6 +347,13 @@ namespace Photon.Pun.UtilityScripts
             Speed = originalSpeed;
         }
 
+        public System.Collections.IEnumerator WakeUpAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            isSleep = false;
+            animator.SetBool("IsSleep", false);
+        }
+
         [PunRPC]
         public void RPC_AddKnockback(Vector3 force)
         {
@@ -432,7 +442,25 @@ namespace Photon.Pun.UtilityScripts
         {
             if (!photonView.IsMine) return;
 
-            Debug.Log("쿠울쿠울 잘잔다");
+            if (sleepCoroutine != null)
+            {
+                StopCoroutine(sleepCoroutine);
+            }
+
+            if (isLoadingAttack)
+            {
+                isLoadingAttack = false;
+                photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", false);
+            }
+
+            verticalRotation = 0f;
+
+            if (cameraPivot != null)
+                cameraPivot.localRotation = Quaternion.identity;
+
+            isSleep = true;
+            animator.SetBool("IsSleep", true);
+            sleepCoroutine = StartCoroutine(WakeUpAfterDelay(time));
         }
 
         private System.Collections.IEnumerator DoMagnet(float radius, float totalStr)

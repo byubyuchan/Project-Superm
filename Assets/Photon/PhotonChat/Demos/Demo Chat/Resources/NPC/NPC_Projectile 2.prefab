@@ -5040,5 +5040,5 @@ MonoBehaviour:
   speed: 300
   lifeTime: 0.6
   explosionRadius: 5
-  explosionForce: 15
+  explosionForce: 1.5
   explosionEffectIndex: 1
