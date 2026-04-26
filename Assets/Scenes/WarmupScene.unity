@@ -2615,7 +2615,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -8493,9 +8493,9 @@ MonoBehaviour:
   systemMenuPanel: {fileID: 805510347}
   leaveRoomButton: {fileID: 2058891567}
   cancelButton: {fileID: 49132266}
-  playerListWindow: {fileID: 1554956}
   playerListPanel: {fileID: 1593590732}
   playerSlotPrefab: {fileID: 5923610622262305399, guid: 73fddfcf023038848b6f8f5a13e68ad3, type: 3}
+  playerListWindow: {fileID: 1554956}
   playerCountText: {fileID: 2046369237}
   openPlayerListButton: {fileID: 1136090274}
   closePlayerListButton: {fileID: 1968905293}
