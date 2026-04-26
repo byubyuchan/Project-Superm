@@ -54,6 +54,14 @@ public abstract class BaseOptionManager : MonoBehaviour
 
     public void OpenOptionPanel()
     {
+        UIVisibility visibility = GetComponent<UIVisibility>();
+        if (visibility != null)
+        {
+            bool isMobile = SystemInfo.deviceType == DeviceType.Handheld;
+            if (isMobile && !visibility.showOnMobile) return;
+            if (!isMobile && !visibility.showOnPC) return;
+        }
+
         if (UIManager.Instance != null)
             UIManager.Instance.ShowPanel(optionPanel, AttemptCloseOptionPanel);
         else
