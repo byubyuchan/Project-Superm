@@ -28,6 +28,13 @@ public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
     // 주소가 다르더라도 이름이 같으면 오류가 생기는 문제를 해결하기위한 개선된 풀링
     public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)
     {
+        if (poolRoot == null)
+        {
+            GameObject root = new GameObject("Pooling");
+            poolRoot = root.transform;
+            DontDestroyOnLoad(poolRoot.gameObject);
+        }
+
         string actualKey = prefabId;
 
         if (!poolDict.ContainsKey(actualKey))
@@ -88,5 +95,24 @@ public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
 
         gameObject.SetActive(false);
         poolDict[prefabId].Enqueue(gameObject);
+    }
+
+    public void ClearPool()
+    {
+        foreach (var queue in poolDict.Values)
+        {
+            while (queue.Count > 0)
+            {
+                GameObject obj = queue.Dequeue();
+                if (obj != null) Object.Destroy(obj); // 실제 오브젝트 파괴
+            }
+        }
+        poolDict.Clear();
+
+        if (poolRoot != null)
+        {
+            Object.Destroy(poolRoot.gameObject);
+            poolRoot = null;
+        }
     }
 }

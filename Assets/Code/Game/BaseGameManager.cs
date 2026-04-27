@@ -295,6 +295,10 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        if (PhotonPoolingManager.Instance != null)
+        {
+            PhotonPoolingManager.Instance.ClearPool();
+        }
         SceneManager.LoadScene("Lobby");
     }
 
