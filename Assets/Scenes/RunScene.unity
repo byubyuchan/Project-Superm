@@ -19376,8 +19376,8 @@ RectTransform:
   - {fileID: 482178325}
   - {fileID: 662695430}
   - {fileID: 1775989060}
-  - {fileID: 1734713120}
   - {fileID: 1724854965}
+  - {fileID: 1734713120}
   - {fileID: 705544871}
   - {fileID: 1147216953}
   - {fileID: 245147626}
@@ -27547,6 +27547,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Option
       objectReference: {fileID: 0}
+    - target: {fileID: 114204224268582166, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204224268582166, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1734713119}
+    - target: {fileID: 114204224268582166, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204224268582166, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204224268582166, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204224268582166, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 114344768413473294, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
       propertyPath: m_ControlPath
       value: <Gamepad>/start
@@ -27643,7 +27667,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114344768413473294, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1977925927173892, guid: 05f32eddd3e41fd4597ada617b785928, type: 3}
     m_AddedGameObjects:
