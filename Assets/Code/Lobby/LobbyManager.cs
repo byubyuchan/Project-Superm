@@ -64,6 +64,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        // 방 입장 시 방장이 위치한 씬으로 자동 이동 및 추후 게임 신 전환 시 파티원 자동 동기화 기능
         PhotonNetwork.AutomaticallySyncScene = true;
 
         PhotonNetwork.NickName = "Player" + Random.Range(1000, 10000);
@@ -96,6 +97,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsConnected)
         {
+            // 1. 게임을 맨 처음 실행했을 때는 연결이 안 되어 있으므로 서버에 연결
             Debug.Log("서버에 연결을 시도합니다...");
             PhotonNetwork.ConnectUsingSettings();
         }
@@ -106,12 +108,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
             if (PhotonNetwork.InRoom)
             {
-                // 아직 이전 방(GameServer)에 남아있다면 나갑니다.
+                // 2. 게임이 끝나고 로비로 돌아왔을 때 아직 네트워크상으로 방에 남아 있다면 방 나가기
                 PhotonNetwork.LeaveRoom();
             }
             else if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InLobby)
             {
-                // 마스터 서버에는 있지만 로비가 아니라면 로비 진입
+                // 3. 방에서는 나왔지만 아직 로비에는 들어가지 않은 상태라면 로비로 복귀
                 PhotonNetwork.JoinLobby();
             }
         }
@@ -183,12 +185,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        //if (PhotonNetwork.NetworkClientState != ClientState.ConnectedToMasterServer)
-        //{
-        //    Debug.LogWarning("방을 생성할 준비가 되지 않았습니다. (MasterServer 복귀 중)");
-        //    return;
-        //}
-
         if (string.IsNullOrWhiteSpace(roomNameInput.text))
         {
             ShowWarning("Please enter a valid room name (1-20 characters)");
@@ -215,12 +211,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = maxPlayers;
 
+        // 해시 테이블을 적용하여 게임 모드, 비공개 여부, 비밀번호 등 추가 방 정보를 생성
         Hashtable cp = new Hashtable();
         cp["roomName"] = roomNameInput.text;
         cp["mode"] = modeDropdown.options[modeDropdown.value].text;
         cp["isPrivate"] = privateToggle.isOn;
         cp["password"] = passwordInput.text;
 
+        // 설정한 방 정보를 로비 목록에서도 읽을 수 있도록 브로드캐스트
         roomOptions.CustomRoomProperties = cp;
         roomOptions.CustomRoomPropertiesForLobby = new string[] { "roomName", "mode", "isPrivate", "password" };
 
