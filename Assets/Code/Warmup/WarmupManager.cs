@@ -14,10 +14,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class WarmupManager : BaseGameManager
 {
     [Header("Player List UI")]
-    public GameObject playerListWindow;
     public TextMeshProUGUI playerCountText;
-    public Button openPlayerListButton;
-    public Button closePlayerListButton;
 
     [Header("Game Start UI")]
     public Button startButton;
@@ -63,18 +60,16 @@ public class WarmupManager : BaseGameManager
             UpdatePlayerList();
         }
 
+        CloseRoomSettingsPanel();
+
         if (PhotonNetwork.IsMasterClient)
         {
             startButton.gameObject.SetActive(true);
             startButton.onClick.AddListener(StartGame);
-            OpenRoomSettingsPanel();
-            OpenPlayerList();
         }
         else
         {
             startButton.gameObject.SetActive(false);
-            CloseRoomSettingsPanel();
-            ClosePlayerList();
         }
 
         promoteButton.onClick.AddListener(DelegateHost);
@@ -102,21 +97,6 @@ public class WarmupManager : BaseGameManager
         }
 
         UIManager.Instance.onEmptyEsc = OpenSystemMenu;
-
-        if (openPlayerListButton != null) openPlayerListButton.onClick.AddListener(OpenPlayerList);
-        if (closePlayerListButton != null) closePlayerListButton.onClick.AddListener(ClosePlayerList);
-    }
-
-    public void OpenPlayerList()
-    {
-        if (playerListWindow != null) UIManager.Instance.ShowPanel(playerListWindow, ClosePlayerList);
-        if (openPlayerListButton != null) openPlayerListButton.gameObject.SetActive(false);
-    }
-
-    public void ClosePlayerList()
-    {
-        if (playerListWindow != null) playerListWindow.SetActive(false);
-        if (openPlayerListButton != null) openPlayerListButton.gameObject.SetActive(true);
     }
 
     void Update()
@@ -389,16 +369,11 @@ public class WarmupManager : BaseGameManager
         Debug.Log("방 입장 완료: 속성 초기화 및 리스트 업데이트");
         ResetPlayerGameProperties();
         UpdatePlayerList();
+        CloseRoomSettingsPanel();
 
         if (PhotonNetwork.IsMasterClient)
         {
             startButton.gameObject.SetActive(true);
-            OpenRoomSettingsPanel();
-            OpenPlayerList();
-        }
-        else
-        {
-            ClosePlayerList();
         }
     }
 }
