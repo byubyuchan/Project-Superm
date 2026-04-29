@@ -146,6 +146,8 @@ public class NPC_Sniper : NPC
         Vector3 fireDir = (targetTransform.position - firePoint.position).normalized;
 
         PhotonNetwork.Instantiate("NPC/"+projectileName, firePoint.position, Quaternion.LookRotation(fireDir));
+
+        AudioManager.instance.PlaySFX("Test",this.transform.position);
     }
 
     void DrawLaser(Vector3 targetPos)

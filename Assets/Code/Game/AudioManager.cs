@@ -51,11 +51,15 @@ public class AudioManager : MonoBehaviour
     public List<SFXPair> SFXPairs = new List<SFXPair>();
     private Dictionary<string, AudioClip> SFXDict;
 
+    // DDOL로 매 씬마다 AudioManager를 재사용함.
+    // TODO = LeftRoom() 마다 출력 중인 BGM과 SFX를 종료해야함.
+    // TODO = JoinedRoom() 마다 BGM을 변경해야함.
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {

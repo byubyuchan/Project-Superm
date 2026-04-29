@@ -142,6 +142,8 @@ namespace Photon.Pun.UtilityScripts
                 {
                     lastAttackTime = Time.time;
                     photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
+
+                    AudioManager.instance.PlaySFX("Test", this.transform.position);
                 }
             }
         }
