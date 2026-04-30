@@ -3,8 +3,13 @@ using Photon.Pun;
 
 public class ObstacleWreckingBall : Obstacle
 {
+    public enum Axis { X, Y, Z }
+    public enum SwingMode { Pendulum, Continuous }
+
     [Header("Pendulum Settings")]
     public Transform pivot;
+    public Axis swingAxis = Axis.Z;
+    public SwingMode mode = SwingMode.Pendulum;
     public float swingSpeed = 2f;
     public float swingAngle = 45f;
     public float offset = 0f;
@@ -14,8 +19,29 @@ public class ObstacleWreckingBall : Obstacle
         if (pivot != null)
         {
             double time = PhotonNetwork.Time;
-            float angle = (float)(System.Math.Sin(time * swingSpeed + offset) * swingAngle);
-            pivot.localRotation = Quaternion.Euler(0, 0, angle);
+            float angle;
+
+            if (mode == SwingMode.Pendulum)
+            {
+                angle = (float)(System.Math.Sin(time * swingSpeed + offset) * swingAngle);
+            }
+            else
+            {
+                angle = (float)((time * swingSpeed * 100f + offset) % 360);
+            }
+
+            switch (swingAxis)
+            {
+                case Axis.X:
+                    pivot.localRotation = Quaternion.Euler(angle, 0, 0);
+                    break;
+                case Axis.Y:
+                    pivot.localRotation = Quaternion.Euler(0, angle, 0);
+                    break;
+                case Axis.Z:
+                    pivot.localRotation = Quaternion.Euler(0, 0, angle);
+                    break;
+            }
         }
     }
 

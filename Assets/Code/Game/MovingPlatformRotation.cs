@@ -1,8 +1,12 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MovingPlatformRotation : MovingPlatform
 {
+    public enum Axis { X, Y, Z }
+    public Axis axis = Axis.Y;
+    Vector3 rotatedOffset;
     public float rotationSpeed = 90f;
 
     protected override void HandlePlatformMovement()
@@ -21,8 +25,21 @@ public class MovingPlatformRotation : MovingPlatform
                 if (pv != null && pv.IsMine)
                 {
                     Vector3 offset = player.transform.position - transform.position;
-                    Vector3 rotatedOffset = Quaternion.Euler(0, angle, 0) * offset;
+                    switch (axis)
+                    {
+                        case Axis.X:
+                            rotatedOffset = Quaternion.Euler(angle, 0, 0) * offset;
+                            break;
+                        case Axis.Y:
+                            rotatedOffset = Quaternion.Euler(0, angle, 0) * offset;
+                            break;
+                        case Axis.Z:
+                            rotatedOffset = Quaternion.Euler(0, 0, angle) * offset;
+                            break;
+                    }
+
                     Vector3 moveDir = rotatedOffset - offset;
+
                     if (player.isGrounded) moveDir.y = -2f;
                     player.Move(moveDir);
                 }

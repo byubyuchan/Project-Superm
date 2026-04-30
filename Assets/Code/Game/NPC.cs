@@ -80,6 +80,11 @@ public class NPC : MonoBehaviourPun
 
         if (!PhotonNetwork.IsMasterClient || isExploded) return;
 
+        if (other.gameObject.layer == LayerMask.NameToLayer("IgnoreNPC"))
+        {
+            return;
+        }
+
         // 장애물(Obstacle) 혹은 투사체(Projectile) 태그 확인
         if (other.CompareTag("Obstacle") || other.CompareTag("Projectile") || other.CompareTag("NPCProjectile"))
         {

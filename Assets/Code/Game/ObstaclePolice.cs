@@ -70,4 +70,23 @@ public class ObstaclePolice : Obstacle
     {
         base.OnPlayerHit(player);
     }
+
+    private void OnDrawGizmos()
+    {
+        // 1. 감지 범위 (Detection Radius) - 빨간
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+
+        // 2. 추격 포기 범위 (Abandon Distance) - 빨간색
+        // 추격 중일 때는 더 명확하게 보이도록 설정
+        Gizmos.color = isChasing ? Color.red : new Color(1f, 0f, 0f, 0.2f);
+        Gizmos.DrawWireSphere(transform.position, abandonDistance);
+
+        // 4. 추격 대상 표시 (Target Player) - 노란색 선
+        if (isChasing && targetPlayer != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, targetPlayer.position);
+        }
+    }
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3502275023337254177}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 7038957293410699405}
   - component: {fileID: 1146105342956204872}
   - component: {fileID: -7775454721256828593}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: NPC_Sniper
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -413,8 +413,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1030431814964885632}
     m_Modifications:
     - target: {fileID: 1053177662914906, guid: f528363d2aaa5d748ab9fcd16b601236, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053177662914906, guid: f528363d2aaa5d748ab9fcd16b601236, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1136634969078408, guid: f528363d2aaa5d748ab9fcd16b601236, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1136634969078408, guid: f528363d2aaa5d748ab9fcd16b601236, type: 3}
       propertyPath: m_IsActive
@@ -423,6 +431,14 @@ PrefabInstance:
     - target: {fileID: 1607291360844622, guid: f528363d2aaa5d748ab9fcd16b601236, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Watergun_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607291360844622, guid: f528363d2aaa5d748ab9fcd16b601236, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885017839708798, guid: f528363d2aaa5d748ab9fcd16b601236, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1885017839708798, guid: f528363d2aaa5d748ab9fcd16b601236, type: 3}
       propertyPath: m_IsActive
