@@ -175,17 +175,8 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         {
             UIManager.Instance.ShowPanel(systemMenuPanel, CloseSystemMenu);
 
-            Photon.Pun.UtilityScripts.MoveByKeys[] players =
-                FindObjectsByType<Photon.Pun.UtilityScripts.MoveByKeys>(FindObjectsSortMode.None);
-            foreach (var p in players)
-            {
-                if (p.photonView.IsMine)
-                {
-                    p.isUIMode = true;
-                    p.isMenuOpen = true;
-                    break;
-                }
-            }
+            Photon.Pun.UtilityScripts.MoveByKeys myPlayer = FindAnyObjectByType<Photon.Pun.UtilityScripts.MoveByKeys>();
+            if (myPlayer != null) myPlayer.SetMenuOpenState(true);
         }
     }
 
@@ -195,17 +186,8 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         {
             systemMenuPanel.SetActive(false);
 
-            Photon.Pun.UtilityScripts.MoveByKeys[] players =
-                FindObjectsByType<Photon.Pun.UtilityScripts.MoveByKeys>(FindObjectsSortMode.None);
-            foreach (var p in players)
-            {
-                if (p.photonView.IsMine)
-                {
-                    p.isUIMode = false;
-                    p.isMenuOpen = false;
-                    break;
-                }
-            }
+            Photon.Pun.UtilityScripts.MoveByKeys myPlayer = FindAnyObjectByType<Photon.Pun.UtilityScripts.MoveByKeys>();
+            if (myPlayer != null) myPlayer.SetMenuOpenState(false);
         }
     }
     protected void ResetPlayerGameProperties()

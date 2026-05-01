@@ -277,10 +277,19 @@ namespace Photon.Pun.UtilityScripts
             controller.Move(velocity * Time.deltaTime);
         }
 
+        public void SetMenuOpenState(bool isOpen)
+        {
+            if (!photonView.IsMine) return;
+
+            isMenuOpen = isOpen;
+            UpdateCursorState();
+        }
+
         private void UpdateCursorState()
         {
-            Cursor.lockState = isUIMode ? CursorLockMode.None : CursorLockMode.Locked;
-            Cursor.visible = isUIMode;
+            bool showCursor = isUIMode || isMenuOpen;
+            Cursor.lockState = showCursor ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = showCursor;
         }
 
         bool isChatting()
