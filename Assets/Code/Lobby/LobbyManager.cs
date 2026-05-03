@@ -95,6 +95,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (warningPanel != null) warningPanel.SetActive(false);
 
+        // 네트워크 연결 및 씬 복귀 예외 처리
         if (!PhotonNetwork.IsConnected)
         {
             // 1. 게임을 맨 처음 실행했을 때는 연결이 안 되어 있으므로 서버에 연결
@@ -256,18 +257,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("방 입장 성공(지금은 로비 씬 유지)");
     }
 
+    // 변경된 방 정보만 받아와서 캐시 리스트 갱신
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (var info in roomList)
         {
+            // 이미 캐시에 있는 방이라면 최신 정보로 덮어씌우기 위해 일단 제거
             int index = cachedRoomList.FindIndex(x => x.Name == info.Name);
             if (index != -1) cachedRoomList.RemoveAt(index);
 
+            // 닫힌 방이 아니라면(새로 생겼거나 인원수 등 정보가 바뀐 방) 캐시에 다시 추가
             if (!info.RemovedFromList)
             {
                 cachedRoomList.Add(info);
             }
         }
+        // 캐싱된 리스트를 기반으로 UI 렌더링 호출
         UpdateRoomListUI();
     }
 
@@ -409,6 +414,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         joinPasswordInput.ForceLabelUpdate();
     }
 
+    // 스트리머들의 방송 환경을 고려하여 방 생성 및 입장 시 비밀번호 마스킹 토글 기능
     private void TogglePasswordVisibility()
     {
         isPasswordVisible = !isPasswordVisible;
