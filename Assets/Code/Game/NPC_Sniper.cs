@@ -39,21 +39,16 @@ public class NPC_Sniper : NPC
 
     protected override void Update()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-
         DetectClosestPlayer();
 
         if (targetPlayer != null)
         {
             lockOnTimer += Time.deltaTime;
-
-            if (agent.hasPath) agent.ResetPath();
+            if (PhotonNetwork.IsMasterClient && agent.hasPath) agent.ResetPath();
 
             RotateTowards(targetTransform.position);
-
             DrawLaser(targetTransform.position);
-
-            if (lockOnTimer >= lockOnTime)
+            if (PhotonNetwork.IsMasterClient && lockOnTimer >= lockOnTime)
             {
                 FireRPC();
                 lockOnTimer = 0;
@@ -63,7 +58,8 @@ public class NPC_Sniper : NPC
         {
             if (laserLine != null) laserLine.enabled = false;
             lockOnTimer = Mathf.Max(0, lockOnTimer - Time.deltaTime);
-            base.Update();
+
+            if (PhotonNetwork.IsMasterClient) base.Update();
         }
     }
 
@@ -147,6 +143,8 @@ public class NPC_Sniper : NPC
 
         PhotonNetwork.Instantiate("NPC/"+projectileName, firePoint.position, Quaternion.LookRotation(fireDir));
 
+        photonView.RPC("RPC_ResetSniperTimer", RpcTarget.All);
+
         AudioManager.instance.PlaySFX("Test",this.transform.position);
     }
 
@@ -175,5 +173,11 @@ public class NPC_Sniper : NPC
         {
             laserLine.SetPosition(1, firePoint.position + (dir * detectionRange));
         }
+    }
+
+    [PunRPC]
+    void RPC_ResetSniperTimer()
+    {
+        lockOnTimer = 0f;
     }
 }

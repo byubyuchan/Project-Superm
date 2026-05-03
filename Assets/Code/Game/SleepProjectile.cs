@@ -32,7 +32,7 @@ public class SleepProjectile : Projectile
             PhotonView targetPV = target.GetComponent<PhotonView>();
             if (targetPV != null)
             {
-                targetPV.RPC("RPC_Sleep", targetPV.Owner, explosionForce);
+                targetPV.RPC("RPC_Sleep", RpcTarget.All, explosionForce);
             }
         }
 

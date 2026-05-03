@@ -361,8 +361,7 @@ namespace Photon.Pun.UtilityScripts
         public System.Collections.IEnumerator WakeUpAfterDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
-            isSleep = false;
-            animator.SetBool("IsSleep", false);
+            photonView.RPC("RPC_WakeUp", RpcTarget.All);
         }
 
         [PunRPC]
@@ -451,27 +450,32 @@ namespace Photon.Pun.UtilityScripts
         [PunRPC]
         public void RPC_Sleep(float time)
         {
-            if (!photonView.IsMine) return;
-
-            if (sleepCoroutine != null)
-            {
-                StopCoroutine(sleepCoroutine);
-            }
-
-            if (isLoadingAttack)
-            {
-                isLoadingAttack = false;
-                photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", false);
-            }
-
-            verticalRotation = 0f;
-
-            if (cameraPivot != null)
-                cameraPivot.localRotation = Quaternion.identity;
-
             isSleep = true;
-            animator.SetBool("IsSleep", true);
-            sleepCoroutine = StartCoroutine(WakeUpAfterDelay(time));
+            if (animator != null) animator.SetBool("IsSleep", true);
+
+            // 2. 당사자만 적용 (입력 및 카메라 제어)
+            if (photonView.IsMine)
+            {
+                if (sleepCoroutine != null) StopCoroutine(sleepCoroutine);
+
+                if (isLoadingAttack)
+                {
+                    isLoadingAttack = false;
+                    photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", false);
+                }
+
+                verticalRotation = 0f;
+                if (cameraPivot != null) cameraPivot.localRotation = Quaternion.identity;
+
+                sleepCoroutine = StartCoroutine(WakeUpAfterDelay(time));
+            }
+        }
+
+        [PunRPC]
+        public void RPC_WakeUp()
+        {
+            isSleep = false;
+            if (animator != null) animator.SetBool("IsSleep", false);
         }
 
         private System.Collections.IEnumerator DoMagnet(float radius, float totalStr)
