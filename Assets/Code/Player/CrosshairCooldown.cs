@@ -3,16 +3,20 @@ using Photon.Pun.UtilityScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 플레이어의 공격 쿨다운을 크로스헤어 UI로 표시하는 스크립트
 public class CrosshairCooldown : MonoBehaviour
 {
     [Header("Dependencies")]
     public MoveByKeys playerMovement;
     public Image cooldownImage;
 
+    // 플레이어가 풀링으로 재사용되기 때문에 이 스크립트 또한 재활성화 될 때마다 초기화 필요
     void OnEnable()
     {
         FindMyPlayer();
     }
+
+    // IsMine으로 내 플레이어를 찾아 참조
     private void FindMyPlayer()
     {
         var allPlayers = FindObjectsByType<MoveByKeys>(FindObjectsSortMode.None);
@@ -38,6 +42,7 @@ public class CrosshairCooldown : MonoBehaviour
 
         if (cooldownImage == null) return;
 
+        // 공격 쿨다운 진행 상황 계산
         float timePassed = Time.time - playerMovement.lastAttackTime;
         float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
         cooldownImage.fillAmount = progress;

@@ -38,6 +38,7 @@ public class TPZone : MonoBehaviour
                 return;
             }
         }
+        // 리스폰 위치가 정해진 상태라면 그 위치로 리스폰
         if (fallbackTarget != null)
         {
             TeleportCharacterLocal(other.gameObject, fallbackTarget.transform.position, fallbackTarget.transform.rotation);

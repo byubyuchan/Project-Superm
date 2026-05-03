@@ -5,21 +5,26 @@ using UnityEngine;
 [RequireComponent(typeof(NavMeshAgent), typeof(PhotonView))]
 public class NPC : MonoBehaviourPun
 {
+    // 최대 이동할 수 있는 거리
     public float wanderRadius = 150f;
+    // 새로운 목적지로 이동하기 전 대기 시간 (적용되는지는 테스트 필요)
     public float wanderTimer = 7f;
 
     protected NavMeshAgent agent;
     protected float timer;
 
     [Header("Settings")]
+    // 죽을 때 호출되는 이펙트 인덱스
     [SerializeField]
     private int explosionEffectIndex = 1;
+    // NPC를 종류별로 배열에 할당하여 랜덤하게 리스폰할 수 있도록 설정
     [SerializeField]
     private string[] respawnPrefabs;
     [SerializeField]
     private float respawnTime;
     public bool isExploded = false;
 
+    // 재사용될 때마다 필요한 값을 초기화
     public void OnEnable()
     {
         // 1. 논리 상태 리셋
@@ -59,7 +64,8 @@ public class NPC : MonoBehaviourPun
             timer = 0;
         }
     }
-    // 저격수 상속
+
+    // 정해진 최대 위치 반경 내에서 NavMesh 위의 랜덤한 위치를 반환하는 함수
     protected Vector3 RandomNavMeshLocation(float radius)
     {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
@@ -74,7 +80,7 @@ public class NPC : MonoBehaviourPun
         return finalPosition;
     }
 
-    // 저격수 트리거 끄기? 그냥 콜라이더를 빼면 되나?
+    // IgnoreNPC를 제외한 장애물, 투사체와 충돌 시 사망하고 아이템을 스폰 Death()
     protected void OnTriggerEnter(Collider other)
     {
 
@@ -105,7 +111,6 @@ public class NPC : MonoBehaviourPun
             Death();
         }
     }
-    // 아마 죽일 수 있게 만들면 재밌을듯
 
     void Death()
     {

@@ -1,6 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
+// 앞뒤로 이동하는 플랫폼
 public class MovingPlatformLinear : MovingPlatform
 {
     public float movingSpeed = 2f;
@@ -12,6 +13,7 @@ public class MovingPlatformLinear : MovingPlatform
 
     void Start() { startPosition = lastPosition = transform.position; }
 
+    // 핑퐁 함수를 통해 이동 후 이동한만큼 역으로 다시 이동할 수 있도록 구현
     protected override void HandlePlatformMovement()
     {
         float pingPong = Mathf.PingPong(Time.time * movingSpeed, distance);

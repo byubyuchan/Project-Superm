@@ -6,6 +6,7 @@ public class PlayerCameraSetup : MonoBehaviourPun
     [SerializeField] private Camera playerCamera;
     [SerializeField] private AudioListener audioListener;
 
+    // 각자의 플레이어에 맞게 플레이어에 내장된 카메라를 메인 카메라로 변경하는 코드
     void OnEnable()
     {
         if (photonView.IsMine)

@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public abstract class BaseGameManager : MonoBehaviourPunCallbacks
 {
+    // 리스폰 값을 하드코딩으로 받지 않도록 만든 내부 클래스   
     public static class PhotonKeys
     {
         // 게임 데이터 관련
@@ -29,6 +30,7 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         public const string LAST_ROT_Y = "LastRotY";
     }
 
+    // enum값을 통해 현재 게임 상태를 확인할 수 있음. (현재 사용은 되지 않는 중)
     public enum GameState { Wait, Playing, Finish }
     protected GameState currentState = GameState.Wait;
 
@@ -111,6 +113,7 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
 
     }
 
+    // 현재 게임의 승자가 결정되는 함수로 순위 재정렬과 승리 UI를 RPC로 호출 함. (현재 사용되지 않는 중)
     protected void FinishGame()
     {
         // 변수 선언
@@ -123,7 +126,6 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         photonView.RPC("RPC_FinishGameUI", RpcTarget.All, winnerName);
     }
 
-    // 1. 종료 시 호출될 RPC (모든 인원 화면에 결과 UI를 띄우거나 알림)
     [PunRPC]
     protected virtual void RPC_FinishGameUI(string winnerNickName)
     {

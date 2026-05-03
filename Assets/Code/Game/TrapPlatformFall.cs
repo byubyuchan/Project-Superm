@@ -42,6 +42,7 @@ public class TrapPlatformFall : MovingPlatform
         }
     }
 
+    // 플랫폼 작동 (플레이어가 1명 이상 올라가면 작동 시작) 
     protected override void HandlePlatformMovement()
     {
         if (!isFake) return;
@@ -56,15 +57,18 @@ public class TrapPlatformFall : MovingPlatform
         {
             timer += Time.fixedDeltaTime;
 
+            // 딜레이타임 동안은 아무 작동 안함 (페인트)
             if (timer < delayTime)
             {
                 return;
             }
+            // 딜레이 타임 이후 3초간 정해진 값만큼 떨어짐 (낙하)
             else if (timer < delayTime + 3f)
             {
                 Vector3 targetPos = startPosition + (Vector3.down * fallDistance);
                 transform.position = Vector3.MoveTowards(transform.position, targetPos, fallSpeed * Time.fixedDeltaTime);
 
+                // 정해진 값 주변만큼 낙하 했을 때 재사용 플래그 값이 false라면 파괴
                 if (!isRecycle && Vector3.Distance(transform.position, targetPos) < 0.1f)
                 {
                     if (PhotonNetwork.IsMasterClient)
@@ -75,7 +79,8 @@ public class TrapPlatformFall : MovingPlatform
                     return;
                 }
             }
-            else if (isRecycle && timer > resetTime ) // 리셋 시간이 지나면 복구
+            // 재사용 플래그 값이 true고 리셋 시간이 지나면 제자리로 돌아옴 (복구)
+            else if (isRecycle && timer > resetTime )
             {
                 if (playersOnPlatform.Count > 0)
                 {
@@ -104,11 +109,11 @@ public class TrapPlatformFall : MovingPlatform
         this.isFake = value;
     }
 
-    [PunRPC]
-    public void RPC_VanishPlatform()
-    {
-        gameObject.SetActive(false);
+    //[PunRPC]
+    //public void RPC_VanishPlatform()
+    //{
+    //    gameObject.SetActive(false);
 
-        playersOnPlatform.Clear();
-    }
+    //    playersOnPlatform.Clear();
+    //}
 }

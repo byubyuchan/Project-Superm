@@ -13,6 +13,7 @@ public class Item : MonoBehaviourPun
 
     private float originY;
 
+    // 아이템이 중력을 받아 공중에서 떨어지는 효과를 구현하기 위해 RigidiBody를 설정
     public void OnEnable()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -22,6 +23,7 @@ public class Item : MonoBehaviourPun
             rb.isKinematic = false;
         }
 
+        // 아이템이 풀링됐을 때 코루틴이 남아있을 경우를 대비해 남아있는 코루틴을 제거 후 다시 적용
         if (PhotonNetwork.IsMasterClient)
         {
             CancelInvoke("DestroySelf");
@@ -52,6 +54,7 @@ public class Item : MonoBehaviourPun
         }
     }
 
+    // 콜라이더 형식일 경우 아이템에 걸려 순간 막히는 경험을 주기에 트리거 형식으로 설정
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -63,6 +66,9 @@ public class Item : MonoBehaviourPun
             }
         }
     }
+
+    // ItemData 배열에서 랜덤으로 하나를 선택해 RPC로 아이템 효과를 플레이어에게 전달하는 함수
+    // 아이템 프리팹에 데이터를 만들어 붙여주기만 하면 된다.
     void ApplyRandomEffect(GameObject player)
     {
         PhotonView playerPV = player.GetComponent<PhotonView>();

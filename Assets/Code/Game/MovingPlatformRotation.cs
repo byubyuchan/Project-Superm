@@ -2,8 +2,10 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+// 회전하는 플랫폼
 public class MovingPlatformRotation : MovingPlatform
 {
+    // enum 값으로 회전하는 각도를 선택할 수 있음
     public enum Axis { X, Y, Z }
     public Axis axis = Axis.Y;
     Vector3 rotatedOffset;

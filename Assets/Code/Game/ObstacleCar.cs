@@ -4,6 +4,7 @@ using System.Collections;
 
 public class ObstacleCar : Obstacle
 {
+    // 자동차의 경우 바퀴와 프레임이 각각인 경우가 많아 회전하는 각도를 각각 지정해줘야 함
     [Header("Car Movement")]
     public float driveSpeed = 10f;
     public Vector3 driveDirection = Vector3.forward;

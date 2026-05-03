@@ -3,6 +3,7 @@ using UnityEngine;
 using Photon.Pun.UtilityScripts;
 using UnityEngine.UI;
 
+// 플레이어가 공격 준비 (Aim) 상태일 때 카메라를 줌인하는 스크립트
 public class PlayerCameraZoom : MonoBehaviourPun
 {
     [Header("Dependencies")]
@@ -39,6 +40,7 @@ public class PlayerCameraZoom : MonoBehaviourPun
         }
     }
 
+    // 플레이어가 풀링을 통해 재사용되기 때문에 Awake 이후 OnEnable에서 초기화 작업을 수행
     void OnEnable()
     {
         if (!photonView.IsMine) return;
@@ -49,12 +51,14 @@ public class PlayerCameraZoom : MonoBehaviourPun
         if (crosshairImage != null) crosshairImage.SetActive(false);
     }
 
+    // 성능은 좋지 않지만 Update를 통해 지속적으로 플레이어가 공격 준비상태인지 아닌지 확인하며 FOV의 변화를 적용
     void Update()
     {
         if (!photonView.IsMine || playerMovement == null) return;
         HandleZoom(playerMovement.isLoadingAttack);
     }
 
+    // 줌인과 줌아웃이 급격하게 일어나지 않게 하기 위해 Lerp를 사용하여 카메라의 위치와 FOV를 부드럽게 변화시키는 함수
     void HandleZoom(bool isAiming)
     {
         if (crosshairImage == null)

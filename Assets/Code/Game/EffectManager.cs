@@ -28,6 +28,7 @@ public class EffectManager : MonoBehaviourPun
         }
     }
 
+    // 모든 이펙트는 수명이 남아있더라도 2초 뒤 비활성화 되도록 구성
     [PunRPC]
     void RPC_PlayEffect(int index, Vector3 pos)
     {

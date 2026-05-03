@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SleepProjectile : Projectile
 {
+    // 플레이어나 맵에 닿으면 폭발
     protected override void OnCollisionEnter(Collision col)
     {
         if (!photonView.IsMine || hasExploded) return;
@@ -17,6 +18,7 @@ public class SleepProjectile : Projectile
         }
     }
 
+    // 폭발한 투사체가 여러 오브젝트에 부딪혀 여러 번 폭발하는 것을 방지
     protected override void Explode(GameObject target = null)
     {
         hasExploded = true;

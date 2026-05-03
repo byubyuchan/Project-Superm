@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 
+// 장애물의 부모가 되는 클래스, 플레이어와 충돌 시 넉백 효과를 적용하는 기능을 담당
 public class Obstacle : MonoBehaviourPun
 {
     [Header("Obstacle Settings")]

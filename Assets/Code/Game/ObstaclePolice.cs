@@ -4,6 +4,7 @@ using Photon.Pun;
 
 public class ObstaclePolice : Obstacle
 {
+    // 탐지 범위와 탐지 후 추격 범위, 추격할 레이어(플레이어 레이어) 설정
     [Header("Police AI Settings")]
     public float detectionRadius = 10f;
     public float abandonDistance = 20f;
@@ -29,7 +30,7 @@ public class ObstaclePolice : Obstacle
         if (isChasing && targetPlayer != null)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, targetPlayer.position);
-
+            // 추격 범위를 벗어나면 추격을 종료하고 원위치로 돌아감.
             if (distanceToPlayer > abandonDistance)
             {
                 StopChasing();
@@ -71,18 +72,19 @@ public class ObstaclePolice : Obstacle
         base.OnPlayerHit(player);
     }
 
+    // 기즈모는 함수만 만들어 두면 씬에서 확인이 가능합니다.
     private void OnDrawGizmos()
     {
-        // 1. 감지 범위 (Detection Radius) - 빨간
+        // 감지 범위 (Detection Radius) - 빨간
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
 
-        // 2. 추격 포기 범위 (Abandon Distance) - 빨간색
+        // 추격 포기 범위 (Abandon Distance) - 빨간색
         // 추격 중일 때는 더 명확하게 보이도록 설정
         Gizmos.color = isChasing ? Color.red : new Color(1f, 0f, 0f, 0.2f);
         Gizmos.DrawWireSphere(transform.position, abandonDistance);
 
-        // 4. 추격 대상 표시 (Target Player) - 노란색 선
+        // 추격 대상 표시 (Target Player) - 노란색 선
         if (isChasing && targetPlayer != null)
         {
             Gizmos.color = Color.yellow;

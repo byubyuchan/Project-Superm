@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+// 이전부터 사용하던 오디오 매니저로, 딕셔너리 구조를 통해 오디오를 스트링 키값으로 손쉽게 호출할 수 있음.
+// 오디오매니저는 DDOL로 매 씬마다 재사용되기에 Lobby에서만 오디오 클립을 관리하면 됨
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+// TPZone과는 다르게 랜덤한 위치로 텔레포트 시키는 코드
 public class RandomTPZone : MonoBehaviour
 {
     [Header("Destination Settings")]
