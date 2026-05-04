@@ -25,6 +25,9 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
 
     private Vector2 currentDragDelta;
 
+    // 유저가 옵션에서 설정한 민감도 배율을 저장할 변수
+    private float userSensitivityMultiplier = 1.0f;
+
     public void OnPointerDown(PointerEventData eventData)
     {
         // 터치 시작 시 위치와 시간을 기록
@@ -32,6 +35,9 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
         pointerDownTime = Time.unscaledTime;
         isDragging = false;
         currentDragDelta = Vector2.zero;
+
+        // 터치를 시작할 때마다 PlayerPrefs에 저장된 최신 민감도 값을 불러옴
+        userSensitivityMultiplier = PlayerPrefs.GetFloat("TouchSensitivity", 1.0f);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -52,7 +58,7 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
         if (isDragging)
         {
             // 저장해둔 드래그 델타를 카메라 회전에 적용
-            SendValueToControl(currentDragDelta * lookSensitivity);
+            SendValueToControl(currentDragDelta * lookSensitivity * userSensitivityMultiplier);
 
             // 전송 후 드래그 델타 초기화 (다음 프레임에서 0이 전송되면서 카메라 회전이 멈추도록)
             currentDragDelta = Vector2.zero;
