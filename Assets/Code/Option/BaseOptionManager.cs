@@ -22,6 +22,8 @@ public abstract class BaseOptionManager : MonoBehaviour
     public Button popupDiscardButton;
     public Button popupCancelButton;
 
+    public static System.Action<Color> OnCrosshairColorChanged;
+
     protected bool hasUnsavedChanges = false;
     protected int savedQualityIndex;
     protected System.Action pendingAction = null;
