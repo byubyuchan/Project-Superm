@@ -16,7 +16,7 @@ public class CrosshairColorLauncher : MonoBehaviour
 
     private void OnEnable()
     {
-        string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#FFFFFF");
+        string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#000000");
         if (ColorUtility.TryParseHtmlString(savedHex, out Color savedColor))
         {
             buttonImage.color = savedColor;

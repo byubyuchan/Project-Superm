@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerClickHandler
 {
     [Header("UI References")]
     public RectTransform colorMapRect;
@@ -18,15 +18,30 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     private void OnEnable()
     {
-        string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#FFFFFF");
+        string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#000000");
         if (ColorUtility.TryParseHtmlString(savedHex, out Color savedColor))
         {
             ApplyColorToPreviews(savedColor);
         }
+
+        float savedU = PlayerPrefs.GetFloat("CrosshairCursorU", 0.5f);
+        float savedV = PlayerPrefs.GetFloat("CrosshairCursorV", 0.0f);
+
+        float width = colorMapRect.rect.width;
+        float height = colorMapRect.rect.height;
+
+        Vector2 loadedPoint = new Vector2(
+            (savedU * width) - (width / 2),
+            (savedV * height) - (height / 2)
+        );
+        cursorRect.localPosition = loadedPoint;
     }
 
     public void OnPointerDown(PointerEventData eventData) { HandleColorSelection(eventData); }
     public void OnDrag(PointerEventData eventData) { HandleColorSelection(eventData); }
+    // 클릭을 뗐을 때의 이벤트가 없으면 부모인 버튼이 클릭 이벤트를 받아버려서 창이 닫히는 문제가 있어서 빈 구현으로 남겨둠
+    public void OnPointerUp(PointerEventData eventData) {  }
+    public void OnPointerClick(PointerEventData eventData) {  }
 
     private void HandleColorSelection(PointerEventData eventData)
     {
@@ -45,14 +60,18 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler
 
             Color sampledColor = colorTexture.GetPixelBilinear(u, v);
 
-            SaveAndApplyColor(sampledColor);
+            SaveAndApplyColor(sampledColor, u, v);
         }
     }
 
-    private void SaveAndApplyColor(Color color)
+    private void SaveAndApplyColor(Color color, float u, float v)
     {
         string hexColor = "#" + ColorUtility.ToHtmlStringRGBA(color);
         PlayerPrefs.SetString("CrosshairColorHex", hexColor);
+
+        PlayerPrefs.SetFloat("CrosshairCursorU", u);
+        PlayerPrefs.SetFloat("CrosshairCursorV", v);
+
         PlayerPrefs.Save();
 
         ApplyColorToPreviews(color);

@@ -10,10 +10,30 @@ public class CrosshairCooldown : MonoBehaviour
     public MoveByKeys playerMovement;
     public Image cooldownImage;
 
+    private Color customBaseColor = Color.white;
+
     // 플레이어가 풀링으로 재사용되기 때문에 이 스크립트 또한 재활성화 될 때마다 초기화 필요
     void OnEnable()
     {
         FindMyPlayer();
+
+        string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#000000");
+        if (ColorUtility.TryParseHtmlString(savedHex, out Color savedColor))
+        {
+            customBaseColor = savedColor;
+        }
+
+        BaseOptionManager.OnCrosshairColorChanged += UpdateCustomColor;
+    }
+
+    void OnDisable()
+    {
+        BaseOptionManager.OnCrosshairColorChanged -= UpdateCustomColor;
+    }
+
+    private void UpdateCustomColor(Color newColor)
+    {
+        customBaseColor = newColor;
     }
 
     // IsMine으로 내 플레이어를 찾아 참조
@@ -47,6 +67,9 @@ public class CrosshairCooldown : MonoBehaviour
         float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
         cooldownImage.fillAmount = progress;
 
-        cooldownImage.color = (progress < 1f) ? new Color(0, 0, 0, 0.5f) : Color.black;
+        Color appliedColor = customBaseColor;
+        appliedColor.a = (progress < 1f) ? 0.3f : 1.0f;
+
+        cooldownImage.color = appliedColor;
     }
 }

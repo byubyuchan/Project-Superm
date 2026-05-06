@@ -8539,6 +8539,7 @@ GameObject:
   - component: {fileID: 454499436}
   - component: {fileID: 454499438}
   - component: {fileID: 454499437}
+  - component: {fileID: 454499439}
   m_Layer: 5
   m_Name: CrossHair
   m_TagString: Crosshair
@@ -8589,6 +8590,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454499435}
   m_CullTransparentMesh: 1
+--- !u!114 &454499439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454499435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a4f28dc919d724f88d0d647ea46845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrosshairController
+  dotImage: {fileID: 1879390477}
+  circleImage: {fileID: 283620425}
 --- !u!1001 &456516467
 PrefabInstance:
   m_ObjectHideFlags: 0
