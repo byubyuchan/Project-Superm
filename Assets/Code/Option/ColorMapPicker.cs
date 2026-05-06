@@ -7,18 +7,21 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler
     [Header("UI References")]
     public RectTransform colorMapRect;
     public RectTransform cursorRect;
-    public Image previewColorImage;
+    public Image[] previewImages;
 
     private Texture2D colorTexture;
 
-    void Start()
+    private void Awake()
     {
         colorTexture = GetComponent<Image>().sprite.texture;
+    }
 
-        string savedHex = PlayerPrefs.GetString("CrosshairColor", "#000000");
+    private void OnEnable()
+    {
+        string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#FFFFFF");
         if (ColorUtility.TryParseHtmlString(savedHex, out Color savedColor))
         {
-            if (previewColorImage != null) previewColorImage.color = savedColor;
+            ApplyColorToPreviews(savedColor);
         }
     }
 
@@ -37,10 +40,10 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler
 
             cursorRect.anchoredPosition = localPoint;
 
-            float normalizedX = (localPoint.x + width / 2) / width;
-            float normalizedY = (localPoint.y + height / 2) / height;
+            float u = (localPoint.x + width / 2) / width;
+            float v = (localPoint.y + height / 2) / height;
 
-            Color sampledColor= colorTexture.GetPixelBilinear(normalizedX, normalizedY);
+            Color sampledColor = colorTexture.GetPixelBilinear(u, v);
 
             SaveAndApplyColor(sampledColor);
         }
@@ -49,11 +52,25 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler
     private void SaveAndApplyColor(Color color)
     {
         string hexColor = "#" + ColorUtility.ToHtmlStringRGBA(color);
-        PlayerPrefs.SetString("CrosshairColor", hexColor);
+        PlayerPrefs.SetString("CrosshairColorHex", hexColor);
         PlayerPrefs.Save();
 
-        if (previewColorImage != null) previewColorImage.color = color;
+        ApplyColorToPreviews(color);
 
         BaseOptionManager.OnCrosshairColorChanged?.Invoke(color);
+    }
+
+    private void ApplyColorToPreviews(Color color)
+    {
+        if (previewImages != null)
+        {
+            foreach (Image img in previewImages)
+            {
+                if (img != null)
+                {
+                    img.color = color;
+                }
+            }
+        }
     }
 }
