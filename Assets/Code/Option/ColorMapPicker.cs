@@ -8,12 +8,17 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     [Header("UI References")]
     public RectTransform colorMapRect;
     public RectTransform cursorRect;
-    public Image[] previewImages;
+    public Image dotPreviewImage;
+    public Image circlePreviewImage;
 
     [Header("RGB Input Fields")]
     public TMP_InputField rInput;
     public TMP_InputField gInput;
     public TMP_InputField bInput;
+
+    [Header("Shape Toggles")]
+    public Toggle dotToggle;
+    public Toggle circleToggle;
 
     private Texture2D colorTexture;
     private bool isUpdatingUI = false;
@@ -25,13 +30,15 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         if (rInput != null) rInput.onValueChanged.AddListener(delegate { OnRGBInputChanged(); });
         if (gInput != null) gInput.onValueChanged.AddListener(delegate { OnRGBInputChanged(); });
         if (bInput != null) bInput.onValueChanged.AddListener(delegate { OnRGBInputChanged(); });
+
+        if (dotToggle != null) dotToggle.onValueChanged.AddListener(delegate { OnShapeChanged(); });
+        if (circleToggle != null) circleToggle.onValueChanged.AddListener(delegate { OnShapeChanged(); });
     }
 
     private void OnEnable()
     {
         string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#000000");
-        if (!ColorUtility.TryParseHtmlString(savedHex, out Color savedColor))
-            savedColor = Color.black;
+        if (!ColorUtility.TryParseHtmlString(savedHex, out Color savedColor)) savedColor = Color.black;
 
         float savedU = PlayerPrefs.GetFloat("CrosshairCursorU", 0.5f);
         float savedV = PlayerPrefs.GetFloat("CrosshairCursorV", 0.0f);
@@ -42,6 +49,14 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
         UpdateRGBInputFields(savedColor);
         ApplyColorToPreviews(savedColor);
+
+        int savedShape = PlayerPrefs.GetInt("CrosshairShape", 1); // 0: Dot, 1: Circle (기본값 원)
+        isUpdatingUI = true;
+        if (savedShape == 0) dotToggle.isOn = true;
+        else circleToggle.isOn = true;
+        isUpdatingUI = false;
+
+        ApplyShapeToPreviews(savedShape);
     }
 
     public void OnPointerDown(PointerEventData eventData) { HandleColorSelection(eventData); }
@@ -60,7 +75,7 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
             localPoint.x = Mathf.Clamp(localPoint.x, -width / 2, width / 2);
             localPoint.y = Mathf.Clamp(localPoint.y, -height / 2, height / 2);
 
-            cursorRect.anchoredPosition = localPoint;
+            cursorRect.localPosition = localPoint;
 
             float u = (localPoint.x + width / 2) / width;
             float v = (localPoint.y + height / 2) / height;
@@ -102,6 +117,32 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         return 0;
     }
 
+    private void OnShapeChanged()
+    {
+        if (isUpdatingUI) return;
+
+        int shapeIndex = dotToggle.isOn ? 0 : 1;
+
+        PlayerPrefs.SetInt("CrosshairShape", shapeIndex);
+        PlayerPrefs.Save();
+
+        ApplyShapeToPreviews(shapeIndex);
+
+        BaseOptionManager.OnCrosshairShapeChanged?.Invoke(shapeIndex);
+    }
+
+    private void ApplyShapeToPreviews(int shapeIndex)
+    {
+        if (dotPreviewImage != null) dotPreviewImage.gameObject.SetActive(shapeIndex == 0);
+        if (circlePreviewImage != null) circlePreviewImage.gameObject.SetActive(shapeIndex == 1);
+    }
+
+    private void ApplyColorToPreviews(Color color)
+    {
+        if (dotPreviewImage != null) dotPreviewImage.color = color;
+        if (circlePreviewImage != null) circlePreviewImage.color = color;
+    }
+
     private void SaveAndApplyColor(Color color, float u, float v, bool updateInputs)
     {
         string hexColor = "#" + ColorUtility.ToHtmlStringRGBA(color);
@@ -123,19 +164,5 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         if (gInput != null) gInput.text = Mathf.RoundToInt(color.g * 255).ToString();
         if (bInput != null) bInput.text = Mathf.RoundToInt(color.b * 255).ToString();
         isUpdatingUI = false;
-    }
-
-    private void ApplyColorToPreviews(Color color)
-    {
-        if (previewImages != null)
-        {
-            foreach (Image img in previewImages)
-            {
-                if (img != null)
-                {
-                    img.color = color;
-                }
-            }
-        }
     }
 }
