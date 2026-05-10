@@ -5769,7 +5769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 62.5, y: -15}
+  m_AnchoredPosition: {x: 62.5, y: -45}
   m_SizeDelta: {x: 125, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &343230810
@@ -6190,8 +6190,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 343230809}
   - {fileID: 1776171237}
+  - {fileID: 343230809}
   m_Father: {fileID: 1749725651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
@@ -9928,8 +9928,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1819618531}
   - {fileID: 647563662}
+  - {fileID: 1819618531}
   m_Father: {fileID: 783935519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -12099,13 +12099,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColorMapPicker
   colorMapRect: {fileID: 783935519}
   cursorRect: {fileID: 635158298}
-  dotPreviewImage: {fileID: 1819618532}
   circlePreviewImage: {fileID: 647563663}
+  dotPreviewImage: {fileID: 1819618532}
   rInput: {fileID: 1489724655}
   gInput: {fileID: 885661947}
   bInput: {fileID: 551029566}
-  dotToggle: {fileID: 343230810}
   circleToggle: {fileID: 1776171238}
+  dotToggle: {fileID: 343230810}
 --- !u!114 &783935521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26001,7 +26001,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 62.5, y: -45}
+  m_AnchoredPosition: {x: 62.5, y: -15}
   m_SizeDelta: {x: 125, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1776171238
@@ -30352,7 +30352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2084512699
 RectTransform:
   m_ObjectHideFlags: 0

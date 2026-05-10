@@ -8,8 +8,8 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     [Header("UI References")]
     public RectTransform colorMapRect;
     public RectTransform cursorRect;
-    public Image dotPreviewImage;
     public Image circlePreviewImage;
+    public Image dotPreviewImage;
 
     [Header("RGB Input Fields")]
     public TMP_InputField rInput;
@@ -17,8 +17,8 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     public TMP_InputField bInput;
 
     [Header("Shape Toggles")]
-    public Toggle dotToggle;
     public Toggle circleToggle;
+    public Toggle dotToggle;
 
     private Texture2D colorTexture;
     private bool isUpdatingUI = false;
@@ -31,8 +31,8 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         if (gInput != null) gInput.onValueChanged.AddListener(delegate { OnRGBInputChanged(); });
         if (bInput != null) bInput.onValueChanged.AddListener(delegate { OnRGBInputChanged(); });
 
-        if (dotToggle != null) dotToggle.onValueChanged.AddListener(delegate { OnShapeChanged(); });
         if (circleToggle != null) circleToggle.onValueChanged.AddListener(delegate { OnShapeChanged(); });
+        if (dotToggle != null) dotToggle.onValueChanged.AddListener(delegate { OnShapeChanged(); });
     }
 
     private void OnEnable()
@@ -50,10 +50,10 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         UpdateRGBInputFields(savedColor);
         ApplyColorToPreviews(savedColor);
 
-        int savedShape = PlayerPrefs.GetInt("CrosshairShape", 1); // 0: Dot, 1: Circle (기본값 원)
+        int savedShape = PlayerPrefs.GetInt("CrosshairShape", 0);
         isUpdatingUI = true;
-        if (savedShape == 0) dotToggle.isOn = true;
-        else circleToggle.isOn = true;
+        if (savedShape == 0) circleToggle.isOn = true;
+        else dotToggle.isOn = true;
         isUpdatingUI = false;
 
         ApplyShapeToPreviews(savedShape);
@@ -121,7 +121,7 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     {
         if (isUpdatingUI) return;
 
-        int shapeIndex = dotToggle.isOn ? 0 : 1;
+        int shapeIndex = circleToggle.isOn ? 0 : 1;
 
         PlayerPrefs.SetInt("CrosshairShape", shapeIndex);
         PlayerPrefs.Save();
@@ -133,14 +133,14 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     private void ApplyShapeToPreviews(int shapeIndex)
     {
-        if (dotPreviewImage != null) dotPreviewImage.gameObject.SetActive(shapeIndex == 0);
-        if (circlePreviewImage != null) circlePreviewImage.gameObject.SetActive(shapeIndex == 1);
+        if (circlePreviewImage != null) circlePreviewImage.gameObject.SetActive(shapeIndex == 0);
+        if (dotPreviewImage != null) dotPreviewImage.gameObject.SetActive(shapeIndex == 1);
     }
 
     private void ApplyColorToPreviews(Color color)
     {
-        if (dotPreviewImage != null) dotPreviewImage.color = color;
         if (circlePreviewImage != null) circlePreviewImage.color = color;
+        if (dotPreviewImage != null) dotPreviewImage.color = color;
     }
 
     private void SaveAndApplyColor(Color color, float u, float v, bool updateInputs)
