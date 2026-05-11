@@ -13,7 +13,7 @@ public class CrosshairController : MonoBehaviour
         string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#000000");
         if (ColorUtility.TryParseHtmlString(savedHex, out Color savedColor)) ApplyColor(savedColor);
 
-        int savedShape = PlayerPrefs.GetInt("CrosshairShape", 1);
+        int savedShape = PlayerPrefs.GetInt("CrosshairShape", 0);
         ApplyShape(savedShape);
     }
 
