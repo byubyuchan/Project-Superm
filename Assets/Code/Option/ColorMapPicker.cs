@@ -77,11 +77,14 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
             cursorRect.localPosition = localPoint;
 
+            // 마우스 클릭 로컬 좌표를 0.0 ~ 1.0 사이의 퍼센트 비율로 변환
             float u = (localPoint.x + width / 2) / width;
             float v = (localPoint.y + height / 2) / height;
 
+            // 특정 위치의 색을 뽑을 때, 주변 4개의 픽셀 색상을 거리에 따라 부드럽게 섞어서 결과값을 만들어냄
             Color sampledColor = colorTexture.GetPixelBilinear(u, v);
 
+            // 가장자리 오차 강제 보정
             if (v >= 0.99f) sampledColor = Color.white;
             if (v <= 0.01f) sampledColor = Color.black;
 
@@ -91,6 +94,7 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     private void OnRGBInputChanged()
     {
+        // 코드가 UI 숫자(텍스트)를 업데이트 중일 땐 이벤트 무시하여 무한 루프 방지
         if (isUpdatingUI) return;
 
         int r = ParseColorValue(rInput.text);
@@ -99,6 +103,7 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
         Color newColor = new Color(r / 255f, g / 255f, b / 255f, 1f);
 
+        // 입력된 RGB 색상을 바탕으로 컬러맵 위 커서의 위치(U, V)를 역계산
         Color.RGBToHSV(newColor, out float h, out float s, out float v);
         float u = h;
         float mapV = (v < 1f) ? (v / 2f) : (0.5f + (1f - s) / 2f);
