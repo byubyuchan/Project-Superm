@@ -8,8 +8,8 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     [Header("UI References")]
     public RectTransform colorMapRect;
     public RectTransform cursorRect;
-    public Image circlePreviewImage;
-    public Image dotPreviewImage;
+    public Image PreviewImage1;
+    public Image PreviewImage2;
 
     [Header("RGB Input Fields")]
     public TMP_InputField rInput;
@@ -138,14 +138,14 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     private void ApplyShapeToPreviews(int shapeIndex)
     {
-        if (circlePreviewImage != null) circlePreviewImage.gameObject.SetActive(shapeIndex == 0);
-        if (dotPreviewImage != null) dotPreviewImage.gameObject.SetActive(shapeIndex == 1);
+        if (PreviewImage1 != null) PreviewImage1.gameObject.SetActive(shapeIndex == 0);
+        if (PreviewImage2 != null) PreviewImage2.gameObject.SetActive(shapeIndex == 1);
     }
 
     private void ApplyColorToPreviews(Color color)
     {
-        if (circlePreviewImage != null) circlePreviewImage.color = color;
-        if (dotPreviewImage != null) dotPreviewImage.color = color;
+        if (PreviewImage1 != null) PreviewImage1.color = color;
+        if (PreviewImage2 != null) PreviewImage2.color = color;
     }
 
     private void SaveAndApplyColor(Color color, float u, float v, bool updateInputs)
