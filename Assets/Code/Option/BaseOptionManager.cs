@@ -44,7 +44,7 @@ public abstract class BaseOptionManager : MonoBehaviour
         popupDiscardButton.onClick.AddListener(OnPopupDiscard);
         popupCancelButton.onClick.AddListener(OnPopupCancel);
 
-        optionPanel.SetActive(false);
+        //optionPanel.SetActive(false);
 
         savedQualityIndex = QualitySettings.GetQualityLevel();
         qualityDropdown.value = savedQualityIndex;
