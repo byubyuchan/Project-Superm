@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class CrosshairController : MonoBehaviour
 {
     [Header("Crosshair Elements")]
-    public Image smallDotImage;
-    public Image largeDotImage;
+    public Image[] shapeImages;
 
     private void Start()
     {
@@ -31,13 +30,26 @@ public class CrosshairController : MonoBehaviour
 
     private void ApplyColor(Color newColor)
     {
-        if (smallDotImage != null) smallDotImage.color = newColor;
-        if (largeDotImage != null) largeDotImage.color = newColor;
+        if (shapeImages != null)
+        {
+            for (int i = 0; i < shapeImages.Length; i++)
+            {
+                if (shapeImages[i] != null) shapeImages[i].color = newColor;
+            }
+        }
     }
 
     private void ApplyShape(int shapeIndex)
     {
-        if (smallDotImage != null) smallDotImage.gameObject.SetActive(shapeIndex == 0);
-        if (largeDotImage != null) largeDotImage.gameObject.SetActive(shapeIndex == 1);
+        if (shapeImages != null)
+        {
+            for (int i = 0; i < shapeImages.Length; i++)
+            {
+                if (shapeImages[i] != null)
+                {
+                    shapeImages[i].gameObject.SetActive(i == shapeIndex);
+                }
+            }
+        }
     }
 }

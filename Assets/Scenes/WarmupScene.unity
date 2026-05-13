@@ -2256,8 +2256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a4f28dc919d724f88d0d647ea46845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrosshairController
-  smallDotImage: {fileID: 1723096917}
-  largeDotImage: {fileID: 193248448}
+  shapeImages:
+  - {fileID: 1723096917}
+  - {fileID: 193248448}
 --- !u!1 &483315606
 GameObject:
   m_ObjectHideFlags: 0

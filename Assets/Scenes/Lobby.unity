@@ -754,7 +754,7 @@ GameObject:
   - component: {fileID: 58078836}
   - component: {fileID: 58078837}
   m_Layer: 5
-  m_Name: CircleToggle
+  m_Name: SmallToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1846,13 +1846,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColorMapPicker
   colorMapRect: {fileID: 113490137}
   cursorRect: {fileID: 1228243603}
-  PreviewImage1: {fileID: 0}
-  PreviewImage2: {fileID: 0}
+  previewImages:
+  - {fileID: 1447141600}
+  - {fileID: 652137487}
   rInput: {fileID: 235323720}
   gInput: {fileID: 96697787}
   bInput: {fileID: 1684894607}
-  circleToggle: {fileID: 58078837}
-  dotToggle: {fileID: 599725298}
+  shapeToggles:
+  - {fileID: 58078837}
+  - {fileID: 599725298}
 --- !u!114 &113490139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3424,9 +3426,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Circle
-
-'
+  m_Text: Small Dot
 --- !u!222 &180045596
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6838,7 +6838,7 @@ GameObject:
   - component: {fileID: 343230809}
   - component: {fileID: 343230810}
   m_Layer: 5
-  m_Name: Toggle 2
+  m_Name: LargeToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11029,7 +11029,7 @@ GameObject:
   - component: {fileID: 599725297}
   - component: {fileID: 599725298}
   m_Layer: 5
-  m_Name: DotToggle
+  m_Name: LargeToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13076,7 +13076,7 @@ GameObject:
   - component: {fileID: 727989130}
   - component: {fileID: 727989129}
   m_Layer: 5
-  m_Name: CrosshairDot_Small
+  m_Name: Crosshair_Small
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13854,13 +13854,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColorMapPicker
   colorMapRect: {fileID: 783935519}
   cursorRect: {fileID: 635158298}
-  PreviewImage1: {fileID: 727989130}
-  PreviewImage2: {fileID: 1819618532}
+  previewImages:
+  - {fileID: 727989130}
+  - {fileID: 1819618532}
   rInput: {fileID: 1489724655}
   gInput: {fileID: 885661947}
   bInput: {fileID: 551029566}
-  circleToggle: {fileID: 1776171238}
-  dotToggle: {fileID: 343230810}
+  shapeToggles:
+  - {fileID: 1776171238}
+  - {fileID: 343230810}
 --- !u!114 &783935521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28810,7 +28812,7 @@ GameObject:
   - component: {fileID: 1776171237}
   - component: {fileID: 1776171238}
   m_Layer: 5
-  m_Name: Toggle 1
+  m_Name: SmallToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29206,7 +29208,7 @@ GameObject:
   - component: {fileID: 1819618532}
   - component: {fileID: 1819618534}
   m_Layer: 5
-  m_Name: CrosshairDot_Large
+  m_Name: Crosshair_Large
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33914,7 +33916,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Dot
+  m_Text: Large Dot
 --- !u!222 &2080004839
 CanvasRenderer:
   m_ObjectHideFlags: 0

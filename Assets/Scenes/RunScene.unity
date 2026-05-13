@@ -8603,8 +8603,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a4f28dc919d724f88d0d647ea46845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrosshairController
-  smallDotImage: {fileID: 1031713206}
-  largeDotImage: {fileID: 1535412327}
+  shapeImages:
+  - {fileID: 1031713206}
+  - {fileID: 1535412327}
 --- !u!1001 &456516467
 PrefabInstance:
   m_ObjectHideFlags: 0
