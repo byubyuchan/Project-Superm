@@ -6,11 +6,11 @@ public abstract class BaseOptionManager : MonoBehaviour
 {
     [Header("Panel Control")]
     public GameObject optionPanel;
-    public Button graphicsTabButton;
-    public Button controlTabButton;
-    public GameObject graphicsPage;
-    public GameObject controlPage;
     public Button closeButton;
+
+    [Header("Tabs and Pages")]
+    public Button[] tabButtons; // 0: Graphics, 1: Control, 2: Crosshair
+    public GameObject[] pages;
 
     [Header("Common Graphics Settings")]
     public TMP_Dropdown qualityDropdown;
@@ -31,8 +31,16 @@ public abstract class BaseOptionManager : MonoBehaviour
 
     protected virtual void Start()
     {
-        graphicsTabButton.onClick.AddListener(AttemptShowGraphicsPage);
-        controlTabButton.onClick.AddListener(AttemptShowControlPage);
+        if (tabButtons != null)
+        {
+            for (int i = 0; i < tabButtons.Length; i++)
+            {
+                // C# 클로저(Closure) 문제 방지를 위해 i값을 지역 변수로 복사
+                int index = i;
+                tabButtons[i].onClick.AddListener(() => AttemptShowPage(index));
+            }
+        }
+
         closeButton.onClick.AddListener(AttemptCloseOptionPanel);
 
         applyGraphicsButton.onClick.AddListener(ApplyGraphicsSettings);
@@ -70,7 +78,7 @@ public abstract class BaseOptionManager : MonoBehaviour
         else
             optionPanel.SetActive(true);
 
-        ShowGraphicsPage();
+        ShowPage(0);
     }
 
     public void CloseOptionPanel()
@@ -78,16 +86,17 @@ public abstract class BaseOptionManager : MonoBehaviour
         optionPanel.SetActive(false);
     }
 
-    public void ShowGraphicsPage()
+    public void ShowPage(int pageIndex)
     {
-        graphicsPage.SetActive(true);
-        controlPage.SetActive(false);
-    }
+        if (pages == null) return;
 
-    public void ShowControlPage()
-    {
-        graphicsPage.SetActive(false);
-        controlPage.SetActive(true);
+        for (int i = 0; i < pages.Length; i++)
+        {
+            if (pages[i] != null)
+            {
+                pages[i].SetActive(i == pageIndex);
+            }
+        }
     }
 
     protected void ApplyGraphicsSettings()
@@ -100,13 +109,21 @@ public abstract class BaseOptionManager : MonoBehaviour
         hasUnsavedChanges = false;
     }
 
-    private void AttemptShowGraphicsPage() { CheckUnsavedChanges(ShowGraphicsPage); }
-    private void AttemptShowControlPage() { CheckUnsavedChanges(ShowControlPage); }
-    public void AttemptCloseOptionPanel() { CheckUnsavedChanges(CloseOptionPanel); }
+    private void AttemptShowPage(int targetPageIndex)
+    {
+        CheckUnsavedChanges(() => ShowPage(targetPageIndex));
+    }
+
+    public void AttemptCloseOptionPanel()
+    {
+        CheckUnsavedChanges(CloseOptionPanel);
+    }
 
     private void CheckUnsavedChanges(System.Action actionToPerform)
     {
-        if (hasUnsavedChanges && graphicsPage.activeSelf)
+        bool isGraphicsPageActive = pages != null && pages.Length > 0 && pages[0] != null && pages[0].activeSelf;
+
+        if (hasUnsavedChanges && isGraphicsPageActive)
         {
             pendingAction = actionToPerform;
             if (UIManager.Instance != null)
