@@ -63,7 +63,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        if (spawnZones != null)
+        if (spawnZones.Length > 0)
         {
             int index = Random.Range(0, spawnZones.Length);
             player = PhotonNetwork.Instantiate(playerPrefab.name, spawnZones[index].position, spawnZones[index].rotation);

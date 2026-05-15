@@ -8925,14 +8925,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505052506}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07669639, y: 0.040711343, z: 0.0019308471, w: 0.9962212}
-  m_LocalPosition: {x: -241.5, y: 521.3, z: -51.100098}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 547.7, y: 536, z: 1483}
   m_LocalScale: {x: 20, y: 5, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 792925514}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!65 &505052508
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14658,6 +14658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5254184595196352773, guid: ec1af0b6cf6462c48967f6b987b23eaa, type: 3}
   canvas: {fileID: 0}
+  spawnZones: []
 --- !u!114 &792925516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30928,6 +30929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5254184595196352773, guid: ec1af0b6cf6462c48967f6b987b23eaa, type: 3}
   canvas: {fileID: 0}
+  spawnZones: []
 --- !u!114 &1790634271
 MonoBehaviour:
   m_ObjectHideFlags: 0
