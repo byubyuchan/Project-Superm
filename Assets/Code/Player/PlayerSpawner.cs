@@ -12,6 +12,9 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject canvas;
 
+    [SerializeField]
+    private Transform[] spawnZones;
+
     void Start()
     {
         StartCoroutine(SpawnWhenReady());
@@ -50,12 +53,22 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
                 if (pv != null && pv.IsMine)
                 {
                     PhotonNetwork.Destroy(p);
-                    player = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
+                    Spawn();
                     return;
                 }
             }
-            player = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
+            Spawn();
         }
+    }
+
+    public void Spawn()
+    {
+        if (spawnZones != null)
+        {
+            int index = Random.Range(0, spawnZones.Length);
+            player = PhotonNetwork.Instantiate(playerPrefab.name, spawnZones[index].position, Quaternion.identity);
+        }
+        else player = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
     }
 
     // 플레이어가 방을 떠날 때 (옵션)

@@ -4,7 +4,7 @@ using Photon.Realtime;
 
 public class TPZone : MonoBehaviour
 {
-    [Header("Temp Fallback For Warmup Scene")]
+    [Header("Temp Fallback")]
     // Set empty if it is RunScene
     [SerializeField] private GameObject fallbackTarget;
 
@@ -41,7 +41,7 @@ public class TPZone : MonoBehaviour
         // 리스폰 위치가 정해진 상태라면 그 위치로 리스폰
         if (fallbackTarget != null)
         {
-            TeleportCharacterLocal(other.gameObject, fallbackTarget.transform.position, fallbackTarget.transform.rotation);
+            TeleportCharacterLocal(other.gameObject, fallbackPosition, fallbackRotation);
         }
     }
     private void TeleportCharacterLocal(GameObject playerObj, Vector3 pos, Quaternion rot)

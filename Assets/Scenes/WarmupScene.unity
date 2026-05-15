@@ -3511,6 +3511,7 @@ GameObject:
   - component: {fileID: 599292243}
   - component: {fileID: 599292242}
   - component: {fileID: 599292245}
+  - component: {fileID: 599292246}
   m_Layer: 0
   m_Name: SM_Env_Backgrouind_Streets_01
   m_TagString: Map
@@ -3617,12 +3618,30 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599292239}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
   fallbackTarget: {fileID: 1765856787}
+--- !u!114 &599292246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599292239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30c33c7a48cd99458324acd317434b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomTPZone
+  destinationPoints:
+  - {fileID: 1765856788}
+  - {fileID: 1612046761}
+  - {fileID: 92850820}
+  - {fileID: 584300134}
+  teleportSFX: Teleport
 --- !u!1 &625580641
 GameObject:
   m_ObjectHideFlags: 0
@@ -4192,7 +4211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  fallbackTarget: {fileID: 584300133}
+  fallbackTarget: {fileID: 0}
 --- !u!114 &695145087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7568,7 +7587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  fallbackTarget: {fileID: 1765856787}
+  fallbackTarget: {fileID: 0}
 --- !u!1 &1176285635
 GameObject:
   m_ObjectHideFlags: 0
@@ -9730,7 +9749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  fallbackTarget: {fileID: 1612046760}
+  fallbackTarget: {fileID: 0}
 --- !u!1 &1508383276
 GameObject:
   m_ObjectHideFlags: 0
@@ -9888,7 +9907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3d8aae4a30d3b4791999d918c11191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
-  fallbackTarget: {fileID: 92850819}
+  fallbackTarget: {fileID: 0}
 --- !u!1001 &1533310400
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8925,8 +8925,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505052506}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0766964, y: 0.040711343, z: 0.0019308475, w: 0.9962212}
-  m_LocalPosition: {x: -1605.4958, y: -80.04053, z: 1566.648}
+  m_LocalRotation: {x: 0.07669639, y: 0.040711343, z: 0.0019308471, w: 0.9962212}
+  m_LocalPosition: {x: -241.5, y: 521.3, z: -51.100098}
   m_LocalScale: {x: 20, y: 5, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13798,7 +13798,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomTPZone
   destinationPoints:
-  - {fileID: 0}
   - {fileID: 619099746}
   - {fileID: 255459035}
   teleportSFX: Teleport
