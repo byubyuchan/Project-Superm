@@ -66,9 +66,9 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
         if (spawnZones != null)
         {
             int index = Random.Range(0, spawnZones.Length);
-            player = PhotonNetwork.Instantiate(playerPrefab.name, spawnZones[index].position, Quaternion.identity);
+            player = PhotonNetwork.Instantiate(playerPrefab.name, spawnZones[index].position, spawnZones[index].rotation);
         }
-        else player = PhotonNetwork.Instantiate(playerPrefab.name, transform.position, Quaternion.identity);
+        else player = PhotonNetwork.Instantiate(playerPrefab.name, transform.position,  transform.rotation);
     }
 
     // 플레이어가 방을 떠날 때 (옵션)
