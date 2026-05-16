@@ -2259,6 +2259,7 @@ MonoBehaviour:
   shapeImages:
   - {fileID: 1723096917}
   - {fileID: 193248448}
+  cooldownRingImage: {fileID: 42803254}
 --- !u!1 &483315606
 GameObject:
   m_ObjectHideFlags: 0
@@ -11843,6 +11844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5254184595196352773, guid: fd081dd7c470c6a4f9ed72287d847cbd, type: 3}
   canvas: {fileID: 0}
+  spawnZones: []
 --- !u!4 &1790634272
 Transform:
   m_ObjectHideFlags: 0

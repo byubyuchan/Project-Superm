@@ -52657,6 +52657,7 @@ MonoBehaviour:
   shapeImages:
   - {fileID: 1723096917}
   - {fileID: 193248448}
+  cooldownRingImage: {fileID: 42803254}
 --- !u!1 &460644477
 GameObject:
   m_ObjectHideFlags: 0

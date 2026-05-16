@@ -8,15 +8,11 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     [Header("UI References")]
     public RectTransform colorMapRect;
     public RectTransform cursorRect;
-    public Image[] previewImages;
 
     [Header("RGB Input Fields")]
     public TMP_InputField rInput;
     public TMP_InputField gInput;
     public TMP_InputField bInput;
-
-    [Header("Shape Toggles")]
-    public Toggle[] shapeToggles;
 
     private Texture2D colorTexture;
     private bool isUpdatingUI = false;
@@ -28,17 +24,6 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         if (rInput != null) rInput.onValueChanged.AddListener(delegate { OnRGBInputChanged(); });
         if (gInput != null) gInput.onValueChanged.AddListener(delegate { OnRGBInputChanged(); });
         if (bInput != null) bInput.onValueChanged.AddListener(delegate { OnRGBInputChanged(); });
-
-        if (shapeToggles != null)
-        {
-            for (int i = 0; i < shapeToggles.Length; i++)
-            {
-                if (shapeToggles[i] != null)
-                {
-                    shapeToggles[i].onValueChanged.AddListener(delegate { OnShapeChanged(); });
-                }
-            }
-        }
     }
 
     private void OnEnable()
@@ -54,17 +39,6 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         cursorRect.localPosition = new Vector2((savedU * width) - (width / 2), (savedV * height) - (height / 2));
 
         UpdateRGBInputFields(savedColor);
-        ApplyColorToPreviews(savedColor);
-
-        int savedShape = PlayerPrefs.GetInt("CrosshairShape", 0);
-        isUpdatingUI = true;
-        if (shapeToggles != null && savedShape >= 0 && savedShape < shapeToggles.Length)
-        {
-            shapeToggles[savedShape].isOn = true;
-        }
-        isUpdatingUI = false;
-
-        ApplyShapeToPreviews(savedShape);
     }
 
     public void OnPointerDown(PointerEventData eventData) { HandleColorSelection(eventData); }
@@ -130,54 +104,6 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         return 0;
     }
 
-    private void OnShapeChanged()
-    {
-        if (isUpdatingUI) return;
-
-        int shapeIndex = 0;
-
-        if (shapeToggles != null)
-        {
-            for (int i = 0; i < shapeToggles.Length; i++)
-            {
-                if (shapeToggles[i] != null && shapeToggles[i].isOn)
-                {
-                    shapeIndex = i;
-                    break;
-                }
-            }
-        }
-
-        PlayerPrefs.SetInt("CrosshairShape", shapeIndex);
-        PlayerPrefs.Save();
-
-        ApplyShapeToPreviews(shapeIndex);
-
-        BaseOptionManager.OnCrosshairShapeChanged?.Invoke(shapeIndex);
-    }
-
-    private void ApplyShapeToPreviews(int shapeIndex)
-    {
-        if (previewImages != null)
-        {
-            for (int i = 0; i < previewImages.Length; i++)
-            {
-                if (previewImages[i] != null) previewImages[i].gameObject.SetActive(i == shapeIndex);
-            }
-        }
-    }
-
-    private void ApplyColorToPreviews(Color color)
-    {
-        if (previewImages != null)
-        {
-            for (int i = 0; i < previewImages.Length; i++)
-            {
-                if (previewImages[i] != null) previewImages[i].color = color;
-            }
-        }
-    }
-
     private void SaveAndApplyColor(Color color, float u, float v, bool updateInputs)
     {
         string hexColor = "#" + ColorUtility.ToHtmlStringRGBA(color);
@@ -186,7 +112,6 @@ public class ColorMapPicker : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         PlayerPrefs.SetFloat("CrosshairCursorV", v);
         PlayerPrefs.Save();
 
-        ApplyColorToPreviews(color);
         BaseOptionManager.OnCrosshairColorChanged?.Invoke(color);
 
         if (updateInputs) UpdateRGBInputFields(color);

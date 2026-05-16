@@ -8601,6 +8601,7 @@ MonoBehaviour:
   shapeImages:
   - {fileID: 1031713206}
   - {fileID: 1535412327}
+  cooldownRingImage: {fileID: 283620425}
 --- !u!1001 &456516467
 PrefabInstance:
   m_ObjectHideFlags: 0

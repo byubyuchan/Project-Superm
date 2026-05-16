@@ -24,6 +24,8 @@ public abstract class BaseOptionManager : MonoBehaviour
 
     public static System.Action<Color> OnCrosshairColorChanged;
     public static System.Action<int> OnCrosshairShapeChanged;
+    public static System.Action<float> OnCrosshairSizeChanged;
+    public static System.Action<bool> OnCooldownVisibilityChanged;
 
     protected bool hasUnsavedChanges = false;
     protected int savedQualityIndex;
