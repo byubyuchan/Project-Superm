@@ -10,6 +10,11 @@ public class CrosshairOptionPage : MonoBehaviour
     public TMP_InputField sizeInput;
     public Toggle cooldownToggle;
 
+    [Header("Outline Settings UI")]
+    public Toggle outlineToggle;
+    public Slider outlineThicknessSlider;
+    public TMP_InputField outlineThicknessInput;
+
     private bool isUpdatingUI = false;
 
     private void Awake()
@@ -33,6 +38,15 @@ public class CrosshairOptionPage : MonoBehaviour
         {
             cooldownToggle.onValueChanged.AddListener(OnCooldownToggleChanged);
         }
+
+        if (outlineToggle != null)
+            outlineToggle.onValueChanged.AddListener(OnOutlineToggleChanged);
+
+        if (outlineThicknessSlider != null)
+            outlineThicknessSlider.onValueChanged.AddListener(OnOutlineSliderChanged);
+
+        if (outlineThicknessInput != null)
+            outlineThicknessInput.onEndEdit.AddListener(OnOutlineInputChanged);
     }
 
     private void OnEnable()
@@ -48,6 +62,15 @@ public class CrosshairOptionPage : MonoBehaviour
 
         int savedCooldown = PlayerPrefs.GetInt("CrosshairCooldownVisible", 1);
         if (cooldownToggle != null) cooldownToggle.isOn = (savedCooldown == 1);
+
+        bool isOutlineOn = PlayerPrefs.GetInt("CrosshairOutlineVisible", 1) == 1;
+        if (outlineToggle != null) outlineToggle.isOn = isOutlineOn;
+
+        UpdateOutlineInteractable(isOutlineOn);
+
+        float savedThickness = PlayerPrefs.GetFloat("CrosshairOutlineThickness", 1.0f);
+        if (outlineThicknessSlider != null) outlineThicknessSlider.value = savedThickness;
+        if (outlineThicknessInput != null) outlineThicknessInput.text = savedThickness.ToString("F1");
 
         isUpdatingUI = false;
     }
@@ -113,5 +136,62 @@ public class CrosshairOptionPage : MonoBehaviour
         PlayerPrefs.Save();
 
         BaseOptionManager.OnCooldownVisibilityChanged?.Invoke(isOn);
+    }
+
+    private void OnOutlineToggleChanged(bool isOn)
+    {
+        if (isUpdatingUI) return;
+
+        PlayerPrefs.SetInt("CrosshairOutlineVisible", isOn ? 1 : 0);
+        PlayerPrefs.Save();
+
+        UpdateOutlineInteractable(isOn);
+
+        BaseOptionManager.OnOutlineVisibilityChanged?.Invoke(isOn);
+    }
+
+    private void UpdateOutlineInteractable(bool isInteractable)
+    {
+        if (outlineThicknessSlider != null) outlineThicknessSlider.interactable = isInteractable;
+        if (outlineThicknessInput != null) outlineThicknessInput.interactable = isInteractable;
+    }
+
+    private void OnOutlineSliderChanged(float value)
+    {
+        if (isUpdatingUI) return;
+        isUpdatingUI = true;
+
+        if (outlineThicknessInput != null) outlineThicknessInput.text = value.ToString("F1");
+
+        SaveAndBroadcastOutlineThickness(value);
+        isUpdatingUI = false;
+    }
+
+    private void OnOutlineInputChanged(string text)
+    {
+        if (isUpdatingUI) return;
+
+        if (float.TryParse(text, out float value))
+        {
+            isUpdatingUI = true;
+
+            if (outlineThicknessSlider != null)
+            {
+                value = Mathf.Clamp(value, outlineThicknessSlider.minValue, outlineThicknessSlider.maxValue);
+                outlineThicknessSlider.value = value;
+            }
+
+            if (outlineThicknessInput != null) outlineThicknessInput.text = value.ToString("F1");
+
+            SaveAndBroadcastOutlineThickness(value);
+            isUpdatingUI = false;
+        }
+    }
+
+    private void SaveAndBroadcastOutlineThickness(float thickness)
+    {
+        PlayerPrefs.SetFloat("CrosshairOutlineThickness", thickness);
+        PlayerPrefs.Save();
+        BaseOptionManager.OnOutlineThicknessChanged?.Invoke(thickness);
     }
 }

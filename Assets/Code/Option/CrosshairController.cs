@@ -23,6 +23,12 @@ public class CrosshairController : MonoBehaviour
 
         float savedSize = PlayerPrefs.GetFloat("CrosshairSize", 1.0f);
         ApplySize(savedSize);
+
+        bool savedOutline = PlayerPrefs.GetInt("CrosshairOutlineVisible", 1) == 1;
+        float savedThickness = PlayerPrefs.GetFloat("CrosshairOutlineThickness", 1.0f);
+
+        ApplyOutlineVisibility(savedOutline);
+        ApplyOutlineThickness(savedThickness);
     }
 
     private void OnEnable()
@@ -31,6 +37,8 @@ public class CrosshairController : MonoBehaviour
         BaseOptionManager.OnCrosshairShapeChanged += ApplyShape;
         BaseOptionManager.OnCooldownVisibilityChanged += ApplyCooldownVisibility;
         BaseOptionManager.OnCrosshairSizeChanged += ApplySize;
+        BaseOptionManager.OnOutlineVisibilityChanged += ApplyOutlineVisibility;
+        BaseOptionManager.OnOutlineThicknessChanged += ApplyOutlineThickness;
     }
 
     private void OnDisable()
@@ -39,6 +47,8 @@ public class CrosshairController : MonoBehaviour
         BaseOptionManager.OnCrosshairShapeChanged -= ApplyShape;
         BaseOptionManager.OnCooldownVisibilityChanged -= ApplyCooldownVisibility;
         BaseOptionManager.OnCrosshairSizeChanged -= ApplySize;
+        BaseOptionManager.OnOutlineVisibilityChanged -= ApplyOutlineVisibility;
+        BaseOptionManager.OnOutlineThicknessChanged -= ApplyOutlineThickness;
     }
 
     private void ApplyColor(Color newColor)
@@ -79,6 +89,48 @@ public class CrosshairController : MonoBehaviour
         if (cooldownRingImage != null)
         {
             cooldownRingImage.gameObject.SetActive(isOn);
+        }
+    }
+
+    private void ApplyOutlineVisibility(bool isOn)
+    {
+        if (shapeImages != null)
+        {
+            foreach (var img in shapeImages)
+            {
+                if (img != null)
+                {
+                    Outline outline = img.GetComponent<Outline>();
+                    if (outline != null) outline.enabled = isOn;
+                }
+            }
+        }
+
+        if (cooldownRingImage != null)
+        {
+            Outline outline = cooldownRingImage.GetComponent<Outline>();
+            if (outline != null) outline.enabled = isOn;
+        }
+    }
+
+    private void ApplyOutlineThickness(float thickness)
+    {
+        if (shapeImages != null)
+        {
+            foreach (var img in shapeImages)
+            {
+                if (img != null)
+                {
+                    Outline outline = img.GetComponent<Outline>();
+                    if (outline != null) outline.effectDistance = new Vector2(thickness, thickness);
+                }
+            }
+        }
+
+        if (cooldownRingImage != null)
+        {
+            Outline outline = cooldownRingImage.GetComponent<Outline>();
+            if (outline != null) outline.effectDistance = new Vector2(thickness, thickness);
         }
     }
 }
