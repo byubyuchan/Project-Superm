@@ -89,20 +89,41 @@ namespace Photon.Pun.Demo.PunBasics
 		/// </summary>
 		void LateUpdate () {
 
+            if (targetTransform == null || Camera.main == null) return;
+
             if (targetRenderer != null)
             {
-                this._canvasGroup.alpha = targetRenderer.isVisible ? 1f : 0f;
+                targetPosition = targetRenderer.bounds.center;
+                float worldHalfHeight = targetRenderer.bounds.size.y / 2f;
+                targetPosition.y += worldHalfHeight;
             }
 
-            if (targetTransform != null)
+            Vector3 toTarget = targetPosition - Camera.main.transform.position;
+            float dotProduct = Vector3.Dot(Camera.main.transform.forward, toTarget.normalized);
+
+            if (dotProduct <= 0f)
             {
-                targetPosition = targetRenderer.bounds.center;
+                _canvasGroup.alpha = 0f;
+                return;
+            }
 
-                float worldHalfHeight = targetRenderer.bounds.size.y / 2f;
+            Vector3 screenPoint = Camera.main.WorldToScreenPoint(targetPosition);
 
-                targetPosition.y += worldHalfHeight;
-
-                this.transform.position = Camera.main.WorldToScreenPoint(targetPosition) + screenOffset;
+            if (screenPoint.x >= 0 && screenPoint.x <= Screen.width && screenPoint.y >= 0 && screenPoint.y <= Screen.height)
+            {
+                if (target.Hp <= 0f || target.isDead)
+                {
+                    _canvasGroup.alpha = 0f;
+                }
+                else
+                {
+                    _canvasGroup.alpha = 1f;
+                    this.transform.position = screenPoint + screenOffset;
+                }
+            }
+            else
+            {
+                _canvasGroup.alpha = 0f;
             }
         }
 

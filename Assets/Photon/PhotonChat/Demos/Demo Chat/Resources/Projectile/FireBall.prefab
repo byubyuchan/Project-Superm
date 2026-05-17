@@ -9756,6 +9756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   speed: 100
   lifeTime: 4
+  damage: 25
   explosionRadius: 10
   explosionForce: 300
   explosionEffectIndex: 0
@@ -9895,7 +9896,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.79e-43, y: 5.4734984e+22, z: 8.79e-43, w: -5.424982e+29}
+  m_BoundingSphereOverride: {x: 3.4972e-41, y: 2.524355e-29, z: 0, w: 2.296e-41}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
