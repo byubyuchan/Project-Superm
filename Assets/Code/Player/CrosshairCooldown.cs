@@ -9,6 +9,8 @@ public class CrosshairCooldown : MonoBehaviour
     [Header("Dependencies")]
     public MoveByKeys playerMovement;
     public Image cooldownImage;
+    private Image[] images;
+
 
     private Color customBaseColor = Color.white;
 
@@ -16,6 +18,8 @@ public class CrosshairCooldown : MonoBehaviour
     void OnEnable()
     {
         FindMyPlayer();
+
+        images = GetComponentsInChildren<Image>();
 
         string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#000000");
         if (ColorUtility.TryParseHtmlString(savedHex, out Color savedColor))
@@ -60,16 +64,27 @@ public class CrosshairCooldown : MonoBehaviour
             if (playerMovement == null) return;
         }
 
-        if (cooldownImage == null) return;
+        if (cooldownImage.gameObject.activeSelf)
+        {
+            float timePassed = Time.time - playerMovement.lastAttackTime;
+            float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
+            cooldownImage.fillAmount = progress;
 
-        // 공격 쿨다운 진행 상황 계산
-        float timePassed = Time.time - playerMovement.lastAttackTime;
-        float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
-        cooldownImage.fillAmount = progress;
+            Color appliedColor = customBaseColor;
+            appliedColor.a = (progress < 1f) ? 0.3f : 1.0f;
 
-        Color appliedColor = customBaseColor;
-        appliedColor.a = (progress < 1f) ? 0.3f : 1.0f;
-
-        cooldownImage.color = appliedColor;
+            cooldownImage.color = appliedColor;
+        }
+        else
+        {
+            float timePassed = Time.time - playerMovement.lastAttackTime;
+            float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
+            Color appliedColor = customBaseColor;
+            appliedColor.a = (progress < 1f) ? 0.3f : 1.0f;
+            foreach (var img in images)
+            {
+                if (img != null && img.gameObject.activeInHierarchy) img.color = appliedColor;
+            }
+        }
     }
 }
