@@ -24485,9 +24485,9 @@ MonoBehaviour:
   sizeSlider: {fileID: 1489478324}
   sizeInput: {fileID: 1452713373}
   cooldownToggle: {fileID: 1513381310}
-  outlineToggle: {fileID: 363310842}
-  outlineThicknessSlider: {fileID: 1127557943}
-  outlineThicknessInput: {fileID: 343543022}
+  outlineToggle: {fileID: 0}
+  outlineThicknessSlider: {fileID: 0}
+  outlineThicknessInput: {fileID: 0}
 --- !u!1 &1501894996
 GameObject:
   m_ObjectHideFlags: 0

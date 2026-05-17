@@ -78,6 +78,7 @@ namespace Photon.Pun.Demo.PunBasics
 
 			// Reflect the Player Health
 			if (playerHealthSlider != null) {
+				playerHealthSlider.maxValue = target.maxHp;
 				playerHealthSlider.value = target.Hp;
 			}
 		}

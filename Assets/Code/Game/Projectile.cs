@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviourPun
 {
     public float speed = 20f;
     public float lifeTime = 3f;
+    public float damage = 10f;
 
     [Header("Explosion Settings")]
     public float explosionRadius = 5f;   // Æø¹ß ¹Ý°æ
@@ -88,6 +89,11 @@ public class Projectile : MonoBehaviourPun
                 if (targetPV.OwnerActorNr == photonView.OwnerActorNr) return;
                 ApplyKnockback(col.gameObject);
                 hasExploded = true;
+
+                if (damage > 0f)
+                {
+                    targetPV.RPC("RPC_TakeDamage", targetPV.Owner, damage);
+                }
             }
         }
     }
@@ -118,6 +124,11 @@ public class Projectile : MonoBehaviourPun
                     }
 
                     ApplyKnockback(hit.gameObject);
+
+                    if (damage > 0f)
+                    {
+                        targetPV.RPC("RPC_TakeDamage", targetPV.Owner, damage);
+                    }
                 }
             }
         }

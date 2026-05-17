@@ -64,6 +64,9 @@ MonoBehaviour:
   - RPC_Sleep
   - RPC_WakeUp
   - RPC_ResetSniperTimer
+  - ApplyDamage
+  - TakeDamageDamage
+  - RPC_TakeDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

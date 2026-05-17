@@ -365,6 +365,19 @@ namespace Photon.Pun.UtilityScripts
         }
 
         [PunRPC]
+        public void RPC_TakeDamage(float damage) 
+        {
+            if (photonView.IsMine && damage > 0f)
+            {
+                HPController hpController = GetComponent<HPController>();
+                if (hpController != null && hpController.Hp > 0f)
+                {
+                    hpController.Hp -= damage;
+                }
+            }
+        }
+
+        [PunRPC]
         public void RPC_AddKnockback(Vector3 force)
         {
             if (photonView.IsMine)
@@ -466,7 +479,6 @@ namespace Photon.Pun.UtilityScripts
 
                 verticalRotation = 0f;
                 if (cameraPivot != null) cameraPivot.localRotation = Quaternion.identity;
-
                 sleepCoroutine = StartCoroutine(WakeUpAfterDelay(time));
             }
         }
