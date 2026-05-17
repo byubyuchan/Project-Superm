@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -241,6 +242,20 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         playerObj.GetComponent<PhotonView>().RPC("RPC_SizeReset", RpcTarget.All);
     }
 
+
+    public virtual void LeaveRoom() 
+    {
+        PhotonNetwork.LeaveRoom(); 
+    }
+
+    public override void OnLeftRoom()
+    {
+        if (PhotonPoolingManager.Instance != null)
+        {
+            PhotonPoolingManager.Instance.ClearPool();
+        }
+        SceneManager.LoadScene("Lobby");
+    }
     public bool GetBestRespawnPoint(out Vector3 pos, out Quaternion rot)
     {
         pos = Vector3.zero;
@@ -272,19 +287,27 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         return false;
     }
 
-    public virtual void LeaveRoom() 
+    public void TeleportCharacterLocal(GameObject playerObj, Vector3 pos, Quaternion rot)
     {
-        PhotonNetwork.LeaveRoom(); 
+        CharacterController cc = playerObj.GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+
+        playerObj.transform.position = pos;
+        playerObj.transform.rotation = rot;
+
+        if (cc != null) cc.enabled = true;
     }
 
-    public override void OnLeftRoom()
+    public void RequestTeleport(GameObject playerObj)
     {
-        if (PhotonPoolingManager.Instance != null)
+        if (GetBestRespawnPoint(out Vector3 resPos, out Quaternion resRot))
         {
-            PhotonPoolingManager.Instance.ClearPool();
+            TeleportCharacter(playerObj, resPos, resRot);
         }
-        SceneManager.LoadScene("Lobby");
+        else
+        {
+            // TODO : 배틀로얄 모드처럼 체크포인트가 없는 모드일 때 RandomTPZone을 이용하는 코드 추가
+            Debug.LogWarning("텔레포트 실패: 유효한 리스폰 지점이 없습니다.");
+        }
     }
-
-
 }

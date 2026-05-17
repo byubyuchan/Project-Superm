@@ -31,27 +31,7 @@ public class TPZone : MonoBehaviour
 
         if (manager != null)
         {
-            // 매니저에게 최적의 부활 지점을 물어봄
-            if (manager.GetBestRespawnPoint(out Vector3 resPos, out Quaternion resRot))
-            {
-                manager.TeleportCharacter(other.gameObject, resPos, resRot);
-                return;
-            }
+            manager.RequestTeleport(other.gameObject);
         }
-        // 리스폰 위치가 정해진 상태라면 그 위치로 리스폰
-        if (fallbackTarget != null)
-        {
-            TeleportCharacterLocal(other.gameObject, fallbackPosition, fallbackRotation);
-        }
-    }
-    private void TeleportCharacterLocal(GameObject playerObj, Vector3 pos, Quaternion rot)
-    {
-        CharacterController cc = playerObj.GetComponent<CharacterController>();
-        if (cc != null) cc.enabled = false;
-
-        playerObj.transform.position = pos;
-        playerObj.transform.rotation = rot;
-
-        if (cc != null) cc.enabled = true;
     }
 }

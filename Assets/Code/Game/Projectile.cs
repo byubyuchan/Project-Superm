@@ -32,7 +32,6 @@ public class Projectile : MonoBehaviourPun
             rb.linearVelocity = transform.forward * speed;
         }
 
-        // 3. 수명 타이머 재시작
         if (photonView.IsMine)
         {
             CancelInvoke("DestroySelf");
@@ -40,10 +39,7 @@ public class Projectile : MonoBehaviourPun
         }
     }
 
-
     void DestroySelf() {
-
-        if (hasExploded) return;
 
         if (photonView.IsMine)
         {
@@ -87,13 +83,15 @@ public class Projectile : MonoBehaviourPun
             {
                 // 팀킬 방지: 자신(발사자)은 제외
                 if (targetPV.OwnerActorNr == photonView.OwnerActorNr) return;
-                ApplyKnockback(col.gameObject);
-                hasExploded = true;
 
                 if (damage > 0f)
                 {
                     targetPV.RPC("RPC_TakeDamage", targetPV.Owner, damage);
                 }
+
+                ApplyKnockback(col.gameObject);
+
+                hasExploded = true;
             }
         }
     }

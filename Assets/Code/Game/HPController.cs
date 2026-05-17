@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
+using System.Collections;
 using UnityEngine;
 
 public class HPController : MonoBehaviourPunCallbacks, IPunObservable
@@ -9,6 +10,12 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
 
     [SerializeField]
     private GameObject UIprefab;
+
+    [SerializeField]
+    private float respawnDelay = 3f;
+
+    public bool isDead = false;
+    
 
     private void Start()
     {
@@ -23,6 +30,31 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 playerUI.SetTarget(this);
             }
+        }
+    }
+    public void Die()
+    {
+        isDead = true;
+        RespawnPlayer(respawnDelay);
+    }
+
+    public void RespawnPlayer(float delay)
+    {
+        if (photonView.IsMine)
+        {
+            StartCoroutine(PlayerRespawnRoutine(delay));
+        }
+    }
+
+    IEnumerator PlayerRespawnRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        BaseGameManager manager = Object.FindFirstObjectByType<BaseGameManager>();
+
+        if (manager != null)
+        {
+            manager.RequestTeleport(gameObject);
         }
     }
 

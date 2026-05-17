@@ -370,9 +370,13 @@ namespace Photon.Pun.UtilityScripts
             if (photonView.IsMine && damage > 0f)
             {
                 HPController hpController = GetComponent<HPController>();
-                if (hpController != null && hpController.Hp > 0f)
+                if (hpController != null && hpController.Hp >= 0f)
                 {
                     hpController.Hp -= damage;
+                    if (!hpController.isDead && hpController.Hp <= 0f)
+                    {
+                        hpController.Die();
+                    }
                 }
             }
         }
