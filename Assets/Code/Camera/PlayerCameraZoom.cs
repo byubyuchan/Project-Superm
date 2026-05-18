@@ -23,6 +23,7 @@ public class PlayerCameraZoom : MonoBehaviourPun
     private Camera camComponent;
 
     private bool isDefaultValuesSet = false;
+    private bool isAiming;
 
     void Awake()
     {
@@ -35,9 +36,16 @@ public class PlayerCameraZoom : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        if (playerMovement != null) 
+        if (CrosshairController.instance != null)
+        {
+            crosshairImage = CrosshairController.instance.gameObject;
+            crosshairImage.SetActive(false);
+        }
+
+        if (playerMovement != null)
         {
             playerMovement.isLoadingAttack = false;
+            isAiming = false;
         }
 
         if (Camera.main != null)
@@ -60,26 +68,29 @@ public class PlayerCameraZoom : MonoBehaviourPun
             cameraTransform.localPosition = localPos;
             camComponent.fieldOfView = defaultFOV;
         }
-
-        ResetCrosshair();
     }
 
     void Update()
     {
         if (!photonView.IsMine || playerMovement == null || cameraTransform == null || camComponent == null) return;
-        
-        HandleZoom(playerMovement.isLoadingAttack);
+
+        isAiming = playerMovement.isLoadingAttack;
+
+        float targetX = isAiming ? zoomXOffset : defaultXOffset;
+        float targetFOV = isAiming ? zoomFOV : defaultFOV;
+
+        if (crosshairImage.activeSelf == isAiming &&
+            Mathf.Abs(cameraTransform.localPosition.x - targetX) < 0.001f &&
+            Mathf.Abs(camComponent.fieldOfView - targetFOV) < 0.01f)
+        {
+            return; 
+        }
+
+        HandleZoom(isAiming);
     }
 
     void HandleZoom(bool isAiming)
     {
-        // 조준선 오브젝트가 사라졌거나 캐싱이 안 되었다면 다시 찾기
-        if (crosshairImage == null)
-        {
-            crosshairImage = GameObject.FindWithTag("Crosshair");
-            if (crosshairImage == null) return;
-        }
-
         float targetX = isAiming ? zoomXOffset : defaultXOffset;
         float targetY = isAiming ? zoomYOffset : defaultYOffset;
         float targetFOV = isAiming ? zoomFOV : defaultFOV;

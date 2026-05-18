@@ -4,11 +4,18 @@ using UnityEngine.UI;
 
 public class CrosshairController : MonoBehaviour
 {
+    public static CrosshairController instance;
+
     [Header("Crosshair Elements")]
     public Image[] shapeImages;
     public Image cooldownRingImage;
 
     private bool isCooldownOptionOn = true;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {

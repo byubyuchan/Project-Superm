@@ -12,6 +12,7 @@ TagManager:
   - Obstacle
   - Projectile
   - NPCProjectile
+  - Canvas
   layers:
   - Default
   - TransparentFX
