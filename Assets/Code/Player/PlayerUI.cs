@@ -75,7 +75,6 @@ namespace Photon.Pun.Demo.PunBasics
 				return;
 			}
 
-
 			// Reflect the Player Health
 			if (playerHealthSlider != null) {
 				playerHealthSlider.maxValue = target.maxHp;
@@ -90,6 +89,17 @@ namespace Photon.Pun.Demo.PunBasics
 		void LateUpdate () {
 
             if (targetTransform == null || Camera.main == null) return;
+
+            if (Camera.main == null)
+            {
+                _canvasGroup.alpha = 0f;
+                return;
+            }
+
+            if (targetRenderer == null)
+            {
+                targetRenderer = target.GetComponentInChildren<Renderer>();
+            }
 
             if (targetRenderer != null)
             {

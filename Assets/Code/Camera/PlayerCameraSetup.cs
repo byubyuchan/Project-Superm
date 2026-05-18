@@ -11,10 +11,14 @@ public class PlayerCameraSetup : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
+            Camera oldMainCam = Camera.main;
+
             if (playerCamera != null)
             {
                 playerCamera.gameObject.SetActive(true);
                 playerCamera.tag = "MainCamera";
+                // 카메라 우선순위 높임
+                Camera.SetupCurrent(playerCamera);
             }
 
             if (audioListener != null)
@@ -22,9 +26,9 @@ public class PlayerCameraSetup : MonoBehaviourPun
                 audioListener.enabled = true;
             }
 
-            if (Camera.main != null && Camera.main != playerCamera)
+            if (oldMainCam != null && oldMainCam != playerCamera)
             {
-                Camera.main.gameObject.SetActive(false);
+                oldMainCam.gameObject.SetActive(false);
             }
         }
         else

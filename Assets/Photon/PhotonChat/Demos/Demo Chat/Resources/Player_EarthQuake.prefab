@@ -483,7 +483,7 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 1
   ObservedComponents:
   - {fileID: 4505607586069167487}
   - {fileID: -5765491507811491722}
@@ -678,4 +678,5 @@ MonoBehaviour:
   Hp: 100
   maxHp: 0
   UIprefab: {fileID: 170056, guid: 525d0c2c9acd74d4faf569562686959b, type: 3}
-  respawnDelay: 3
+  respawnDelay: 10
+  isDead: 0

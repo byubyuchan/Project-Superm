@@ -67,6 +67,7 @@ MonoBehaviour:
   - ApplyDamage
   - TakeDamageDamage
   - RPC_TakeDamage
+  - RPC_BroadcastDie
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

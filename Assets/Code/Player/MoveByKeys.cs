@@ -98,6 +98,7 @@ namespace Photon.Pun.UtilityScripts
                 isLoadingAttack = false;
                 rawMoveInput = Vector2.zero;
                 rawLookInput = Vector2.zero;
+
                 UpdateCursorState();
             }
         }
@@ -215,6 +216,8 @@ namespace Photon.Pun.UtilityScripts
         public void Update()
         {
             if (!photonView.IsMine) return;
+
+            if (Camera.main == null) return;
 
             // 1. 상태 체크 (채팅/메뉴/UI모드일 때 입력값 강제 0 처리)
             bool isBlocked = isChatting() || isMenuOpen || isUIMode || isSleep;

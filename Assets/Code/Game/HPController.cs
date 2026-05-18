@@ -15,47 +15,63 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
     private float respawnDelay = 3f;
 
     public bool isDead = false;
-    
 
-    private void Start()
+    private void Awake()
     {
         maxHp = Hp;
+    }
+    
+    private new void OnEnable()
+    {
+        base.OnEnable();
+        Hp = maxHp;
+        isDead = false;
+
+        if (photonView.IsMine)
+        {
+            var moveScript = GetComponent<Photon.Pun.UtilityScripts.MoveByKeys>();
+            if (moveScript != null)
+            {
+                moveScript.enabled = true;
+            }
+
+            var inputSystem = GetComponent<UnityEngine.InputSystem.PlayerInput>();
+            if (inputSystem != null)
+            {
+                inputSystem.enabled = true;
+            }
+        }
 
         if (this.UIprefab != null)
         {
-            GameObject _uiGo = Instantiate(this.UIprefab, Vector3.zero, Quaternion.identity);
+            StartCoroutine(InitPlayerUIRoutine());
+        }
 
-            PlayerUI playerUI = _uiGo.GetComponent<PlayerUI>();
-            if (playerUI != null)
-            {
-                playerUI.SetTarget(this);
-            }
+    }
+
+    // 캐릭터가 제대로 생성된 후 OnEnable 시작
+    private IEnumerator InitPlayerUIRoutine()
+    {
+        while (photonView == null || photonView.Owner == null)
+        {
+            yield return null; // 다음 프레임에 다시 확인
+        }
+
+        GameObject _uiGo = Instantiate(this.UIprefab, Vector3.zero, Quaternion.identity);
+        PlayerUI playerUI = _uiGo.GetComponent<PlayerUI>();
+
+        if (playerUI != null)
+        {
+            playerUI.SetTarget(this);
         }
     }
+
     public void Die()
     {
+        if (isDead) return;
         isDead = true;
-        RespawnPlayer(respawnDelay);
-    }
 
-    public void RespawnPlayer(float delay)
-    {
-        if (photonView.IsMine)
-        {
-            StartCoroutine(PlayerRespawnRoutine(delay));
-        }
-    }
-
-    IEnumerator PlayerRespawnRoutine(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        BaseGameManager manager = Object.FindFirstObjectByType<BaseGameManager>();
-
-        if (manager != null)
-        {
-            manager.RequestTeleport(gameObject);
-        }
+        photonView.RPC("RPC_BroadcastDie", RpcTarget.All);
     }
 
     // Photon Update()
@@ -68,6 +84,21 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
             this.Hp = (float)stream.ReceiveNext();
+        }
+    }
+
+    [PunRPC]
+    private void RPC_BroadcastDie()
+    {
+        this.isDead = true;
+        this.Hp = 0f;
+
+        if (photonView.IsMine)
+        {
+            if (PlayerSpawner.Instance != null)
+            {
+                PlayerSpawner.Instance.RequestRespawn(gameObject, respawnDelay);
+            }
         }
     }
 }
