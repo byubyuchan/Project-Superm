@@ -99,6 +99,9 @@ namespace Photon.Pun.UtilityScripts
                 rawMoveInput = Vector2.zero;
                 rawLookInput = Vector2.zero;
 
+                impact = Vector3.zero;
+                velocity = Vector3.zero;
+
                 UpdateCursorState();
             }
         }

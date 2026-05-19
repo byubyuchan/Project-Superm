@@ -64,7 +64,11 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     {
         if (ghostCamera!= null && currentCamera == null)
         {
-            currentCamera = Instantiate(ghostCamera, player.transform.position + new Vector3(0,15f,0), player.transform.rotation);
+            Vector3 spawnPosition = player.transform.position + (player.transform.forward * 40f) + (Vector3.up * 40f);
+            Vector3 lookDirection = player.transform.position - spawnPosition;
+            Quaternion spawnRotation = Quaternion.LookRotation(lookDirection);
+
+            currentCamera = Instantiate(ghostCamera, spawnPosition, spawnRotation);
         }
 
         EffectManager.Instance.RequestExplosion(effectIndex,player.transform.position);

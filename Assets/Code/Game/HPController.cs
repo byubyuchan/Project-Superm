@@ -14,6 +14,8 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     private float respawnDelay = 3f;
 
+    private GameObject myUIInstance;
+
     public bool isDead = false;
 
     private void Awake()
@@ -46,7 +48,6 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
         {
             StartCoroutine(InitPlayerUIRoutine());
         }
-
     }
 
     // 캐릭터가 제대로 생성된 후 OnEnable 시작
@@ -57,8 +58,8 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
             yield return null; // 다음 프레임에 다시 확인
         }
 
-        GameObject _uiGo = Instantiate(this.UIprefab, Vector3.zero, Quaternion.identity);
-        PlayerUI playerUI = _uiGo.GetComponent<PlayerUI>();
+        myUIInstance = Instantiate(this.UIprefab, Vector3.zero, Quaternion.identity);
+        PlayerUI playerUI = myUIInstance.GetComponent<PlayerUI>();
 
         if (playerUI != null)
         {
