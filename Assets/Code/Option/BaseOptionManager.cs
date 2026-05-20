@@ -23,6 +23,7 @@ public abstract class BaseOptionManager : MonoBehaviour
     public Button popupCancelButton;
 
     public static System.Action<Color> OnCrosshairColorChanged;
+    public static System.Action<float> OnCrosshairOpacityChanged;
     public static System.Action<int> OnCrosshairShapeChanged;
     public static System.Action<float> OnCrosshairSizeChanged;
     public static System.Action<bool> OnCooldownVisibilityChanged;

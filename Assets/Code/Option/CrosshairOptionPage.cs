@@ -5,6 +5,8 @@ using TMPro;
 public class CrosshairOptionPage : MonoBehaviour
 {
     [Header("Settings UI")]
+    public Slider opacitySlider;
+    public TMP_InputField opacityInput;
     public TMP_Dropdown shapeDropdown;
     public Slider sizeSlider;
     public TMP_InputField sizeInput;
@@ -19,6 +21,12 @@ public class CrosshairOptionPage : MonoBehaviour
 
     private void Awake()
     {
+        if (opacitySlider != null)
+            opacitySlider.onValueChanged.AddListener(OnOpacitySliderChanged);
+
+        if (opacityInput != null)
+            opacityInput.onEndEdit.AddListener(OnOpacityInputChanged);
+
         if (shapeDropdown != null)
         {
             shapeDropdown.onValueChanged.AddListener(OnShapeDropdownChanged);
@@ -53,6 +61,10 @@ public class CrosshairOptionPage : MonoBehaviour
     {
         isUpdatingUI = true;
 
+        float savedOpacity = PlayerPrefs.GetFloat("CrosshairOpacity", 1.0f);
+        if (opacitySlider != null) opacitySlider.value = savedOpacity * 100f;
+        if (opacityInput != null) opacityInput.text = Mathf.RoundToInt(savedOpacity * 100f).ToString();
+
         int savedShape = PlayerPrefs.GetInt("CrosshairShape", 0);
         if (shapeDropdown != null) shapeDropdown.value = savedShape;
 
@@ -73,6 +85,47 @@ public class CrosshairOptionPage : MonoBehaviour
         if (outlineThicknessInput != null) outlineThicknessInput.text = savedThickness.ToString("F1");
 
         isUpdatingUI = false;
+    }
+
+    private void OnOpacitySliderChanged(float value)
+    {
+        if (isUpdatingUI) return;
+        isUpdatingUI = true;
+
+        if (opacityInput != null) opacityInput.text = Mathf.RoundToInt(value).ToString();
+
+        SaveAndBroadcastOpacity(value / 100f);
+
+        isUpdatingUI = false;
+    }
+
+    private void OnOpacityInputChanged(string text)
+    {
+        if (isUpdatingUI) return;
+
+        if (float.TryParse(text, out float value))
+        {
+            isUpdatingUI = true;
+
+            if (opacitySlider != null)
+            {
+                value = Mathf.Clamp(value, opacitySlider.minValue, opacitySlider.maxValue); // 0 ~ 100
+                opacitySlider.value = value;
+            }
+
+            if (opacityInput != null) opacityInput.text = Mathf.RoundToInt(value).ToString();
+
+            SaveAndBroadcastOpacity(value / 100f);
+
+            isUpdatingUI = false;
+        }
+    }
+
+    private void SaveAndBroadcastOpacity(float opacity)
+    {
+        PlayerPrefs.SetFloat("CrosshairOpacity", opacity);
+        PlayerPrefs.Save();
+        BaseOptionManager.OnCrosshairOpacityChanged?.Invoke(opacity);
     }
 
     private void OnShapeDropdownChanged(int index)

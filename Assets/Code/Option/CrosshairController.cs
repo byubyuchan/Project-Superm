@@ -10,6 +10,8 @@ public class CrosshairController : MonoBehaviour
     public Image[] shapeImages;
     public Image cooldownRingImage;
 
+    private Color currentColor = Color.white;
+    private float currentOpacity = 1.0f;
     private bool isCooldownOptionOn = true;
 
     private void Awake()
@@ -19,6 +21,8 @@ public class CrosshairController : MonoBehaviour
 
     private void Start()
     {
+        currentOpacity = PlayerPrefs.GetFloat("CrosshairOpacity", 1.0f);
+
         string savedHex = PlayerPrefs.GetString("CrosshairColorHex", "#000000");
         if (ColorUtility.TryParseHtmlString(savedHex, out Color savedColor)) ApplyColor(savedColor);
 
@@ -41,6 +45,7 @@ public class CrosshairController : MonoBehaviour
     private void OnEnable()
     {
         BaseOptionManager.OnCrosshairColorChanged += ApplyColor;
+        BaseOptionManager.OnCrosshairOpacityChanged += ApplyOpacity;
         BaseOptionManager.OnCrosshairShapeChanged += ApplyShape;
         BaseOptionManager.OnCooldownVisibilityChanged += ApplyCooldownVisibility;
         BaseOptionManager.OnCrosshairSizeChanged += ApplySize;
@@ -51,6 +56,7 @@ public class CrosshairController : MonoBehaviour
     private void OnDisable()
     {
         BaseOptionManager.OnCrosshairColorChanged -= ApplyColor;
+        BaseOptionManager.OnCrosshairOpacityChanged -= ApplyOpacity;
         BaseOptionManager.OnCrosshairShapeChanged -= ApplyShape;
         BaseOptionManager.OnCooldownVisibilityChanged -= ApplyCooldownVisibility;
         BaseOptionManager.OnCrosshairSizeChanged -= ApplySize;
@@ -60,15 +66,31 @@ public class CrosshairController : MonoBehaviour
 
     private void ApplyColor(Color newColor)
     {
+        currentColor = newColor;
+        UpdateColorsWithOpacity();
+    }
+
+    private void ApplyOpacity(float opacity)
+    {
+        currentOpacity = opacity;
+        UpdateColorsWithOpacity();
+    }
+
+    private void UpdateColorsWithOpacity()
+    {
+        Color finalColor = currentColor;
+        finalColor.a = currentOpacity;
+
         if (shapeImages != null)
         {
-            foreach (var img in shapeImages) if (img != null) img.color = newColor;
+            foreach (var img in shapeImages)
+            {
+                if (img != null) img.color = finalColor;
+            }
         }
 
         if (cooldownRingImage != null)
         {
-            Color finalColor = newColor;
-            finalColor.a = cooldownRingImage.color.a;
             cooldownRingImage.color = finalColor;
         }
     }

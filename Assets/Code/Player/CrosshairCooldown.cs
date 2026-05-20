@@ -11,8 +11,8 @@ public class CrosshairCooldown : MonoBehaviour
     public Image cooldownImage;
     private Image[] images;
 
-
     private Color customBaseColor = Color.white;
+    private float maxOpacity = 1.0f;
 
     // 플레이어가 풀링으로 재사용되기 때문에 이 스크립트 또한 재활성화 될 때마다 초기화 필요
     void OnEnable()
@@ -27,17 +27,26 @@ public class CrosshairCooldown : MonoBehaviour
             customBaseColor = savedColor;
         }
 
+        maxOpacity = PlayerPrefs.GetFloat("CrosshairOpacity", 1.0f);
+
         BaseOptionManager.OnCrosshairColorChanged += UpdateCustomColor;
+        BaseOptionManager.OnCrosshairOpacityChanged += UpdateMaxOpacity;
     }
 
     void OnDisable()
     {
         BaseOptionManager.OnCrosshairColorChanged -= UpdateCustomColor;
+        BaseOptionManager.OnCrosshairOpacityChanged -= UpdateMaxOpacity;
     }
 
     private void UpdateCustomColor(Color newColor)
     {
         customBaseColor = newColor;
+    }
+
+    private void UpdateMaxOpacity(float newOpacity)
+    {
+        maxOpacity = newOpacity;
     }
 
     // IsMine으로 내 플레이어를 찾아 참조
@@ -64,26 +73,52 @@ public class CrosshairCooldown : MonoBehaviour
             if (playerMovement == null) return;
         }
 
-        if (cooldownImage.gameObject.activeSelf)
+        //if (cooldownImage.gameObject.activeSelf)
+        //{
+        //    float timePassed = Time.time - playerMovement.lastAttackTime;
+        //    float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
+        //    cooldownImage.fillAmount = progress;
+
+        //    Color appliedColor = customBaseColor;
+        //    appliedColor.a = (progress < 1f) ? 0.3f : 1.0f;
+
+        //    cooldownImage.color = appliedColor;
+        //}
+        //else
+        //{
+        //    float timePassed = Time.time - playerMovement.lastAttackTime;
+        //    float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
+        //    Color appliedColor = customBaseColor;
+        //    appliedColor.a = (progress < 1f) ? 0.3f : 1.0f;
+        //    foreach (var img in images)
+        //    {
+        //        if (img != null && img.gameObject.activeInHierarchy) img.color = appliedColor;
+        //    }
+        //}
+
+        float timePassed = Time.time - playerMovement.lastAttackTime;
+        float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
+
+        // 유저가 설정한 최대 투명도(maxOpacity)를 기준으로 계산합니다
+        // 쿨타임 중일 때는 설정된 투명도의 30%만 보여주고, 쿨타임이 다 차면 설정된 투명도(100%)로 보여줍니다
+        float currentAlpha = (progress < 1f) ? (maxOpacity * 0.3f) : maxOpacity;
+
+        Color appliedColor = customBaseColor;
+        appliedColor.a = currentAlpha;
+
+        if (cooldownImage != null && cooldownImage.gameObject.activeSelf)
         {
-            float timePassed = Time.time - playerMovement.lastAttackTime;
-            float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
             cooldownImage.fillAmount = progress;
-
-            Color appliedColor = customBaseColor;
-            appliedColor.a = (progress < 1f) ? 0.3f : 1.0f;
-
             cooldownImage.color = appliedColor;
         }
         else
         {
-            float timePassed = Time.time - playerMovement.lastAttackTime;
-            float progress = Mathf.Clamp01(timePassed / playerMovement.attackCooldown);
-            Color appliedColor = customBaseColor;
-            appliedColor.a = (progress < 1f) ? 0.3f : 1.0f;
-            foreach (var img in images)
+            if (images != null)
             {
-                if (img != null && img.gameObject.activeInHierarchy) img.color = appliedColor;
+                foreach (var img in images)
+                {
+                    if (img != null && img.gameObject.activeInHierarchy) img.color = appliedColor;
+                }
             }
         }
     }
