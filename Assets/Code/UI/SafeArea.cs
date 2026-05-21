@@ -22,7 +22,7 @@ public class SafeArea : MonoBehaviour
     {
         Rect safeArea = Screen.safeArea;
 
-        // Safe Area가 변경되면 UI를 업데이트
+        // 매번 연산하지 않고, 이전과 비교해서 실제 변경 사항이 있을 때만 UI 업데이트
         if (safeArea != lastSafeArea)
         {
             lastSafeArea = safeArea;
@@ -32,7 +32,7 @@ public class SafeArea : MonoBehaviour
 
     void ApplySafeArea(Rect r)
     {
-        // Safe Area의 위치와 크기를 화면 비율로 계산
+        // Safe Area의 픽셀 위치와 크기를 0~1 사이의 화면 비율(정규화)로 변환
         Vector2 anchorMin = r.position;
         Vector2 anchorMax = r.position + r.size;
 
@@ -41,7 +41,7 @@ public class SafeArea : MonoBehaviour
         anchorMax.x /= Screen.width;
         anchorMax.y /= Screen.height;
 
-        // 패널의 앵커를 Safe Area에 맞게 설정
+        // 패널의 앵커를 Safe Area에 맞게 재설정
         panel.anchorMin = anchorMin;
         panel.anchorMax = anchorMax;
     }
