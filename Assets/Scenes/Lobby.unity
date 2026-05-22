@@ -31121,8 +31121,8 @@ RectTransform:
   m_Children:
   - {fileID: 2085220410}
   - {fileID: 1597601600}
-  - {fileID: 1614032411}
   - {fileID: 558294841}
+  - {fileID: 1614032411}
   m_Father: {fileID: 1171800914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -33253,8 +33253,8 @@ RectTransform:
   m_Children:
   - {fileID: 537581209}
   - {fileID: 1639932797}
-  - {fileID: 487678465}
   - {fileID: 1979838317}
+  - {fileID: 487678465}
   m_Father: {fileID: 57537565}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
