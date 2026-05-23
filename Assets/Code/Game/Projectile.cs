@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 
@@ -19,9 +20,13 @@ public class Projectile : MonoBehaviourPun
 
     protected bool isNPCProjectile;
 
+    private HashSet<int> hitPlayers = new HashSet<int>(20);
+
     public void OnEnable()
     {
         hasExploded = false;
+
+        hitPlayers.Clear();
 
         isNPCProjectile = gameObject.CompareTag("NPCProjectile");
 
@@ -74,24 +79,23 @@ public class Projectile : MonoBehaviourPun
     {
         if (!photonView.IsMine || hasExploded) return;
 
-        // 3. Player에 닿으면 넉백 처리
         if (col.gameObject.CompareTag("Player"))
         {
             PhotonView targetPV = col.gameObject.GetComponent<PhotonView>();
-
             if (targetPV != null)
             {
-                // 팀킬 방지: 자신(발사자)은 제외
+                // 팀킬 방지
                 if (targetPV.OwnerActorNr == photonView.OwnerActorNr) return;
 
+                // 이미 해시셋에 들어간 경우 return;
+                if (!hitPlayers.Add(targetPV.OwnerActorNr)) return;
+
+                // 해시셋에 방금 들어간 경우 데미지 로직
                 if (damage > 0f)
                 {
                     targetPV.RPC("RPC_TakeDamage", targetPV.Owner, damage);
                 }
-
-                ApplyKnockback(col.gameObject);
-
-                hasExploded = true;
+                ApplyKnockback(col.gameObject, targetPV);
             }
         }
     }
@@ -121,7 +125,7 @@ public class Projectile : MonoBehaviourPun
                         continue;
                     }
 
-                    ApplyKnockback(hit.gameObject);
+                    ApplyKnockback(hit.gameObject, targetPV);
 
                     if (damage > 0f)
                     {
@@ -155,19 +159,18 @@ public class Projectile : MonoBehaviourPun
                         continue;
                     }
 
-                    ApplyKnockback(hit.gameObject);
+                    ApplyKnockback(hit.gameObject,targetPV);
                 }
             }
         }
     }
 
-    void ApplyKnockback(GameObject target)
+    void ApplyKnockback(GameObject target, PhotonView targetPV)
     {
         // 폭발 중심에서 타겟까지의 방향 계산
         Vector3 direction = (target.transform.position - transform.position).normalized;
         direction.y = 0.5f; // 약간 위로 붕 뜨게 만듦 (배그 수류탄 느낌)
 
-        PhotonView targetPV = target.GetComponent<PhotonView>();
         if (targetPV != null)
         {
             // 맞는 사람의 Owner에게 RPC를 쏴서 "너 넉백 당해라"라고 알려줌
