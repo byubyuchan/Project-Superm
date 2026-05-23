@@ -137,17 +137,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // If close createRoomPanel, use CloseCreateRoomPanel function
         UIManager.Instance.ShowPanel(createRoomPanel, CloseCreateRoomPanel);
 
-        roomNameInput.text = "";
-        if (modeDropdown != null) modeDropdown.value = 0;
-        maxPlayersInput.text = "8";
+        //roomNameInput.text = "";
+        //if (modeDropdown != null) modeDropdown.value = 0;
+        //maxPlayersInput.text = "8";
 
-        if (privateToggle != null) privateToggle.isOn = false;
-        passwordInput.text = "";
+        //if (privateToggle != null) privateToggle.isOn = false;
+        //passwordInput.text = "";
 
-        isCreateRoomPasswordVisible = true;
-        passwordInput.contentType = TMP_InputField.ContentType.Alphanumeric;
-        if (showCreateRoomPasswordImage != null) showCreateRoomPasswordImage.sprite = eyeOpenSprite;
-        passwordInput.ForceLabelUpdate();
+        //isCreateRoomPasswordVisible = true;
+        //passwordInput.contentType = TMP_InputField.ContentType.Alphanumeric;
+        //if (showCreateRoomPasswordImage != null) showCreateRoomPasswordImage.sprite = eyeOpenSprite;
+        //passwordInput.ForceLabelUpdate();
     }
 
     public void ToggleCreateRoomPasswordVisibility()
