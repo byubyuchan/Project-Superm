@@ -303,16 +303,17 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         if (cc != null) cc.enabled = true;
     }
 
-    public void RequestTeleport(GameObject playerObj)
+    public bool RequestTeleport(GameObject playerObj)
     {
         if (GetBestRespawnPoint(out Vector3 resPos, out Quaternion resRot))
         {
             TeleportCharacter(playerObj, resPos, resRot);
+            return true;
         }
         else
         {
-            // TODO : 배틀로얄 모드처럼 체크포인트가 없는 모드일 때 RandomTPZone을 이용하는 코드 추가
-            Debug.LogWarning("텔레포트 실패: 유효한 리스폰 지점이 없습니다.");
+            Debug.LogWarning("체크포인트가 없습니다! 정해진 위치로 이동합니다.");
+            return false;
         }
     }
 

@@ -31,7 +31,8 @@ public class TPZone : MonoBehaviour
 
         if (manager != null)
         {
-            manager.RequestTeleport(other.gameObject);
+            //manager.TeleportCharacter(other.gameObject, fallbackPosition, fallbackRotation);
+            manager.RequestTeleport(pv.gameObject);
         }
     }
 }
