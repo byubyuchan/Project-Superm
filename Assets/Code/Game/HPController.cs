@@ -88,6 +88,7 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    // RPC를 발생시킨 객체가 this
     [PunRPC]
     private void RPC_BroadcastDie()
     {

@@ -1,13 +1,10 @@
 using NUnit.Framework;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -15,9 +12,6 @@ public class WarmupManager : BaseGameManager
 {
     [Header("Player List UI")]
     public TextMeshProUGUI playerCountText;
-
-    [Header("Game Start UI")]
-    public Button startButton;
 
     [Header("Host Option Popup")]
     public GameObject hostOptionPanel;
@@ -33,6 +27,9 @@ public class WarmupManager : BaseGameManager
     public Toggle settingsPrivateToggle;
     public TMP_InputField settingsPasswordInput;
     public Button applySettingsButton;
+
+    [Header("Game Start UI")]
+    public Button startButton;
 
     [Header("Success Panel UI")]
     public GameObject successPanel;
@@ -201,13 +198,6 @@ public class WarmupManager : BaseGameManager
         }
     }
 
-    [PunRPC]
-    private void RPC_Kicked()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
-
-
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         UpdatePlayerList();
@@ -229,31 +219,11 @@ public class WarmupManager : BaseGameManager
         }
     }
 
-    [PunRPC]
-    private void RPC_StartCountdown()
+    protected override void CountFinish()
     {
-        startButton.gameObject.SetActive(false);
-        StartCoroutine(CountdownCoroutine());
-    }
-
-    private new System.Collections.IEnumerator CountdownCoroutine()
-    {
-        countdownText.gameObject.SetActive(true);
-
-        int count = 5;
-        while (count > 0)
-        {
-            countdownText.text = count.ToString();
-            yield return new WaitForSeconds(1f);
-            count--;
-        }
-
-        countdownText.text = "START!";
-        yield return new WaitForSeconds(1f);
-
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("RunScene");
+            PhotonNetwork.LoadLevel(nextScene);
         }
     }
 
@@ -362,8 +332,6 @@ public class WarmupManager : BaseGameManager
         if (warningPanel != null) warningPanel.SetActive(false);
     }
 
-
-
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 완료: 속성 초기화 및 리스트 업데이트");
@@ -375,5 +343,18 @@ public class WarmupManager : BaseGameManager
         {
             startButton.gameObject.SetActive(true);
         }
+    }
+
+    [PunRPC]
+    protected void RPC_StartCountdown()
+    {
+        startButton.gameObject.SetActive(false);
+        StartCoroutine(CountdownCoroutine(5, "{0}", "START!"));
+    }
+
+    [PunRPC]
+    private void RPC_Kicked()
+    {
+        PhotonNetwork.LeaveRoom();
     }
 }

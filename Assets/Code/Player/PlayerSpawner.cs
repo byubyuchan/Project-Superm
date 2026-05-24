@@ -1,7 +1,7 @@
 using Photon.Pun;
-using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerSpawner : MonoBehaviourPunCallbacks
 {
@@ -62,7 +62,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 
     private IEnumerator RespawnRoutine(GameObject player, float delay)
     {
-        if (ghostCamera!= null && currentCamera == null)
+        if (ghostCamera != null && currentCamera == null)
         {
             Vector3 spawnPosition = player.transform.position + (player.transform.forward * 40f) + (Vector3.up * 40f);
             Vector3 lookDirection = player.transform.position - spawnPosition;
@@ -71,11 +71,43 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             currentCamera = Instantiate(ghostCamera, spawnPosition, spawnRotation);
         }
 
-        EffectManager.Instance.RequestExplosion(effectIndex,player.transform.position);
-
+        EffectManager.Instance.RequestExplosion(effectIndex, player.transform.position);
         PhotonNetwork.Destroy(player);
 
-        yield return new WaitForSeconds(delay);
+        ColorGrading colorGrading = null;
+
+        if (currentCamera != null)
+        {
+            PostProcessVolume volume = currentCamera.GetComponent<PostProcessVolume>();
+            if (volume != null && volume.profile != null)
+            {
+                volume.profile.TryGetSettings(out colorGrading);
+            }
+        }
+
+        float elapsedTime = 0f;
+
+        BaseGameManager manager = Object.FindFirstObjectByType<BaseGameManager>();
+
+        while (elapsedTime < delay)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / delay;
+
+            if (colorGrading != null)
+            {
+                colorGrading.saturation.value = Mathf.Lerp(-100f, -25f, t);
+            }
+
+            int remainTime = Mathf.CeilToInt(delay - elapsedTime);
+
+            manager.ShowMessageAnother($"{remainTime}");
+
+            yield return null;
+        }
+
+        manager.messageText.gameObject.SetActive(false);
 
         if (currentCamera != null)
         {
@@ -149,6 +181,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
         // 아무것도 아니라면 첫 부활장소에서 리스폰
         player = PhotonNetwork.Instantiate(playerPrefabs[randomPrefabIndex].name, spawnPos, spawnRot);
     }
+
     #region PunCallbacks 옵션
     public override void OnLeftRoom() { Debug.Log("방을 떠났습니다."); }
     public override void OnCreateRoomFailed(short returnCode, string message) { Debug.LogError($"방 생성 실패: {message}"); }

@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -38,6 +39,7 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     [Header("GameEnd")]
     public TextMeshProUGUI winnerText;
     public TextMeshProUGUI countdownText;
+    public TextMeshProUGUI messageText;
 
     [Header("System Menu UI")]
     public GameObject systemMenuPanel;
@@ -47,6 +49,9 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     [Header("Player List UI (Base)")]
     public Transform playerListPanel;
     public GameObject playerSlotPrefab;
+
+    [Header("NextScene")]
+    [SerializeField]protected string nextScene;
 
     protected int maxPlayers;
     protected List<BasePlayerSlot> allSlots = new List<BasePlayerSlot>();
@@ -127,49 +132,49 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         photonView.RPC("RPC_FinishGameUI", RpcTarget.All, winnerName);
     }
 
-    [PunRPC]
-    protected virtual void RPC_FinishGameUI(string winnerNickName)
+    public void ShowMessage(string msg)
     {
-        currentState = GameState.Finish;
-        winnerText.text = $"{winnerNickName}님이 승리하셨습니다!";
-        winnerText.gameObject.SetActive(true);
-
-        // 방장만 로비 이동 타이머를 시작합니다.
-        if (PhotonNetwork.IsMasterClient)
+        if (!countdownText.gameObject.activeSelf)
         {
-            photonView.RPC("RPC_EndCountdown", RpcTarget.All);
+            countdownText.gameObject.SetActive(true);
         }
+        countdownText.text = msg;
     }
 
-    [PunRPC]
-    protected void RPC_EndCountdown()
+    public void ShowMessageAnother(string msg)
     {
-        StartCoroutine(CountdownCoroutine());
+        if (!messageText.gameObject.activeSelf)
+        {
+            messageText.gameObject.SetActive(true);
+        }
+        messageText.text = msg;
     }
 
-    protected System.Collections.IEnumerator CountdownCoroutine()
+    protected virtual void CountFinish()
     {
-        countdownText.gameObject.SetActive(true);
+        PhotonNetwork.CurrentRoom.IsOpen = true;
+        PhotonNetwork.CurrentRoom.IsVisible = true;
+        PhotonNetwork.LoadLevel(nextScene);
+    }
 
-        int count = 5;
+    // 게임 종료 카운트다운
+    protected IEnumerator CountdownCoroutine(int time, string formatText, string finalText)
+    {
+        int count = time;
+
         while (count > 0)
         {
-            countdownText.text = count.ToString() + "초뒤 게임이 종료됩니다!";
+            ShowMessage(string.Format(formatText, count));
             yield return new WaitForSeconds(1f);
             count--;
         }
 
-        countdownText.text = "대기실로 이동합니다.";
+        ShowMessage(finalText);
         yield return new WaitForSeconds(1f);
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            // 방을 다시 열어서 다른 플레이어가 들어올 수 있게 합니다
-            PhotonNetwork.CurrentRoom.IsOpen = true;
-            // 방을 공개 상태로 변경
-            PhotonNetwork.CurrentRoom.IsVisible = true;
-            PhotonNetwork.LoadLevel("WarmupScene");
-        }
+        countdownText.gameObject.SetActive(false);
+
+        CountFinish();
     }
 
     public void OpenSystemMenu()
@@ -310,4 +315,23 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
             Debug.LogWarning("텔레포트 실패: 유효한 리스폰 지점이 없습니다.");
         }
     }
+
+    [PunRPC]
+    protected virtual void RPC_FinishGameUI(string winnerNickName)
+    {
+        StopAllCoroutines();
+
+        currentState = GameState.Finish;
+        winnerText.text = $"{winnerNickName}님이 승리하셨습니다!";
+        winnerText.gameObject.SetActive(true);
+
+        StartCoroutine(CountdownCoroutine(5, "{0}초뒤 게임이 종료됩니다!", "대기실로 이동합니다."));
+    }
+
+    //[PunRPC]
+    //protected void RPC_EndCountdown()
+    //{
+    //    StopAllCoroutines();
+    //    StartCoroutine(CountdownCoroutine(5, "{0}초뒤 게임이 종료됩니다!", "대기실로 이동합니다."));
+    //}
 }
