@@ -12478,6 +12478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TPZone
   fallbackTarget: {fileID: 0}
+  isGoal: 1
 --- !u!1001 &705544870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14605,9 +14606,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce7856d2b989a64fb28cf8289bcf12a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5254184595196352773, guid: ec1af0b6cf6462c48967f6b987b23eaa, type: 3}
+  playerPrefabs: []
   canvas: {fileID: 0}
   spawnZones: []
+  ghostCamera: {fileID: 0}
+  effectIndex: 0
 --- !u!114 &792925516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23466,6 +23469,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8410075621325178873, guid: 116c41f056f9e8543875ee347532ed54, type: 3}
   m_PrefabInstance: {fileID: 1296240852}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1301446835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1301446837}
+  - component: {fileID: 1301446836}
+  m_Layer: 0
+  m_Name: PhotonPoolingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1301446836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301446835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babf6bf1d501a3a4e97d6463326f50f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotonPoolingManager
+--- !u!4 &1301446837
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301446835}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23.5294, y: 382.7106, z: -1815.9453}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1314059403
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25164,50 +25211,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 5f3d6ba189d7a9946bd9082d80b301c7, type: 3}
---- !u!1 &1465073165
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1465073167}
-  - component: {fileID: 1465073166}
-  m_Layer: 0
-  m_Name: PhotonPoolingManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1465073166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465073165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: babf6bf1d501a3a4e97d6463326f50f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhotonPoolingManager
---- !u!4 &1465073167
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465073165}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.55783, y: -25.33677, z: 120.2219}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1470929113
 GameObject:
   m_ObjectHideFlags: 0
@@ -25962,11 +25965,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RunGameManager
   winnerText: {fileID: 1775989061}
   countdownText: {fileID: 662695431}
+  messageText: {fileID: 0}
   systemMenuPanel: {fileID: 1734713119}
   leaveRoomButton: {fileID: 1570917525}
   cancelButton: {fileID: 1579409057}
   playerListPanel: {fileID: 1433271917}
   playerSlotPrefab: {fileID: 5923610622262305399, guid: 72aa2abf2b649ab44832b7f856b41581, type: 3}
+  nextScene: 
   checkpoints:
   - {fileID: 1638694768}
   - {fileID: 120913530}
@@ -30726,9 +30731,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce7856d2b989a64fb28cf8289bcf12a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5254184595196352773, guid: ec1af0b6cf6462c48967f6b987b23eaa, type: 3}
+  playerPrefabs: []
   canvas: {fileID: 0}
   spawnZones: []
+  ghostCamera: {fileID: 0}
+  effectIndex: 0
 --- !u!114 &1790634271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35784,11 +35791,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 913766077}
   - {fileID: 1502176783}
+  - {fileID: 1301446837}
   - {fileID: 175538052}
   - {fileID: 1646140713}
   - {fileID: 637152345}
   - {fileID: 670200396}
-  - {fileID: 1465073167}
   - {fileID: 1852233199}
   - {fileID: 1424658599}
   - {fileID: 1098094611}
