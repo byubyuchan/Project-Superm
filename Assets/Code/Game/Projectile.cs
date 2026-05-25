@@ -58,7 +58,7 @@ public class Projectile : MonoBehaviourPun
         if (!photonView.IsMine || hasExploded) return;
 
         // Map이나 Player 태그 확인
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Map"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Map") || collision.gameObject.CompareTag("Checkpoint"))
         {
             // 1. Player일 경우 팀킬 방지 로직
             if (collision.gameObject.CompareTag("Player") && !isNPCProjectile)
@@ -69,9 +69,9 @@ public class Projectile : MonoBehaviourPun
                     return;
                 }
             }
-
             Explode();
         }
+        // TODO: else 파괴??
     }
 
     // 땅울림 같은 광역기는 이펙트가 따로 없고, 트리거가 켜져있어야 함.

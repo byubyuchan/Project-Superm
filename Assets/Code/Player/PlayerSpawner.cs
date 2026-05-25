@@ -182,6 +182,17 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
         player = PhotonNetwork.Instantiate(playerPrefabs[randomPrefabIndex].name, spawnPos, spawnRot);
     }
 
+    public void InstantReSpawn(Transform transform)
+    {
+        int randomPrefabIndex = Random.Range(0, playerPrefabs.Length);
+        Vector3 spawnPos = transform.position;
+        Quaternion spawnRot = transform.rotation;
+
+        EffectManager.Instance.RequestExplosion(effectIndex, player.transform.position);
+        PhotonNetwork.Destroy(player);
+        player = PhotonNetwork.Instantiate(playerPrefabs[randomPrefabIndex].name, transform.position, transform.rotation);
+    }
+
     #region PunCallbacks 可记
     public override void OnLeftRoom() { Debug.Log("规阑 栋车嚼聪促."); }
     public override void OnCreateRoomFailed(short returnCode, string message) { Debug.LogError($"规 积己 角菩: {message}"); }
