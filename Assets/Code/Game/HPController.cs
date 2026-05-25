@@ -97,9 +97,9 @@ public class HPController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (photonView.IsMine)
         {
-            if (PlayerSpawner.Instance != null)
+            if (PlayerSpawner.instance != null)
             {
-                PlayerSpawner.Instance.RequestRespawn(gameObject, respawnDelay);
+                PlayerSpawner.instance.RequestRespawn(gameObject, respawnDelay);
             }
         }
     }

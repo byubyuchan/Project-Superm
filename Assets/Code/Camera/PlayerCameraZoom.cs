@@ -72,7 +72,7 @@ public class PlayerCameraZoom : MonoBehaviourPun
 
     void Update()
     {
-        if (!photonView.IsMine || playerMovement == null || cameraTransform == null || camComponent == null) return;
+        if (!photonView.IsMine || playerMovement == null || cameraTransform == null || camComponent == null || crosshairImage == null) return;
 
         isAiming = playerMovement.isLoadingAttack;
 

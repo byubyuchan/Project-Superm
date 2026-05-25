@@ -5,7 +5,7 @@ using Photon.Pun;
 // 포톤에 내장된 풀링 시스템을 사용한 풀링 매니저 클래스
 public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
 {
-    public static PhotonPoolingManager Instance;
+    public static PhotonPoolingManager instance;
 
     // 풀링된 오브젝트들을 저장하는 딕셔너리 (키: 프리팹 이름, 값: 오브젝트 큐)
     private Dictionary<string, Queue<GameObject>> poolDict = new Dictionary<string, Queue<GameObject>>();
@@ -15,9 +15,9 @@ public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
 
             // 루트 오브젝트 생성
             GameObject root = new GameObject("Pooling");

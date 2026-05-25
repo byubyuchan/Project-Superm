@@ -5,7 +5,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerSpawner : MonoBehaviourPunCallbacks
 {
-    public static PlayerSpawner Instance;
+    public static PlayerSpawner instance;
 
     [Header("Player Prefabs (Resources 폴더 내의 이름과 일치해야 함)")]
     [SerializeField] private GameObject[] playerPrefabs;
@@ -28,7 +28,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (instance == null) instance = this;
     }
 
     void Start()
