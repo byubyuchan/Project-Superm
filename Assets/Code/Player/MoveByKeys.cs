@@ -62,12 +62,15 @@ namespace Photon.Pun.UtilityScripts
 
         private Coroutine sleepCoroutine;
 
-        public void Start()
+        public void Awake()
         {
             controller = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
             localSize = transform.localScale;
+        }
 
+        public void Start()
+        {
             if (!photonView.IsMine)
             {
                 if (TryGetComponent<PlayerInput>(out PlayerInput pi))

@@ -68,6 +68,7 @@ public class PhotonPoolingManager : MonoBehaviour, IPunPrefabPool
         if (poolDict[actualKey].Count > 0)
         {
             GameObject obj = poolDict[actualKey].Dequeue();
+
             obj.transform.position = position;
             obj.transform.rotation = rotation;
             return obj;

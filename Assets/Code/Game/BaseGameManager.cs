@@ -251,10 +251,6 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     public virtual void LeaveRoom() 
     {
         PhotonNetwork.LeaveRoom();
-        if (PhotonPoolingManager.instance != null)
-        {
-            PhotonPoolingManager.instance.ClearPool();
-        }
     }
 
     public override void OnLeftRoom()
