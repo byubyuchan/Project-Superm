@@ -29,7 +29,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   gradingMode:
     overrideState: 0
     value: 1
@@ -79,7 +79,7 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 1
-    value: -100
+    value: 0
   brightness:
     overrideState: 0
     value: 0
