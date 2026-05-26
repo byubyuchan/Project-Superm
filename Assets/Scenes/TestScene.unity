@@ -6960,6 +6960,7 @@ MonoBehaviour:
   playerPrefabs:
   - {fileID: 5254184595196352773, guid: fd081dd7c470c6a4f9ed72287d847cbd, type: 3}
   - {fileID: 5254184595196352773, guid: ec1af0b6cf6462c48967f6b987b23eaa, type: 3}
+  - {fileID: 5254184595196352773, guid: 404b2fc3b22f29d458c55f8168a3b615, type: 3}
   canvas: {fileID: 0}
   spawnZones:
   - {fileID: 1765856788}
