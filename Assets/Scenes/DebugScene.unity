@@ -1507,7 +1507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3625379335783630934, guid: d03a2ca99f1e48f42a5a6cc2d768c418, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Dummy
       objectReference: {fileID: 0}
     - target: {fileID: 4108478994190209772, guid: d03a2ca99f1e48f42a5a6cc2d768c418, type: 3}
       propertyPath: m_LocalScale.x
@@ -3224,7 +3224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9f079e384e69c4f850b0044d8dbc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSceneManager
-  playerPrefabName: Player_Fireball
+  playerPrefabName: Player_IceBlast
   spawnPoint: {fileID: 1790634272}
   txt: {fileID: 596935686}
   currentPlayer: {fileID: 0}

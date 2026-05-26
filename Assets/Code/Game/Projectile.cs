@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
+using static UnityEngine.GraphicsBuffer;
 
 public class Projectile : MonoBehaviourPun
 {
@@ -58,7 +59,7 @@ public class Projectile : MonoBehaviourPun
         if (!photonView.IsMine || hasExploded) return;
 
         // Map이나 Player 태그 확인
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Map") || collision.gameObject.CompareTag("Checkpoint"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Map") || collision.gameObject.CompareTag("Checkpoint") || collision.gameObject.CompareTag("Dummy"))
         {
             // 1. Player일 경우 팀킬 방지 로직
             if (collision.gameObject.CompareTag("Player") && !isNPCProjectile)
@@ -79,6 +80,16 @@ public class Projectile : MonoBehaviourPun
     {
         if (!photonView.IsMine || hasExploded) return;
 
+        // 디버그 씬용
+        if (col.gameObject.CompareTag("Dummy"))
+        {
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.RequestExplosion(explosionEffectIndex, col.transform.position);
+            }
+            return;
+        }
+
         if (col.gameObject.CompareTag("Player"))
         {
             PhotonView targetPV = col.gameObject.GetComponent<PhotonView>();
@@ -93,6 +104,10 @@ public class Projectile : MonoBehaviourPun
                 // 해시셋에 방금 들어간 경우 데미지 로직
                 if (damage > 0f)
                 {
+                    if (EffectManager.Instance != null)
+                    {
+                        EffectManager.Instance.RequestExplosion(explosionEffectIndex, targetPV.transform.position);
+                    }
                     targetPV.RPC("RPC_TakeDamage", targetPV.Owner, damage);
                 }
                 ApplyKnockback(col.gameObject, targetPV);

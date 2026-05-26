@@ -13,6 +13,7 @@ TagManager:
   - Projectile
   - NPCProjectile
   - Canvas
+  - Dummy
   layers:
   - Default
   - TransparentFX

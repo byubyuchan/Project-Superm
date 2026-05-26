@@ -272,7 +272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       propertyPath: m_Name
-      value: Player_Fireball 1
+      value: Player_IceBlast
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       propertyPath: m_Layer
@@ -435,7 +435,7 @@ MonoBehaviour:
   downRange: 20
   zoomUpRange: 90
   zoomDownRange: 40
-  projectile: FireBall
+  projectile: IceBlast
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 6268352527473388946}
   isUIMode: 0
