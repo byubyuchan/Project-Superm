@@ -12502,9 +12502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce7856d2b989a64fb28cf8289bcf12a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawner
-  playerPrefabs:
-  - {fileID: 5254184595196352773, guid: ec1af0b6cf6462c48967f6b987b23eaa, type: 3}
-  - {fileID: 5254184595196352773, guid: fd081dd7c470c6a4f9ed72287d847cbd, type: 3}
+  playerPrefabs: []
   canvas: {fileID: 0}
   spawnZones:
   - {fileID: 1790634272}
