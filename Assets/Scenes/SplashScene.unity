@@ -659,7 +659,7 @@ MonoBehaviour:
   splashCanvasGroup: {fileID: 590928911}
   fadeDuration: 1.5
   displayTime: 2
-  nextSceneName: Lobby
+  nextSceneName: TitleScene
 --- !u!4 &1900534407
 Transform:
   m_ObjectHideFlags: 0
