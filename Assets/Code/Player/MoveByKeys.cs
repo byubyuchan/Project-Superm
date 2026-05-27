@@ -317,27 +317,10 @@ namespace Photon.Pun.UtilityScripts
             //photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
 
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            RaycastHit hit;
+
             Vector3 targetPoint;
 
-            if (Physics.Raycast(ray, out hit, maxRange, ~aimLayerMask))
-            {
-                targetPoint = hit.point;
-
-                // 카메라에서 타겟까지의 거리와, 카메라에서 내 총구까지의 거리를 비교
-                float distToTarget = Vector3.Distance(Camera.main.transform.position, hit.point);
-                float distToMuzzle = Vector3.Distance(Camera.main.transform.position, firePoint.position);
-
-                if (distToTarget < distToMuzzle + 20f)
-                {
-                    targetPoint = firePoint.position + Camera.main.transform.forward * maxRange;
-                }
-            }
-            else
-            {
-                // 아무것도 안 맞았으면 허공의 1000m 앞을 타겟으로! (장거리 버그 완벽 해결)
-                targetPoint = ray.GetPoint(maxRange);
-            }
+            targetPoint = ray.GetPoint(maxRange);
 
             Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
 
