@@ -112,6 +112,8 @@ MonoBehaviour:
   zoomFOV: 40
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
+  spineBone: {fileID: 0}
+  spineOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &5287247925783689289
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,7 +440,7 @@ MonoBehaviour:
   projectile: IceBlast
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 6268352527473388946}
-  maxRange: 10000
+  maxRange: 1000
   isUIMode: 0
   isMenuOpen: 0
   isSleep: 0
@@ -448,6 +450,7 @@ MonoBehaviour:
     m_Bits: 2048
   attackCooldown: 0.5
   lastAttackTime: 0
+  isBlocked: 0
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0

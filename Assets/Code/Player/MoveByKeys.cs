@@ -341,6 +341,14 @@ namespace Photon.Pun.UtilityScripts
             if (Physics.Raycast(ray, out hit, maxRange, ~aimLayerMask))
             {
                 targetPoint = hit.point;
+
+                float distToTarget = Vector3.Distance(Camera.main.transform.position, hit.point);
+                float distToMuzzle = Vector3.Distance(Camera.main.transform.position, firePoint.position);
+
+                if (distToTarget < distToMuzzle + 5f)
+                {
+                    targetPoint = ray.GetPoint(50f);
+                }
             }
             else targetPoint = ray.GetPoint(maxRange);
 

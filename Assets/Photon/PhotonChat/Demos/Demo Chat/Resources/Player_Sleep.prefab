@@ -113,7 +113,7 @@ MonoBehaviour:
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
   spineBone: {fileID: 5627725825601669434}
-  spineOffset: 0
+  spineOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &5287247925783689289
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +437,7 @@ MonoBehaviour:
   projectile: Bullet_Sleep
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 6268352527473388946}
-  maxRange: 10000
+  maxRange: 1000
   isUIMode: 0
   isMenuOpen: 0
   isSleep: 0
