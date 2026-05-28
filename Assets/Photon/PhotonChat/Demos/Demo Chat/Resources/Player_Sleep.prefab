@@ -112,6 +112,8 @@ MonoBehaviour:
   zoomFOV: 40
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
+  spineBone: {fileID: 5627725825601669434}
+  spineOffset: 0
 --- !u!1 &5287247925783689289
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,9 +444,10 @@ MonoBehaviour:
   isLoadingAttack: 0
   aimLayerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 2048
   attackCooldown: 0.5
   lastAttackTime: 0
+  isBlocked: 0
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0
@@ -726,5 +729,10 @@ Transform:
 --- !u!4 &1467235415035490127 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6027659334037539116, guid: af0a53376cf6baa4fb92678375ddc66b, type: 3}
+  m_PrefabInstance: {fileID: 5186500717727196771}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5627725825601669434 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 712576160654405465, guid: af0a53376cf6baa4fb92678375ddc66b, type: 3}
   m_PrefabInstance: {fileID: 5186500717727196771}
   m_PrefabAsset: {fileID: 0}

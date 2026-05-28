@@ -63,6 +63,8 @@ namespace Photon.Pun.UtilityScripts
 
         private Coroutine sleepCoroutine;
 
+        public bool isBlocked = false;
+
         public void Awake()
         {
             controller = GetComponent<CharacterController>();
@@ -106,7 +108,23 @@ namespace Photon.Pun.UtilityScripts
                 impact = Vector3.zero;
                 velocity = Vector3.zero;
 
+                SetLayerRecursively(gameObject, LayerMask.NameToLayer("LocalPlayer"));
+
                 UpdateCursorState();
+            }
+        }
+
+        private void OnDisable()
+        {
+            SetLayerRecursively(gameObject, LayerMask.NameToLayer("Player"));
+        }
+
+        void SetLayerRecursively(GameObject obj, int newLayer)
+        {
+            obj.layer = newLayer;
+            foreach (Transform child in obj.transform)
+            {
+                SetLayerRecursively(child.gameObject, newLayer);
             }
         }
 
@@ -227,7 +245,7 @@ namespace Photon.Pun.UtilityScripts
             if (Camera.main == null) return;
 
             // 1. 상태 체크 (채팅/메뉴/UI모드일 때 입력값 강제 0 처리)
-            bool isBlocked = isChatting() || isMenuOpen || isUIMode || isSleep;
+            isBlocked = isChatting() || isMenuOpen || isUIMode || isSleep;
 
             if (isBlocked)
             {
@@ -317,10 +335,14 @@ namespace Photon.Pun.UtilityScripts
             //photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
 
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-
+            RaycastHit hit; 
             Vector3 targetPoint;
 
-            targetPoint = ray.GetPoint(maxRange);
+            if (Physics.Raycast(ray, out hit, maxRange, ~aimLayerMask))
+            {
+                targetPoint = hit.point;
+            }
+            else targetPoint = ray.GetPoint(maxRange);
 
             Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
 

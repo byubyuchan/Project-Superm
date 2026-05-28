@@ -9754,7 +9754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20080117a56a82a43a39e4b77bb79222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  speed: 300
+  speed: 150
   lifeTime: 4
   damage: 25
   explosionRadius: 10
@@ -9896,7 +9896,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.11e-43, y: 8e-44, z: 0, w: 4.3e-44}
+  m_BoundingSphereOverride: {x: 4.96e-43, y: 1.39e-43, z: 0, w: -1.1332233e-38}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0

@@ -25,6 +25,10 @@ public class PlayerCameraZoom : MonoBehaviourPun
     private bool isDefaultValuesSet = false;
     private bool isAiming;
 
+    [Header("Aim IK Settings")]
+    public Transform spineBone;
+    public Vector3 spineOffset;
+
     void Awake()
     {
         // Awake에서는 내 몸에 붙은 컴포넌트나 static 참조만 세팅하는 것이 안전합니다.
@@ -88,6 +92,16 @@ public class PlayerCameraZoom : MonoBehaviourPun
 
         HandleZoom(isAiming);
     }
+
+    //private void LateUpdate()
+    //{
+    //    if (!photonView.IsMine || spineBone == null || playerMovement.isBlocked) return;
+
+    //    Vector3 cameraForward = Camera.main.transform.forward;
+
+    //    spineBone.rotation = Quaternion.LookRotation(cameraForward);
+    //    spineBone.rotation *= Quaternion.Euler(spineOffset);
+    //}
 
     void HandleZoom(bool isAiming)
     {

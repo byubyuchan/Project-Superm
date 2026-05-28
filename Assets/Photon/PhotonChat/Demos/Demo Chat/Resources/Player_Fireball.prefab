@@ -136,12 +136,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5287247925783689289}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.4, y: 2, z: 0.645}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalRotation: {x: -0.00000009603614, y: 0.035830524, z: 0.00000006038509, w: 0.9993579}
+  m_LocalPosition: {x: -0.06, y: 0, z: 0}
+  m_LocalScale: {x: 0.20000005, y: 0.20000005, z: 0.20000008}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4873261628758574015}
+  m_Father: {fileID: 5652000604817003186}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7468422752091536693
 GameObject:
@@ -315,9 +315,6 @@ PrefabInstance:
       addedObject: {fileID: 9051516418681290424}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3500724731734377054}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6268352527473388946}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
@@ -438,13 +435,14 @@ MonoBehaviour:
   projectile: FireBall
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 6268352527473388946}
+  maxRange: 10000
   isUIMode: 0
   isMenuOpen: 0
   isSleep: 0
   isLoadingAttack: 0
   aimLayerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 2048
   attackCooldown: 0.5
   lastAttackTime: 0
 --- !u!143 &4816682631914590940
@@ -688,9 +686,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1230090948304281440, guid: e3189eb0dd642cb49b64d12c65e4437e, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 3500724731734377054}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3189eb0dd642cb49b64d12c65e4437e, type: 3}
+--- !u!4 &5652000604817003186 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1230090948304281440, guid: e3189eb0dd642cb49b64d12c65e4437e, type: 3}
+  m_PrefabInstance: {fileID: 6880895129850252754}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9051516418681290424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2513197227865650026, guid: e3189eb0dd642cb49b64d12c65e4437e, type: 3}

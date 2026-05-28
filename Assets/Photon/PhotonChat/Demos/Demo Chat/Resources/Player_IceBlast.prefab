@@ -438,13 +438,14 @@ MonoBehaviour:
   projectile: IceBlast
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 6268352527473388946}
+  maxRange: 10000
   isUIMode: 0
   isMenuOpen: 0
   isSleep: 0
   isLoadingAttack: 0
   aimLayerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 2048
   attackCooldown: 0.5
   lastAttackTime: 0
 --- !u!143 &4816682631914590940
