@@ -112,7 +112,7 @@ MonoBehaviour:
   zoomFOV: 40
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
-  spineBone: {fileID: 0}
+  spineBone: {fileID: 6407130005134816350}
   spineOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &5287247925783689289
 GameObject:
@@ -430,10 +430,11 @@ MonoBehaviour:
   rotationSpeed: 10
   cameraPivot: {fileID: 9077078744339165630}
   mouseSensitivity: 3
-  upRange: 70
+  upRange: 20
   downRange: 20
-  zoomUpRange: 90
+  zoomUpRange: 40
   zoomDownRange: 40
+  verticalRotation: 0
   projectile: FireBall
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 6268352527473388946}
@@ -698,6 +699,11 @@ PrefabInstance:
 --- !u!4 &5652000604817003186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1230090948304281440, guid: e3189eb0dd642cb49b64d12c65e4437e, type: 3}
+  m_PrefabInstance: {fileID: 6880895129850252754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6407130005134816350 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 547023952405215628, guid: e3189eb0dd642cb49b64d12c65e4437e, type: 3}
   m_PrefabInstance: {fileID: 6880895129850252754}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &9051516418681290424 stripped
