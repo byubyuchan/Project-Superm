@@ -112,7 +112,7 @@ MonoBehaviour:
   zoomFOV: 40
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
-  spineBone: {fileID: 0}
+  spineBone: {fileID: 5422889461048302782}
   spineOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &5287247925783689289
 GameObject:
@@ -433,10 +433,11 @@ MonoBehaviour:
   rotationSpeed: 10
   cameraPivot: {fileID: 9077078744339165630}
   mouseSensitivity: 3
-  upRange: 70
+  upRange: 20
   downRange: 20
-  zoomUpRange: 90
+  zoomUpRange: 40
   zoomDownRange: 40
+  verticalRotation: 0
   projectile: IceBlast
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 6268352527473388946}
@@ -667,6 +668,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7019a5cfc156aa540ad4b8663231fb45, type: 3}
+--- !u!4 &5422889461048302782 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1458076192183603564, guid: 7019a5cfc156aa540ad4b8663231fb45, type: 3}
+  m_PrefabInstance: {fileID: 6880895129850252754}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7941598530281264728 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3552179436404956042, guid: 7019a5cfc156aa540ad4b8663231fb45, type: 3}

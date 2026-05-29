@@ -1,6 +1,7 @@
 using Photon.Pun;
-using UnityEngine;
 using Photon.Pun.UtilityScripts;
+using UnityEngine;
+using static UnityEngine.Rendering.DebugManager;
 
 // 플레이어가 공격 준비 (Aim) 상태일 때 카메라를 줌인하는 스크립트
 public class PlayerCameraZoom : MonoBehaviourPun
@@ -25,9 +26,6 @@ public class PlayerCameraZoom : MonoBehaviourPun
     private bool isDefaultValuesSet = false;
     private bool isAiming;
 
-    [Header("Aim IK Settings")]
-    public Transform spineBone;
-    public Vector3 spineOffset;
 
     void Awake()
     {
@@ -92,15 +90,16 @@ public class PlayerCameraZoom : MonoBehaviourPun
 
         HandleZoom(isAiming);
     }
-
     //private void LateUpdate()
     //{
-    //    if (!photonView.IsMine || spineBone == null || playerMovement.isBlocked) return;
+    //    //if (!photonView.IsMine || spineBone == null || Camera.main == null || playerMovement.isBlocked) return;
+    //    if (!photonView.IsMine || spineBone == null || Camera.main == null) return;
 
-    //    Vector3 cameraForward = Camera.main.transform.forward;
+    //    float targetAngle = playerMovement.verticalRotation;
 
-    //    spineBone.rotation = Quaternion.LookRotation(cameraForward);
-    //    spineBone.rotation *= Quaternion.Euler(spineOffset);
+    //    Quaternion bendRotation = Quaternion.AngleAxis(targetAngle, transform.right);
+
+    //    spineBone.rotation = bendRotation * spineBone.rotation;
     //}
 
     void HandleZoom(bool isAiming)

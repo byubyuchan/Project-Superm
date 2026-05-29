@@ -143,7 +143,7 @@ MonoBehaviour:
   zoomFOV: 70
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
-  spineBone: {fileID: 0}
+  spineBone: {fileID: 2828957367628090787}
   spineOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &5287247925783689289
 GameObject:
@@ -284,6 +284,11 @@ PrefabInstance:
 --- !u!4 &159237106934335301 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4524118676831340839, guid: 663a2fe424f7fd54f8065011fc3602c7, type: 3}
+  m_PrefabInstance: {fileID: 4394770762764897890}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2828957367628090787 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1999357465697551297, guid: 663a2fe424f7fd54f8065011fc3602c7, type: 3}
   m_PrefabInstance: {fileID: 4394770762764897890}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4912289047680853076
@@ -511,10 +516,11 @@ MonoBehaviour:
   rotationSpeed: 10
   cameraPivot: {fileID: 9077078744339165630}
   mouseSensitivity: 3
-  upRange: 70
+  upRange: 20
   downRange: 20
-  zoomUpRange: 90
+  zoomUpRange: 40
   zoomDownRange: 40
+  verticalRotation: 0
   projectile: Quake
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 5566047067175174349}

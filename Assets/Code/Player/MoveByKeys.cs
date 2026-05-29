@@ -26,7 +26,7 @@ namespace Photon.Pun.UtilityScripts
         public float zoomUpRange = 90f;
         public float zoomDownRange = 40f;
 
-        private float verticalRotation = 0f; // 현재 수직 회전값 저장용
+        public float verticalRotation = 0f; // 현재 수직 회전값 저장용
 
         [Header("Projectile Settings")]
         public string projectile;
@@ -64,6 +64,10 @@ namespace Photon.Pun.UtilityScripts
         private Coroutine sleepCoroutine;
 
         public bool isBlocked = false;
+
+        [Header("Animation Rigging")]
+        public Transform rigAimTarget;
+        public float minAimDistance = 4f;
 
         public void Awake()
         {
@@ -303,6 +307,34 @@ namespace Photon.Pun.UtilityScripts
 
             velocity.y += Gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
+
+        }
+        private void LateUpdate()
+        {
+            if (!photonView.IsMine || rigAimTarget == null || Camera.main == null) return;
+
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Vector3 hitPoint;
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~aimLayerMask))
+            {
+                hitPoint = hit.point;
+            }
+            else
+            {
+                hitPoint = ray.GetPoint(100f);
+            }
+
+            float distFromPlayer = Vector3.Distance(transform.position + Vector3.up, hitPoint);
+
+            if (distFromPlayer < minAimDistance)
+            {
+                rigAimTarget.position = (transform.position + Vector3.up) + (ray.direction * minAimDistance);
+            }
+            else
+            {
+                rigAimTarget.position = hitPoint;
+            }
         }
 
         public void SetMenuOpenState(bool isOpen)
