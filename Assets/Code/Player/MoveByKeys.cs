@@ -307,34 +307,14 @@ namespace Photon.Pun.UtilityScripts
 
             velocity.y += Gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-
         }
+
         private void LateUpdate()
         {
-            if (!photonView.IsMine || rigAimTarget == null || Camera.main == null) return;
-
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             Vector3 hitPoint;
-
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ~aimLayerMask))
-            {
-                hitPoint = hit.point;
-            }
-            else
-            {
-                hitPoint = ray.GetPoint(100f);
-            }
-
-            float distFromPlayer = Vector3.Distance(transform.position + Vector3.up, hitPoint);
-
-            if (distFromPlayer < minAimDistance)
-            {
-                rigAimTarget.position = (transform.position + Vector3.up) + (ray.direction * minAimDistance);
-            }
-            else
-            {
-                rigAimTarget.position = hitPoint;
-            }
+            hitPoint = ray.GetPoint(maxRange);
+            rigAimTarget.position = hitPoint;
         }
 
         public void SetMenuOpenState(bool isOpen)

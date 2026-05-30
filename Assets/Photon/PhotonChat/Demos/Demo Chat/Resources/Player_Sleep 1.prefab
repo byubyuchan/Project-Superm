@@ -112,8 +112,6 @@ MonoBehaviour:
   zoomFOV: 40
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
-  spineBone: {fileID: 5627725825601669434}
-  spineOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &5287247925783689289
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       propertyPath: m_Name
-      value: Player_Sleep
+      value: Player_Sleep 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       propertyPath: m_Layer
@@ -434,6 +432,7 @@ MonoBehaviour:
   downRange: 20
   zoomUpRange: 90
   zoomDownRange: 40
+  verticalRotation: 0
   projectile: Bullet_Sleep
   firePoint: {fileID: 3500724731734377054}
   aimPoint: {fileID: 6268352527473388946}
@@ -448,6 +447,8 @@ MonoBehaviour:
   attackCooldown: 0.5
   lastAttackTime: 0
   isBlocked: 0
+  rigAimTarget: {fileID: 0}
+  minAimDistance: 4
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0
@@ -729,10 +730,5 @@ Transform:
 --- !u!4 &1467235415035490127 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6027659334037539116, guid: af0a53376cf6baa4fb92678375ddc66b, type: 3}
-  m_PrefabInstance: {fileID: 5186500717727196771}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5627725825601669434 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 712576160654405465, guid: af0a53376cf6baa4fb92678375ddc66b, type: 3}
   m_PrefabInstance: {fileID: 5186500717727196771}
   m_PrefabAsset: {fileID: 0}

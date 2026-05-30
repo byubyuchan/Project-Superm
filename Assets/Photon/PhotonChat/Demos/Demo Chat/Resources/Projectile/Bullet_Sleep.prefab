@@ -9650,8 +9650,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb557fa2afb2004b9fcddfaf5034bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SleepProjectile
-  speed: 150
-  lifeTime: 5
+  speed: 200
+  lifeTime: 1.5
   damage: 10
   explosionRadius: 0
   explosionForce: 3
