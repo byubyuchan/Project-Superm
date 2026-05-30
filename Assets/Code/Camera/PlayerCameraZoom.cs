@@ -4,7 +4,7 @@ using UnityEngine;
 using static UnityEngine.Rendering.DebugManager;
 
 // 플레이어가 공격 준비 (Aim) 상태일 때 카메라를 줌인하는 스크립트
-public class PlayerCameraZoom : MonoBehaviourPun
+public class PlayerCameraZoom : MonoBehaviourPun, IPunObservable
 {
     [Header("Dependencies")]
     public MoveByKeys playerMovement;
@@ -25,6 +25,9 @@ public class PlayerCameraZoom : MonoBehaviourPun
 
     private bool isDefaultValuesSet = false;
     private bool isAiming;
+
+    [Header("Animation Rigging")]
+    public Transform rigAimTarget;
 
 
     void Awake()
@@ -90,17 +93,16 @@ public class PlayerCameraZoom : MonoBehaviourPun
 
         HandleZoom(isAiming);
     }
-    //private void LateUpdate()
-    //{
-    //    //if (!photonView.IsMine || spineBone == null || Camera.main == null || playerMovement.isBlocked) return;
-    //    if (!photonView.IsMine || spineBone == null || Camera.main == null) return;
 
-    //    float targetAngle = playerMovement.verticalRotation;
-
-    //    Quaternion bendRotation = Quaternion.AngleAxis(targetAngle, transform.right);
-
-    //    spineBone.rotation = bendRotation * spineBone.rotation;
-    //}
+    private void LateUpdate()
+    {
+        if (photonView.IsMine)
+        {
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Vector3 hitPoint = ray.GetPoint(playerMovement.maxRange);
+            rigAimTarget.position = hitPoint;
+        }
+    }
 
     void HandleZoom(bool isAiming)
     {
@@ -134,6 +136,24 @@ public class PlayerCameraZoom : MonoBehaviourPun
         if (crosshairImage != null)
         {
             crosshairImage.SetActive(false);
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            if (rigAimTarget != null)
+            {
+                stream.SendNext(rigAimTarget.position);
+            }
+        }
+        else
+        {
+            if (rigAimTarget != null)
+            {
+                rigAimTarget.position = (Vector3)stream.ReceiveNext();
+            }
         }
     }
 }

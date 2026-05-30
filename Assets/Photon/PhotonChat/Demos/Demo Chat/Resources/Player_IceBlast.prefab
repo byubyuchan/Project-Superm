@@ -30,7 +30,6 @@ Transform:
   m_LocalScale: {x: 0.13333334, y: 0.13333334, z: 0.13333334}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6268352527473388946}
   - {fileID: 860984657700786969}
   - {fileID: 8199521538022222836}
   - {fileID: 953280512533412323}
@@ -249,6 +248,7 @@ MonoBehaviour:
   zoomFOV: 40
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
+  rigAimTarget: {fileID: 6268352527473388946}
 --- !u!1 &4882877745260577271
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,11 +595,11 @@ Transform:
   m_GameObject: {fileID: 9004161557164642101}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4590.932, y: 101.557495, z: 2278.2498}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: -0.39101565, y: 1.9809998, z: -0.10000001}
+  m_LocalScale: {x: 0.20000003, y: 0.20000003, z: 0.20000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6490173289893758650}
+  m_Father: {fileID: 4873261628758574015}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4912289047680853076
 PrefabInstance:
@@ -711,6 +711,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3500724731734377054}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6268352527473388946}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       insertIndex: -1
@@ -808,6 +811,7 @@ MonoBehaviour:
   - {fileID: 4505607586069167487}
   - {fileID: -5765491507811491722}
   - {fileID: 3666439564978712337}
+  - {fileID: 3701007249020681527}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -848,8 +852,6 @@ MonoBehaviour:
   attackCooldown: 0.5
   lastAttackTime: 0
   isBlocked: 0
-  rigAimTarget: {fileID: 6268352527473388946}
-  minAimDistance: 4
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0

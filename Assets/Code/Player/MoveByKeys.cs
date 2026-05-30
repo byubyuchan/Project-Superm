@@ -65,10 +65,6 @@ namespace Photon.Pun.UtilityScripts
 
         public bool isBlocked = false;
 
-        [Header("Animation Rigging")]
-        public Transform rigAimTarget;
-        public float minAimDistance = 4f;
-
         public void Awake()
         {
             controller = GetComponent<CharacterController>();
@@ -307,14 +303,6 @@ namespace Photon.Pun.UtilityScripts
 
             velocity.y += Gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-        }
-
-        private void LateUpdate()
-        {
-            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            Vector3 hitPoint;
-            hitPoint = ray.GetPoint(maxRange);
-            rigAimTarget.position = hitPoint;
         }
 
         public void SetMenuOpenState(bool isOpen)

@@ -229,6 +229,7 @@ MonoBehaviour:
   zoomFOV: 70
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
+  rigAimTarget: {fileID: 5566047067175174349}
 --- !u!1 &4929453206727826477
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,8 +1192,6 @@ MonoBehaviour:
   attackCooldown: 3
   lastAttackTime: 0
   isBlocked: 0
-  rigAimTarget: {fileID: 5566047067175174349}
-  minAimDistance: 4
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0
