@@ -325,7 +325,7 @@ namespace Photon.Pun.UtilityScripts
                    EventSystem.current.currentSelectedGameObject.GetComponent<TMPro.TMP_InputField>() != null;
         }
 
-        void Shoot()
+        public void Shoot()
         {
             if (!photonView.IsMine) return;
 
@@ -355,7 +355,7 @@ namespace Photon.Pun.UtilityScripts
             PhotonNetwork.Instantiate("Projectile/" + projectile, firePoint.position, Quaternion.LookRotation(aimDirection));
         }
 
-        void Quake()
+        public void Quake()
         {
             if (!photonView.IsMine) return;
 
@@ -376,6 +376,29 @@ namespace Photon.Pun.UtilityScripts
                     PhotonNetwork.Instantiate("Projectile/" + projectile, spawnPos, spawnRot);
                 }
             }
+        }
+
+        public void HitScan()
+        {
+            if (!photonView.IsMine) return;
+
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            RaycastHit hit;
+            Vector3 targetPoint;
+
+            if (Physics.Raycast(ray, out hit, maxRange, ~aimLayerMask))
+            {
+                targetPoint = hit.point;
+
+                float distToTarget = Vector3.Distance(Camera.main.transform.position, hit.point);
+                float distToMuzzle = Vector3.Distance(Camera.main.transform.position, firePoint.position);
+
+            }
+            else return;
+
+            Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
+
+            PhotonNetwork.Instantiate("Projectile/" + projectile, targetPoint, Quaternion.LookRotation(aimDirection));
         }
 
         public void ApplySpeedBoost(float additionalSpeed)

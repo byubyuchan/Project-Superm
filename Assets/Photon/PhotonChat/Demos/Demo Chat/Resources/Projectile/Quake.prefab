@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4081845586369450}
   - component: {fileID: 198361330790749672}
   - component: {fileID: 199194582083050806}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_GroundCrack_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4922,7 +4922,7 @@ GameObject:
   - component: {fileID: 8132336134381549229}
   - component: {fileID: -250996157546534994}
   - component: {fileID: 467482907779820657}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Quake
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -9935,7 +9935,7 @@ GameObject:
   - component: {fileID: 4604871029248272}
   - component: {fileID: 198190894420298430}
   - component: {fileID: 199750870103157044}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_GroundCrack_Dust_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
