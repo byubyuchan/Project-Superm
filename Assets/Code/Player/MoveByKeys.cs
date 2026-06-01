@@ -2,21 +2,22 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Photon.Pun.UtilityScripts
 {
     [RequireComponent(typeof(CharacterController), typeof(PhotonView))]
     public class MoveByKeys : MonoBehaviourPun
     {
-        public float Speed = 5f;            // 이동 속도 (기존 1000은 너무 컸으니 조정)
-        public float JumpHeight = 2f;       // 점프 높이
-        public float Gravity = -20f;        // 중력 세기
+        public float speed = 5f;            // 이동 속도 (기존 1000은 너무 컸으니 조정)
+        public float jumpHeight = 2f;       // 점프 높이
+        public float gravity = -20f;        // 중력 세기
         public float rotationSpeed = 0.1f;
 
-        private CharacterController controller;
-        private Animator animator;
-        private Vector3 velocity;           // 수직 속도 (중력/점프용)
-        private bool isGrounded;
+        protected CharacterController controller;
+        protected Animator animator;
+        protected Vector3 velocity;           // 수직 속도 (중력/점프용)
+        protected bool isGrounded;
 
         [Header("Rotation Settings")]
         public Transform cameraPivot;
@@ -34,7 +35,7 @@ namespace Photon.Pun.UtilityScripts
         public Transform aimPoint;
         public float maxRange = 10000f;
 
-        private Vector3 impact = Vector3.zero;
+        protected Vector3 impact = Vector3.zero;
 
         public bool isUIMode = false;
         public bool isMenuOpen = false;
@@ -49,19 +50,19 @@ namespace Photon.Pun.UtilityScripts
         public float attackCooldown = 0.5f;
         public float lastAttackTime;
 
-        private float originalSpeed;
-        float horizontalInput;
-        float verticalInput;
+        protected float originalSpeed;
+        protected float horizontalInput;
+        protected float verticalInput;
 
-        private Vector3 localSize;
-        private ItemData currentItem;
+        protected Vector3 localSize;
+        protected ItemData currentItem;
 
         [Header("Input System")]
-        private Vector2 rawMoveInput;
-        private Vector2 rawLookInput;
-        private Vector2 mouseDelta;
+        protected Vector2 rawMoveInput;
+        protected Vector2 rawLookInput;
+        protected Vector2 mouseDelta;
 
-        private Coroutine sleepCoroutine;
+        protected Coroutine sleepCoroutine;
 
         public bool isBlocked = false;
 
@@ -87,7 +88,7 @@ namespace Photon.Pun.UtilityScripts
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            originalSpeed = Speed;
+            originalSpeed = speed;
 
             if (TryGetComponent<Rigidbody>(out Rigidbody rb))
             {
@@ -130,12 +131,8 @@ namespace Photon.Pun.UtilityScripts
 
         void OnMove(InputValue value)
         {
-            Vector2 val = value.Get<Vector2>();
-            // [중요] IsMine 상태와 ViewID를 같이 찍어보세요.
-            //Debug.Log($"[OnMove] Value: {val} | IsMine: {photonView.IsMine} | ViewID: {photonView.ViewID} | Owner: {photonView.Owner.NickName}");
-
             if (!photonView.IsMine) return;
-
+            Vector2 val = value.Get<Vector2>();
             rawMoveInput = val;
         }
 
@@ -145,14 +142,14 @@ namespace Photon.Pun.UtilityScripts
             rawLookInput = value.Get<Vector2>();
         }
 
-        void OnJump()
+        protected virtual void OnJump(InputValue value)
         {
             if (!photonView.IsMine) return; // 추가
             if (isChatting() || isUIMode || isMenuOpen || isSleep) return;
 
-            if (isGrounded)
+            if (isGrounded && value.isPressed)
             {
-                velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Jump");
             }
         }
@@ -237,6 +234,30 @@ namespace Photon.Pun.UtilityScripts
         }
 
         // =================================================================
+        protected virtual void HandleMovement()
+        {
+            if (animator != null)
+            {
+                animator.SetFloat("H", horizontalInput, 0.1f, Time.deltaTime);
+                animator.SetFloat("V", verticalInput, 0.1f, Time.deltaTime);
+                animator.SetBool("IsGround", isGrounded);
+            }
+
+            Vector3 moveDir = (transform.forward * verticalInput) + (transform.right * horizontalInput);
+            if (impact.magnitude > 0.2f) impact = Vector3.Lerp(impact, Vector3.zero, 5f * Time.deltaTime);
+            else impact = Vector3.zero;
+
+            Vector3 finalMove = (moveDir * speed) + impact;
+
+            if (isGrounded && velocity.y <= 0)
+            {
+                finalMove.y = -100f;
+            }
+
+            controller.Move(finalMove * Time.deltaTime);
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+        }
 
         public void Update()
         {
@@ -263,7 +284,6 @@ namespace Photon.Pun.UtilityScripts
 
             // 2. 바닥 체크
             isGrounded = controller.isGrounded;
-            if (isGrounded && velocity.y < 0) velocity.y = -2f;
 
             // 3. 회전 처리
             if (!isBlocked)
@@ -280,29 +300,7 @@ namespace Photon.Pun.UtilityScripts
                     cameraPivot.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
             }
 
-            // 4. 애니메이션 & 이동 로직 (기존과 동일)
-            if (animator != null)
-            {
-                animator.SetFloat("H", horizontalInput, 0.1f, Time.deltaTime);
-                animator.SetFloat("V", verticalInput, 0.1f, Time.deltaTime);
-                animator.SetBool("IsGround", isGrounded);
-            }
-
-            Vector3 moveDir = (transform.forward * verticalInput) + (transform.right * horizontalInput);
-            if (impact.magnitude > 0.2f) impact = Vector3.Lerp(impact, Vector3.zero, 5f * Time.deltaTime);
-            else impact = Vector3.zero;
-
-            Vector3 finalMove = (moveDir * Speed) + impact;
-
-            if (isGrounded && velocity.y <= 0)
-            {
-                finalMove.y = -100f;
-            }
-
-            controller.Move(finalMove * Time.deltaTime);
-
-            velocity.y += Gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
+            HandleMovement();
         }
 
         public void SetMenuOpenState(bool isOpen)
@@ -382,13 +380,13 @@ namespace Photon.Pun.UtilityScripts
 
         public void ApplySpeedBoost(float additionalSpeed)
         {
-            if (verticalInput > 0.1f) Speed = originalSpeed + additionalSpeed;
+            if (verticalInput > 0.1f) speed = originalSpeed + additionalSpeed;
             else ResetSpeed();
         }
 
         public void ResetSpeed()
         {
-            Speed = originalSpeed;
+            speed = originalSpeed;
         }
 
         public System.Collections.IEnumerator WakeUpAfterDelay(float delay)

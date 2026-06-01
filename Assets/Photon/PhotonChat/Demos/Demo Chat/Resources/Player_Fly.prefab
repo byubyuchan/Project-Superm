@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d241317217ac06b46a0512123d496a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCameraZoom
-  playerMovement: {fileID: 8490700967350798686}
+  playerMovement: {fileID: 6622340803048766693}
   cameraTransform: {fileID: 8338398599734270721}
   zoomXOffset: 3.6
   zoomYOffset: 3.6
@@ -667,7 +667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       propertyPath: m_Name
-      value: Player_Sleep
+      value: Player_Fly
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       propertyPath: m_Layer
@@ -699,7 +699,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -724,7 +724,7 @@ PrefabInstance:
       addedObject: {fileID: 3378885223425658094}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8490700967350798686}
+      addedObject: {fileID: 6622340803048766693}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1841c298173cdad4db8df8602c8f1c8d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4816682631914590940}
@@ -785,7 +785,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
@@ -816,7 +816,7 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8490700967350798686
+--- !u!114 &6622340803048766693
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -825,19 +825,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5254184595196352773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b4daedc5e674a429acdf1e77da6a55, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cf70d0d0d8d1eb4e931f02abb7a0c08, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking.Utilities::Photon.Pun.UtilityScripts.MoveByKeys
+  m_EditorClassIdentifier: Assembly-CSharp::Photon.Pun.UtilityScripts.MoveByKeys_Fly
   speed: 60
   jumpHeight: 25
-  gravity: -200
+  gravity: 0
   rotationSpeed: 10
   cameraPivot: {fileID: 9077078744339165630}
   mouseSensitivity: 3
-  upRange: 20
-  downRange: 20
-  zoomUpRange: 40
-  zoomDownRange: 40
+  upRange: 40
+  downRange: 40
+  zoomUpRange: 50
+  zoomDownRange: 50
   verticalRotation: 0
   projectile: Bullet_Sleep
   firePoint: {fileID: 3500724731734377054}
@@ -853,6 +853,7 @@ MonoBehaviour:
   attackCooldown: 0.5
   lastAttackTime: 0
   isBlocked: 0
+  ascendSpeed: 50
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0

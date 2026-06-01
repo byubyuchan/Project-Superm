@@ -827,9 +827,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b4daedc5e674a429acdf1e77da6a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PhotonUnityNetworking.Utilities::Photon.Pun.UtilityScripts.MoveByKeys
-  Speed: 60
-  JumpHeight: 25
-  Gravity: -200
+  speed: 60
+  jumpHeight: 25
+  gravity: -200
   rotationSpeed: 10
   cameraPivot: {fileID: 9077078744339165630}
   mouseSensitivity: 3
