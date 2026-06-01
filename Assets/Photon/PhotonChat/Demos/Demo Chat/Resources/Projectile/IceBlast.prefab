@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4511281233660338}
   - component: {fileID: 198520034363222506}
   - component: {fileID: 199593294100692062}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Debris_End_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4926,7 +4926,7 @@ GameObject:
   - component: {fileID: 4749021148523538}
   - component: {fileID: 198136682897081952}
   - component: {fileID: 199611436048479272}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Embers_End_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9571,7 +9571,7 @@ GameObject:
   - component: {fileID: 4037074780147352}
   - component: {fileID: 198252716001317210}
   - component: {fileID: 199139612433467940}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Blast_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14477,7 +14477,7 @@ GameObject:
   - component: {fileID: 4543127893002852}
   - component: {fileID: 198360526964602836}
   - component: {fileID: 199406839940268760}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Smaller_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19432,7 +19432,7 @@ GameObject:
   - component: {fileID: 4456832976953980}
   - component: {fileID: 198286309141712448}
   - component: {fileID: 199382577090760042}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Blast_Trail_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24338,7 +24338,7 @@ GameObject:
   - component: {fileID: 4582115338747218}
   - component: {fileID: 198102231501286324}
   - component: {fileID: 199433975279183312}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Smaller_Trail_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29290,7 +29290,7 @@ GameObject:
   - component: {fileID: 4385402546653740}
   - component: {fileID: 198117391101515142}
   - component: {fileID: 199068076062821936}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Dust_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33944,7 +33944,7 @@ GameObject:
   - component: {fileID: 4877633247039642}
   - component: {fileID: 198173366457187580}
   - component: {fileID: 199749332062680656}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Dust_Trail_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38598,7 +38598,7 @@ GameObject:
   - component: {fileID: 4271047798154130}
   - component: {fileID: 198645381411754322}
   - component: {fileID: 199274290442827434}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Explosion_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43557,7 +43557,7 @@ GameObject:
   - component: {fileID: 4322651540917540}
   - component: {fileID: 198619955934293054}
   - component: {fileID: 199669389337495480}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Embers_Trail_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48202,7 +48202,7 @@ GameObject:
   - component: {fileID: 4278571030017706}
   - component: {fileID: 198663617662527118}
   - component: {fileID: 199444467552476628}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Embers_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52847,7 +52847,7 @@ GameObject:
   - component: {fileID: 4379025247833364}
   - component: {fileID: 198765297430808554}
   - component: {fileID: 199939381314337720}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Embers_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57492,7 +57492,7 @@ GameObject:
   - component: {fileID: 4706456728298574}
   - component: {fileID: 198901691377131036}
   - component: {fileID: 199058379365637298}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Dust_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62146,7 +62146,7 @@ GameObject:
   - component: {fileID: 4435532258157324}
   - component: {fileID: 198366518807226372}
   - component: {fileID: 199230042639451354}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Embers_End_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66791,7 +66791,7 @@ GameObject:
   - component: {fileID: 4532270405375348}
   - component: {fileID: 198558091990301546}
   - component: {fileID: 199702746490791674}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Debris_End_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71706,7 +71706,7 @@ GameObject:
   - component: {fileID: 4273157808521578}
   - component: {fileID: 198027452551543598}
   - component: {fileID: 199368272021947264}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Debris_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76621,7 +76621,7 @@ GameObject:
   - component: {fileID: 4307344357915190}
   - component: {fileID: 198453254999100972}
   - component: {fileID: 199607071003619278}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Dust_End_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81280,7 +81280,7 @@ GameObject:
   - component: {fileID: 5473256514214707602}
   - component: {fileID: 2906032447073623809}
   - component: {fileID: 2371470861698883211}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: IceBlast
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -86284,7 +86284,7 @@ MonoBehaviour:
   lifeTime: 4
   damage: 50
   explosionRadius: 0
-  explosionForce: 300
+  explosionForce: 0
   explosionEffectIndex: 2
 --- !u!54 &2906032447073623809
 Rigidbody:
@@ -86345,7 +86345,7 @@ GameObject:
   - component: {fileID: 4578950951682552}
   - component: {fileID: 198777854322687866}
   - component: {fileID: 199381201644332672}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Debris_End_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91260,7 +91260,7 @@ GameObject:
   - component: {fileID: 4333868392613908}
   - component: {fileID: 198514855409966778}
   - component: {fileID: 199983153988811108}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FX_ShardIce_Dust_End_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

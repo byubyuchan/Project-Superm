@@ -849,7 +849,7 @@ MonoBehaviour:
   isLoadingAttack: 0
   aimLayerMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 6144
   attackCooldown: 0.5
   lastAttackTime: 0
   isBlocked: 0
