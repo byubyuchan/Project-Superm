@@ -67,8 +67,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // 방 입장 시 방장이 위치한 씬으로 자동 이동 및 추후 게임 신 전환 시 파티원 자동 동기화 기능
         PhotonNetwork.AutomaticallySyncScene = true;
 
-        PhotonNetwork.NickName = "Player" + Random.Range(1000, 10000);
-
         itemsPerPage = roomSlots.Length;
 
         if (availableRoomToggle != null)

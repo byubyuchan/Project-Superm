@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using TMPro;
+using Photon.Pun;
 
 public class TitleController : MonoBehaviour
 {
@@ -8,6 +10,10 @@ public class TitleController : MonoBehaviour
     public GameObject pressAnyButtonText;
     public GameObject loginButtonGroup;
     public GameObject loginFailedPopup;
+
+    [Header("Guest Login UI")]
+    public GameObject nicknamePanel;
+    public TMP_InputField nicknameInput;
 
     [Header("Scene Management")]
     public string nextSceneName = "Lobby";
@@ -19,6 +25,7 @@ public class TitleController : MonoBehaviour
         if (pressAnyButtonText != null) pressAnyButtonText.SetActive(true);
         if (loginButtonGroup != null) loginButtonGroup.SetActive(false);
         if (loginFailedPopup != null) loginFailedPopup.SetActive(false);
+        if (nicknamePanel != null) nicknamePanel.SetActive(false);
     }
 
     private void Update()
@@ -48,8 +55,25 @@ public class TitleController : MonoBehaviour
         isWaitingForInput = false;
         if (pressAnyButtonText != null) pressAnyButtonText.SetActive(false);
         if (loginButtonGroup != null) loginButtonGroup.SetActive(true);
+    }
 
-        // 파티클 효과나 사운드를 추가하면 좋을 듯
+    public void OnGuestLoginButtonClicked()
+    {
+        if (loginButtonGroup != null) loginButtonGroup.SetActive(false);
+        if (nicknamePanel != null) nicknamePanel.SetActive(true);
+        if (nicknameInput != null) nicknameInput.Select();
+    }
+
+    public void OnNicknameSubmit()
+    {
+        if (!string.IsNullOrWhiteSpace(nicknameInput.text))
+        {
+            PhotonNetwork.NickName = nicknameInput.text;
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+        }
     }
 
     public void OnLoginButtonClicked()
