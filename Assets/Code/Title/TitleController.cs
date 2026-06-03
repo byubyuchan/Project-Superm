@@ -9,7 +9,10 @@ public class TitleController : MonoBehaviour
     [Header("UI Elements")]
     public GameObject pressAnyButtonText;
     public GameObject loginButtonGroup;
-    public GameObject loginFailedPopup;
+
+    [Header("Popup UI")]
+    public GameObject popupPanel;
+    public TextMeshProUGUI popupText;
 
     [Header("Guest Login UI")]
     public GameObject nicknamePanel;
@@ -24,7 +27,7 @@ public class TitleController : MonoBehaviour
     {
         if (pressAnyButtonText != null) pressAnyButtonText.SetActive(true);
         if (loginButtonGroup != null) loginButtonGroup.SetActive(false);
-        if (loginFailedPopup != null) loginFailedPopup.SetActive(false);
+        if (popupPanel != null) popupPanel.SetActive(false);
         if (nicknamePanel != null) nicknamePanel.SetActive(false);
     }
 
@@ -57,6 +60,23 @@ public class TitleController : MonoBehaviour
         if (loginButtonGroup != null) loginButtonGroup.SetActive(true);
     }
 
+    private void ShowPopup(string message)
+    {
+        if (popupPanel != null && popupText != null)
+        {
+            popupText.text = message;
+            popupPanel.SetActive(true);
+        }
+    }
+
+    public void OnClosePopupClicked()
+    {
+        if (popupPanel != null)
+        {
+            popupPanel.SetActive(false);
+        }
+    }
+
     public void OnGuestLoginButtonClicked()
     {
         if (loginButtonGroup != null) loginButtonGroup.SetActive(false);
@@ -66,14 +86,15 @@ public class TitleController : MonoBehaviour
 
     public void OnNicknameSubmit()
     {
-        if (!string.IsNullOrWhiteSpace(nicknameInput.text))
+        if (string.IsNullOrWhiteSpace(nicknameInput.text))
         {
-            PhotonNetwork.NickName = nicknameInput.text;
-            SceneManager.LoadScene(nextSceneName);
+            ShowPopup("Please enter a nickname.");
+            nicknameInput.Select();
+            return;
         }
-        else
-        {
-        }
+
+        PhotonNetwork.NickName = nicknameInput.text;
+        SceneManager.LoadScene(nextSceneName);
     }
 
     public void OnLoginButtonClicked()
@@ -83,17 +104,6 @@ public class TitleController : MonoBehaviour
 
     public void OnTestLoginFailedButtonClicked()
     {
-        if (loginFailedPopup != null)
-        {
-            loginFailedPopup.SetActive(true);
-        }
-    }
-
-    public void OnClosePopupClicked()
-    {
-        if (loginFailedPopup != null)
-        {
-            loginFailedPopup.SetActive(false);
-        }
+        ShowPopup("Login failed.");
     }
 }

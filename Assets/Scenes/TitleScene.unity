@@ -977,10 +977,10 @@ PrefabInstance:
       addedObject: {fileID: 775612186}
     - targetCorrespondingSourceObject: {fileID: 5979851889096361472, guid: e99a338ad3ae1454b9acf87429b60ea6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1332937854}
+      addedObject: {fileID: 1344436956}
     - targetCorrespondingSourceObject: {fileID: 5979851889096361472, guid: e99a338ad3ae1454b9acf87429b60ea6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1344436956}
+      addedObject: {fileID: 1332937854}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e99a338ad3ae1454b9acf87429b60ea6, type: 3}
 --- !u!224 &507627051 stripped
@@ -1019,7 +1019,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleController
   pressAnyButtonText: {fileID: 2074086468}
   loginButtonGroup: {fileID: 775612185}
-  loginFailedPopup: {fileID: 1332937853}
+  popupPanel: {fileID: 1332937853}
+  popupText: {fileID: 946361556}
   nicknamePanel: {fileID: 1344436955}
   nicknameInput: {fileID: 866021974}
   nextSceneName: Lobby
@@ -1180,7 +1181,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 20
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -1319,7 +1320,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 660, y: 270}
+  m_SizeDelta: {x: 800, y: 270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &902240469
 MonoBehaviour:
@@ -1528,10 +1529,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 367310824}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 550, y: 50}
+  m_SizeDelta: {x: -60, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &946361556
 MonoBehaviour:
@@ -2336,7 +2337,7 @@ GameObject:
   - component: {fileID: 1332937856}
   - component: {fileID: 1332937855}
   m_Layer: 5
-  m_Name: LoginFailedPopup
+  m_Name: WarningPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
