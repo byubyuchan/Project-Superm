@@ -1023,7 +1023,7 @@ MonoBehaviour:
   popupText: {fileID: 946361556}
   nicknamePanel: {fileID: 1344436955}
   nicknameInput: {fileID: 866021974}
-  nextSceneName: Lobby
+  nextSceneName: MainMenuScene
 --- !u!4 &753357634
 Transform:
   m_ObjectHideFlags: 0

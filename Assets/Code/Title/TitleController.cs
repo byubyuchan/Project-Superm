@@ -88,7 +88,7 @@ public class TitleController : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(nicknameInput.text))
         {
-            ShowPopup("Please enter a nickname.");
+            ShowPopup("Please enter a nickname");
             nicknameInput.Select();
             return;
         }
@@ -104,6 +104,6 @@ public class TitleController : MonoBehaviour
 
     public void OnTestLoginFailedButtonClicked()
     {
-        ShowPopup("Login failed.");
+        ShowPopup("Login failed");
     }
 }
