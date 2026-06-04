@@ -14,7 +14,7 @@ public class TPZone : MonoBehaviour
     [SerializeField] private bool isGoal = true;
 
 
-    private void Start()
+    private void Awake()
     {
         if (fallbackTarget != null)
         {
@@ -32,13 +32,13 @@ public class TPZone : MonoBehaviour
         // FindFirstObjectByType은 싱글톤보다 유연하게 작동합니다.
         BaseGameManager manager = Object.FindFirstObjectByType<BaseGameManager>();
 
-        if (isGoal)
+        if (manager && isGoal)
         {
             manager.TeleportCharacter(other.gameObject, fallbackPosition, fallbackRotation);
             PlayerSpawner.instance.InstantReSpawn(other.transform);
         }
 
-        else if (manager != null)
+        else
         {
             if (manager.RequestTeleport(pv.gameObject)) return;
             else manager.TeleportCharacter(other.gameObject, fallbackPosition, fallbackRotation);
