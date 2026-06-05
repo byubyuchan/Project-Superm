@@ -62,6 +62,9 @@ namespace Photon.Pun.UtilityScripts
         protected Vector2 rawLookInput;
         protected Vector2 mouseDelta;
 
+        [Header("Action State")]
+        protected bool isAttackPressed = false;
+
         protected Coroutine sleepCoroutine;
 
         public bool isBlocked = false;
@@ -154,21 +157,10 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        void OnAttack()
+        void OnAttack(InputValue value)
         {
-            if (!photonView.IsMine) return; // Ãß°¡
-            if (isChatting() || isUIMode || isMenuOpen || isSleep) return;
-
-            if (isLoadingAttack && !animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
-            {
-                if (Time.time - lastAttackTime >= attackCooldown)
-                {
-                    lastAttackTime = Time.time;
-                    photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
-
-                    AudioManager.instance.PlaySFX("Test", this.transform.position);
-                }
-            }
+            if (!photonView.IsMine) return;
+            isAttackPressed = value.isPressed;
         }
 
         void OnAim()
@@ -259,6 +251,22 @@ namespace Photon.Pun.UtilityScripts
             controller.Move(velocity * Time.deltaTime);
         }
 
+        protected virtual void HandleAttack()
+        {
+            if (isChatting() || isUIMode || isMenuOpen || isSleep) return;
+
+            if (isLoadingAttack && isAttackPressed && !animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+            {
+                if (Time.time - lastAttackTime >= attackCooldown)
+                {
+                    lastAttackTime = Time.time;
+                    photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
+
+                    AudioManager.instance.PlaySFX("Test", this.transform.position);
+                }
+            }
+        }
+
         public void Update()
         {
             if (!photonView.IsMine) return;
@@ -299,8 +307,8 @@ namespace Photon.Pun.UtilityScripts
                 if (cameraPivot != null)
                     cameraPivot.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
             }
-
             HandleMovement();
+            HandleAttack();
         }
 
         public void SetMenuOpenState(bool isOpen)
