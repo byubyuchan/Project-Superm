@@ -118,7 +118,7 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             SetLayerRecursively(gameObject, LayerMask.NameToLayer("Player"));
         }
@@ -326,7 +326,7 @@ namespace Photon.Pun.UtilityScripts
             Cursor.visible = showCursor;
         }
 
-        bool isChatting()
+        protected bool isChatting()
         {
             return EventSystem.current != null &&
                    EventSystem.current.currentSelectedGameObject != null &&

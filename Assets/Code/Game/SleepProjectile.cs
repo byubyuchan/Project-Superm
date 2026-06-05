@@ -18,6 +18,20 @@ public class SleepProjectile : Projectile
         }
     }
 
+    protected override void OnTriggerEnter(Collider col)
+    {
+        if (!photonView.IsMine || hasExploded) return;
+
+        if (col.gameObject.CompareTag("Player"))
+        {
+            Explode(col.gameObject);
+        }
+        else if (col.gameObject.CompareTag("Map"))
+        {
+            Explode();
+        }
+    }
+
     // 폭발한 투사체가 여러 오브젝트에 부딪혀 여러 번 폭발하는 것을 방지
     protected override void Explode(GameObject target = null)
     {

@@ -68,6 +68,8 @@ MonoBehaviour:
   - TakeDamageDamage
   - RPC_TakeDamage
   - RPC_BroadcastDie
+  - RPC_SetFlamethrowerState
+  - RPC_SetFlame
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
