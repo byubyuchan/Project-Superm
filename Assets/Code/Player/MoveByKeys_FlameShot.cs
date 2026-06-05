@@ -1,13 +1,17 @@
+using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Photon.Pun.UtilityScripts
-{   
+{
     public class MoveByKeys_FlameShot : MoveByKeys
     {
         private bool isFiring = false;
-        private ParticleSystem[] flame;
 
-        protected override void OnDisable()
+        private GameObject networkFlameObj;
+        private ParticleSystem[] flames;
+
+        protected new void OnDisable()
         {
             if (photonView.IsMine && isFiring)
             {
@@ -26,6 +30,14 @@ namespace Photon.Pun.UtilityScripts
                 if (!isFiring)
                 {
                     isFiring = true;
+
+                    if (networkFlameObj == null && photonView.IsMine)
+                    {
+                        networkFlameObj = PhotonNetwork.Instantiate("Projectile/" + projectile, firePoint.position, firePoint.rotation);
+
+                        photonView.RPC("RPC_InitFlame", RpcTarget.AllBuffered, networkFlameObj.GetComponent<PhotonView>().ViewID);
+                    }
+
                     photonView.RPC("RPC_SetFlame", RpcTarget.All, true);
                 }
             }
@@ -38,56 +50,63 @@ namespace Photon.Pun.UtilityScripts
                 }
             }
 
-            if (isFiring && flame != null && photonView.IsMine)
+            if (isFiring && flames != null && flames.Length > 0 && flames[0] != null)
             {
-                Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-                RaycastHit hit;
-                Vector3 targetPoint;
-
-                if (Physics.Raycast(ray, out hit, maxRange, ~aimLayerMask))
+                if (photonView.IsMine)
                 {
-                    targetPoint = hit.point;
+                    Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                    RaycastHit hit;
+                    Vector3 targetPoint;
 
-                    float distToTarget = Vector3.Distance(Camera.main.transform.position, hit.point);
-                    float distToMuzzle = Vector3.Distance(Camera.main.transform.position, firePoint.position);
-
-                    if (distToTarget < distToMuzzle + 5f)
+                    if (Physics.Raycast(ray, out hit, maxRange, ~aimLayerMask))
                     {
-                        targetPoint = ray.GetPoint(50f);
-                    }
-                }
-                else targetPoint = ray.GetPoint(maxRange);
+                        targetPoint = hit.point;
 
-                Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
-                flame[0].transform.rotation = Quaternion.LookRotation(aimDirection);
+                        float distToTarget = Vector3.Distance(Camera.main.transform.position, hit.point);
+                        float distToMuzzle = Vector3.Distance(Camera.main.transform.position, firePoint.position);
+
+                        if (distToTarget < distToMuzzle + 5f)
+                        {
+                            targetPoint = ray.GetPoint(50f);
+                        }
+                    }
+                    else targetPoint = ray.GetPoint(maxRange);
+
+                    Vector3 aimDirection = (targetPoint - firePoint.position).normalized;
+
+                    networkFlameObj.transform.position = firePoint.position;
+                    networkFlameObj.transform.rotation = Quaternion.LookRotation(aimDirection);
+                }
+            }
+        }
+
+        public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+        {
+            base.OnPlayerEnteredRoom(newPlayer);
+
+            if (photonView.IsMine && isFiring)
+            {
+                photonView.RPC("RPC_SetFlame", newPlayer, true);
+            }
+        }
+
+        [PunRPC]
+        public void RPC_InitFlame(int viewID)
+        {
+            PhotonView targetPV = PhotonView.Find(viewID);
+            if (targetPV != null)
+            {
+                networkFlameObj = targetPV.gameObject;
+                flames = networkFlameObj.GetComponentsInChildren<ParticleSystem>();
             }
         }
 
         [PunRPC]
         public void RPC_SetFlame(bool state)
         {
-            if (flame == null && state == true)
+            if (flames != null)
             {
-                GameObject prefab = Resources.Load<GameObject>("Projectile/" + projectile);
-
-                if (prefab != null && firePoint != null)
-                {
-                    GameObject flameObj = Instantiate(prefab, firePoint);
-
-                    flameObj.transform.localPosition = Vector3.zero;
-                    flameObj.transform.localRotation = Quaternion.identity;
-
-                    flame = flameObj.GetComponentsInChildren<ParticleSystem>();
-                }
-                else
-                {
-                    Debug.LogError($"[FlameShot] Resources/Projectile/{projectile} 을 찾을 수 없거나 firePoint가 비어있습니다!");
-                }
-            }
-
-            if (flame != null)
-            {
-                foreach (var ps in flame)
+                foreach (var ps in flames)
                 {
                     var emission = ps.emission;
                     emission.enabled = state;
@@ -101,4 +120,3 @@ namespace Photon.Pun.UtilityScripts
         }
     }
 }
-

@@ -70,6 +70,7 @@ MonoBehaviour:
   - RPC_BroadcastDie
   - RPC_SetFlamethrowerState
   - RPC_SetFlame
+  - RPC_InitFlame
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

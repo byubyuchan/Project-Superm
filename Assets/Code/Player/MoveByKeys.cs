@@ -1,13 +1,13 @@
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace Photon.Pun.UtilityScripts
 {
     [RequireComponent(typeof(CharacterController), typeof(PhotonView))]
-    public class MoveByKeys : MonoBehaviourPun
+    public class MoveByKeys : MonoBehaviourPunCallbacks
     {
         public float speed = 5f;            // 이동 속도 (기존 1000은 너무 컸으니 조정)
         public float jumpHeight = 2f;       // 점프 높이
@@ -99,8 +99,10 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        private void OnEnable()
+        public override void OnEnable()
         {
+            base.OnEnable();
+
             if (photonView.IsMine)
             {
                 isUIMode = false;
@@ -118,9 +120,10 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        protected virtual void OnDisable()
+        public override void OnDisable()
         {
             SetLayerRecursively(gameObject, LayerMask.NameToLayer("Player"));
+            base.OnDisable();
         }
 
         void SetLayerRecursively(GameObject obj, int newLayer)
@@ -129,6 +132,28 @@ namespace Photon.Pun.UtilityScripts
             foreach (Transform child in obj.transform)
             {
                 SetLayerRecursively(child.gameObject, newLayer);
+            }
+        }
+
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            if (photonView.IsMine && isLoadingAttack)
+            {
+                photonView.RPC("RPC_LoadAction", newPlayer, "ReadyToAttack", true);
+            }
+
+            if (photonView.IsMine && isSleep)
+            {
+                photonView.RPC("RPC_Sleep", newPlayer, 5f);
+            }
+
+            if (transform.localScale.x > localSize.x + 0.1f)
+            {
+                photonView.RPC("RPC_SizeUp", newPlayer);
+            }
+            else if (transform.localScale.x < localSize.x - 0.1f)
+            {
+                photonView.RPC("RPC_SizeDown", newPlayer);
             }
         }
 
