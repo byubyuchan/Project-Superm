@@ -11236,7 +11236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EffectManager
   explosionEffects:
   - {fileID: 1809022330002312, guid: d2e280a71e9d5b5439554b1f9a64f115, type: 3}
-  - {fileID: 1159970587636746, guid: 8e15e87de75573143a7cf5f013a89d80, type: 3}
+  - {fileID: 1158698889827864, guid: 0c7d51ff0c7fc274c9e0949cd39dcb00, type: 3}
   - {fileID: 1277154925287174, guid: 8c356179bd303604cb62cb83019aba8d, type: 3}
   localScreenEffects:
   - {fileID: 2142143449}

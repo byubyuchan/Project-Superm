@@ -9451,7 +9451,7 @@ MonoBehaviour:
   damage: 0.1
   explosionRadius: 0
   explosionForce: 0
-  explosionEffectIndex: 2
+  explosionEffectIndex: 1
   sreenEffectIndex: 5
   particleEffectInterval: 0.25
   particleDamageInterval: 0.1
