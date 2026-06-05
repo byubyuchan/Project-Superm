@@ -9448,10 +9448,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParticleProjectile
   speed: 0
   lifeTime: 0
-  damage: 5
+  damage: 0.1
   explosionRadius: 0
   explosionForce: 0
   explosionEffectIndex: 2
+  sreenEffectIndex: 5
   particleEffectInterval: 0.25
   particleDamageInterval: 0.1
 --- !u!114 &4268293393333331989

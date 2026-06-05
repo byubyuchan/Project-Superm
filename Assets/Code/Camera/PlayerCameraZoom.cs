@@ -29,7 +29,6 @@ public class PlayerCameraZoom : MonoBehaviourPun, IPunObservable
     [Header("Animation Rigging")]
     public Transform rigAimTarget;
 
-
     void Awake()
     {
         // Awake에서는 내 몸에 붙은 컴포넌트나 static 참조만 세팅하는 것이 안전합니다.
@@ -72,6 +71,11 @@ public class PlayerCameraZoom : MonoBehaviourPun, IPunObservable
             localPos.y = defaultYOffset;
             cameraTransform.localPosition = localPos;
             camComponent.fieldOfView = defaultFOV;
+        }
+
+        if (AutoCameraCanvas.Instance != null)
+        {
+            AutoCameraCanvas.Instance.RegisterLocalPlayerCamera(camComponent);
         }
     }
 
@@ -156,4 +160,6 @@ public class PlayerCameraZoom : MonoBehaviourPun, IPunObservable
             }
         }
     }
+
+
 }

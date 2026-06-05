@@ -285,6 +285,8 @@ MonoBehaviour:
   zoomSpeed: 5
   crosshairImage: {fileID: 0}
   rigAimTarget: {fileID: 6268352527473388946}
+  screenZOffset: 820
+  defaultScreenZOffset: 390
 --- !u!1 &3374823730875295551
 GameObject:
   m_ObjectHideFlags: 0

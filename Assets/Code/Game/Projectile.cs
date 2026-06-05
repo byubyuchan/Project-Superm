@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
+using static Cinemachine.CinemachineTargetGroup;
 using static UnityEngine.GraphicsBuffer;
 
 public class Projectile : MonoBehaviourPun
@@ -16,6 +17,9 @@ public class Projectile : MonoBehaviourPun
 
     [SerializeField]
     protected int explosionEffectIndex = 0;
+
+    [SerializeField]
+    protected int sreenEffectIndex = 0;
 
     protected bool hasExploded = false;
     protected bool isNPCProjectile;
@@ -86,7 +90,9 @@ public class Projectile : MonoBehaviourPun
         if (col.gameObject.CompareTag("Dummy"))
         {
             if (EffectManager.Instance != null)
+            {
                 EffectManager.Instance.RequestExplosion(explosionEffectIndex, col.transform.position);
+            }
             return;
         }
 
@@ -101,7 +107,10 @@ public class Projectile : MonoBehaviourPun
                 if (damage > 0f)
                 {
                     if (EffectManager.Instance != null)
+                    {
                         EffectManager.Instance.RequestExplosion(explosionEffectIndex, targetPV.transform.position);
+                    }
+
 
                     targetPV.RPC("RPC_TakeDamage", targetPV.Owner, damage);
                 }

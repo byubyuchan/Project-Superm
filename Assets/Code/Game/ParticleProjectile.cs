@@ -26,6 +26,7 @@ public class ParticleProjectile : Projectile
             if (EffectManager.Instance != null)
             {
                 EffectManager.Instance.RequestExplosion(explosionEffectIndex, other.transform.position);
+                EffectManager.Instance.RequestLocalEffect(sreenEffectIndex, other.GetPhotonView());
             }
             lastEffectTime = Time.time;
         }

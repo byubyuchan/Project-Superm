@@ -1,43 +1,54 @@
 using UnityEngine;
 using Photon.Pun;
-using System.Collections;
 
 public class EffectManager : MonoBehaviourPun
 {
-    // 외부에서 쉽게 접근할 수 있도록 싱글톤 구성
     public static EffectManager Instance;
 
     public GameObject[] explosionEffects;
+    public GameObject[] localScreenEffects;
 
-    void Awake()
-    {
-        Instance = this;
-    }
+    void Awake() => Instance = this;
 
-    // 이펙트 재생 요청을 모든 클라이언트에게 전달하는 함수
+    // 1. 모두에게 보이는 폭발
     public void RequestExplosion(int index, Vector3 pos)
     {
         photonView.RPC("RPC_PlayEffect", RpcTarget.All, index, pos);
     }
-    private IEnumerator ReturnEffectToPool(GameObject fx, float delay)
+
+    // 2. 나만 보이는 피격 효과
+    public void RequestLocalEffect(int index, PhotonView targetPV)
     {
-        yield return new WaitForSeconds(delay);
-        if (fx != null)
-        {
-            PhotonNetwork.Destroy(fx);
-        }
+        if (targetPV == null || targetPV.Owner == null) return;
+
+        photonView.RPC("RPC_PlayLocalEffect", targetPV.Owner, index);
     }
 
-    // 모든 이펙트는 수명이 남아있더라도 2초 뒤 비활성화 되도록 구성
     [PunRPC]
     void RPC_PlayEffect(int index, Vector3 pos)
     {
         if (index < explosionEffects.Length)
         {
-            string prefabName = explosionEffects[index].name;
-            GameObject fx = PhotonNetwork.Instantiate("VFX/" + prefabName, pos, Quaternion.identity);
+            GameObject fx = PhotonNetwork.Instantiate("VFX/" + explosionEffects[index].name, pos, Quaternion.identity);
+            Destroy(fx, 2.0f);
+        }
+    }
 
-            StartCoroutine(ReturnEffectToPool(fx, 2.0f));
+    [PunRPC]
+    void RPC_PlayLocalEffect(int index)
+    {
+        if (index < localScreenEffects.Length)
+        {
+            GameObject effectObj = localScreenEffects[index];
+
+            effectObj.SetActive(true);
+
+            if (effectObj.TryGetComponent<ParticleSystem>(out ParticleSystem ps))
+            {
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+                ps.Play(true);
+            }
         }
     }
 }

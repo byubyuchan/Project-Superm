@@ -71,6 +71,7 @@ MonoBehaviour:
   - RPC_SetFlamethrowerState
   - RPC_SetFlame
   - RPC_InitFlame
+  - RPC_PlayLocalEffect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
