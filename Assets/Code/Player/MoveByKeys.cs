@@ -65,6 +65,9 @@ namespace Photon.Pun.UtilityScripts
         [Header("Action State")]
         protected bool isAttackPressed = false;
 
+        [Header("Effect Transform")]
+        public Transform effectTransform;
+
         protected Coroutine sleepCoroutine;
 
         public bool isBlocked = false;

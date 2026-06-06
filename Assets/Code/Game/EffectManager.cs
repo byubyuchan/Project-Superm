@@ -1,6 +1,7 @@
-using UnityEngine;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using System.Collections;
+using UnityEngine;
 
 public class EffectManager : MonoBehaviourPun
 {
@@ -25,13 +26,20 @@ public class EffectManager : MonoBehaviourPun
         photonView.RPC("RPC_PlayLocalEffect", targetPV.Owner, index);
     }
 
+    // 3. 달라붙은 피격 효과
+    public void RequestAttachedExplosion(int index, int targetViewID)
+    {
+        photonView.RPC("RPC_PlayAttachedEffect", RpcTarget.All, index, targetViewID);
+    }
+
     private IEnumerator ReturnToPoolRoutine(GameObject fx, float delay)
     {
         yield return new WaitForSeconds(delay);
 
         if (fx != null)
         {
-            PhotonNetwork.Destroy(fx);
+            fx.transform.SetParent(PhotonPoolingManager.instance.transform);
+            PhotonPoolingManager.instance.Destroy(fx);
         }
     }
 
@@ -63,5 +71,27 @@ public class EffectManager : MonoBehaviourPun
                 ps.Play(true);
             }
         }
+    }
+
+    [PunRPC]
+    void RPC_PlayAttachedEffect(int index, int targetViewID)
+    {
+        if (index >= explosionEffects.Length) return;
+
+        PhotonView targetPV = PhotonView.Find(targetViewID);
+        if (targetPV == null) return;
+
+        Transform spineTransform = targetPV.transform;
+        MoveByKeys moveScript = targetPV.GetComponent<MoveByKeys>();
+        if (moveScript != null && moveScript.effectTransform != null)
+        {
+            spineTransform = moveScript.effectTransform;
+        }
+
+        GameObject fx = PhotonPoolingManager.instance.Instantiate("VFX/" + explosionEffects[index].name, spineTransform.position, spineTransform.rotation);
+        fx.transform.SetParent(spineTransform);
+        fx.SetActive(true);
+
+        StartCoroutine(ReturnToPoolRoutine(fx, 2.0f));
     }
 }

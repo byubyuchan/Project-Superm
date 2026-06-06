@@ -18674,6 +18674,14 @@ PrefabInstance:
       propertyPath: ObservedComponents.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4349168650744157454, guid: 350a16698ce31004c9b624104c815ea5, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4349168650744157454, guid: 350a16698ce31004c9b624104c815ea5, type: 3}
+      propertyPath: audioListener
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4873261628758574015, guid: 350a16698ce31004c9b624104c815ea5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4588
