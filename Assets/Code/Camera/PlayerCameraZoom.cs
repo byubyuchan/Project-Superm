@@ -75,7 +75,26 @@ public class PlayerCameraZoom : MonoBehaviourPun, IPunObservable
 
         if (AutoCameraCanvas.Instance != null)
         {
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.ClearLocalScreenEffects();
+            }
+
+            AutoCameraCanvas.Instance.gameObject.SetActive(true);
             AutoCameraCanvas.Instance.RegisterLocalPlayerCamera(camComponent);
+        }
+    }
+
+    void OnDisable()
+    {
+        if (camComponent != null && AutoCameraCanvas.Instance != null)
+        {
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.ClearLocalScreenEffects();
+            }
+
+            AutoCameraCanvas.Instance.gameObject.SetActive(false);
         }
     }
 

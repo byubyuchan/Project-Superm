@@ -109,6 +109,12 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 
         manager.messageText.gameObject.SetActive(false);
 
+        if (playerPrefabs == null || playerPrefabs.Length == 0)
+        {
+            Debug.LogError("[PlayerSpawner] 리스폰 실패! Player Prefabs 배열이 비어있습니다. 인스펙터를 확인하세요.");
+            yield break;
+        }
+
         if (currentCamera != null)
         {
             Destroy(currentCamera);
@@ -160,6 +166,12 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 
     public void ReSpawn()
     {
+        if (playerPrefabs == null || playerPrefabs.Length == 0)
+        {
+            Debug.LogError("[PlayerSpawner] 리스폰 실패! Player Prefabs 배열이 비어있습니다. 인스펙터를 확인하세요.");
+            return;
+        }
+
         int randomPrefabIndex = Random.Range(0, playerPrefabs.Length);
         Vector3 spawnPos = transform.position;
         Quaternion spawnRot = transform.rotation;
@@ -184,6 +196,11 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 
     public void InstantReSpawn(Transform transform)
     {
+        if (playerPrefabs == null || playerPrefabs.Length == 0)
+        {
+            return;
+        }
+
         int randomPrefabIndex = Random.Range(0, playerPrefabs.Length);
         Vector3 spawnPos = transform.position;
         Quaternion spawnRot = transform.rotation;

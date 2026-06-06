@@ -1,6 +1,7 @@
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EffectManager : MonoBehaviourPun
@@ -9,6 +10,8 @@ public class EffectManager : MonoBehaviourPun
 
     public GameObject[] explosionEffects;
     public GameObject[] localScreenEffects;
+
+    private Dictionary<GameObject, Coroutine> effectCoroutines = new Dictionary<GameObject, Coroutine>();
 
     void Awake() => Instance = this;
 
@@ -38,8 +41,36 @@ public class EffectManager : MonoBehaviourPun
 
         if (fx != null)
         {
+            effectCoroutines.Remove(fx);
             fx.transform.SetParent(PhotonPoolingManager.instance.transform);
             PhotonPoolingManager.instance.Destroy(fx);
+        }
+    }
+
+    public void StopEffectCoroutine(GameObject fx)
+    {
+        if (fx != null && effectCoroutines.TryGetValue(fx, out Coroutine routine))
+        {
+            if (routine != null) StopCoroutine(routine);
+            effectCoroutines.Remove(fx);
+        }
+    }
+
+    public void ClearLocalScreenEffects()
+    {
+        if (localScreenEffects == null) return;
+
+        foreach (GameObject effectObj in localScreenEffects)
+        {
+            if (effectObj != null && effectObj.activeSelf)
+            {
+                if (effectObj.TryGetComponent<ParticleSystem>(out ParticleSystem ps))
+                {
+                    
+                    ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                }
+                effectObj.SetActive(false);
+            }
         }
     }
 
@@ -92,6 +123,7 @@ public class EffectManager : MonoBehaviourPun
         fx.transform.SetParent(spineTransform);
         fx.SetActive(true);
 
-        StartCoroutine(ReturnToPoolRoutine(fx, 2.0f));
+        StopEffectCoroutine(fx);
+        effectCoroutines[fx] = StartCoroutine(ReturnToPoolRoutine(fx, 2.0f));
     }
 }

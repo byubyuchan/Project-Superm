@@ -81,6 +81,7 @@ public class DebugSceneManager : MonoBehaviourPunCallbacks
         DestroyPlayer();
         currentPlayer = PhotonNetwork.Instantiate(targetPrefab, pos, rot);
     }
+
     public void DestroyPlayer()
     {
         if (currentPlayer != null)
