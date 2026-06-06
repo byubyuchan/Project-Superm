@@ -33,8 +33,8 @@ public class ParticleProjectile : Projectile
                     if (targetPV != null)
                     {
                         EffectManager.Instance.RequestAttachedExplosion(explosionEffectIndex, targetPV.ViewID);
-
                         EffectManager.Instance.RequestLocalEffect(sreenEffectIndex, targetPV);
+                        targetPV.RPC("RPC_ApplyBuff", targetPV.Owner, "Burn", 2f, damage);
                     }
                 }
             }
