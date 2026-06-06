@@ -418,7 +418,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1641157179012507539}
-  - component: {fileID: 7224666414388082679}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -451,28 +450,6 @@ Transform:
   - {fileID: 4009181389444982149}
   m_Father: {fileID: 4873261628758574015}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &7224666414388082679
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938821982545108578}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8327566c71d95324a8736ae100bfc4b2, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1125688364436653362
 GameObject:
   m_ObjectHideFlags: 0
@@ -3794,6 +3771,7 @@ MonoBehaviour:
   lastAttackTime: 0
   effectTransform: {fileID: 5369312226627461276}
   isBlocked: 0
+  isNoCC: 0
   ascendSpeed: 50
 --- !u!143 &4816682631914590940
 CharacterController:

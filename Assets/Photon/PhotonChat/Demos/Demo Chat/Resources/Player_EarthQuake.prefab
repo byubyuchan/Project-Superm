@@ -669,7 +669,8 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7505469935389496157, guid: 663a2fe424f7fd54f8065011fc3602c7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4524118676831340839, guid: 663a2fe424f7fd54f8065011fc3602c7, type: 3}
@@ -1196,6 +1197,7 @@ MonoBehaviour:
   lastAttackTime: 0
   effectTransform: {fileID: 2828957367628090787}
   isBlocked: 0
+  isNoCC: 0
 --- !u!143 &4816682631914590940
 CharacterController:
   m_ObjectHideFlags: 0

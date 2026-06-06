@@ -72,6 +72,11 @@ namespace Photon.Pun.UtilityScripts
 
         public bool isBlocked = false;
 
+        [Header("면역 or 무적")]
+        public bool isNoCC = false;
+        protected bool isInvincible = false;
+
+
         public void Awake()
         {
             controller = GetComponent<CharacterController>();
@@ -457,6 +462,8 @@ namespace Photon.Pun.UtilityScripts
         [PunRPC]
         public void RPC_TakeDamage(float damage) 
         {
+            if (isInvincible) return;
+
             if (photonView.IsMine && damage > 0f)
             {
                 HPController hpController = GetComponent<HPController>();
@@ -474,6 +481,8 @@ namespace Photon.Pun.UtilityScripts
         [PunRPC]
         public void RPC_AddKnockback(Vector3 force)
         {
+            if (isNoCC || isInvincible) return;
+
             if (photonView.IsMine)
             {
                 impact += force;
@@ -549,6 +558,8 @@ namespace Photon.Pun.UtilityScripts
         [PunRPC]
         public void RPC_Magnet(float radius, float totalStr)
         {
+            if (isNoCC || isInvincible) return;
+
             if (!photonView.IsMine) return;
 
             StartCoroutine(DoMagnet(radius, totalStr));
@@ -557,6 +568,8 @@ namespace Photon.Pun.UtilityScripts
         [PunRPC]
         public void RPC_Sleep(float time)
         {
+            if (isNoCC || isInvincible) return;
+
             isSleep = true;
             if (animator != null) animator.SetBool("IsSleep", true);
 

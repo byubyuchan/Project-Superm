@@ -968,8 +968,8 @@ ModelImporter:
   assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
-  productId: 147875
-  packageName: Human Crafting Animations
-  packageVersion: 2.2.1
-  assetPath: Assets/Kevin Iglesias/Human Animations/Animations/Male/Misc/Unsheathe/HumanM@SheatheHips01_R.fbx
-  uploadId: 824628
+  productId: 345572
+  packageName: Human Throwing Animations FREE
+  packageVersion: 1.0
+  assetPath: Assets/Anim/Anim_Free/Human Animations/Animations/Male/Combat/Spellcasting/MagicAttacks/Misc/Unsheathe/HumanM@SheatheHips01_R.fbx
+  uploadId: 825318
