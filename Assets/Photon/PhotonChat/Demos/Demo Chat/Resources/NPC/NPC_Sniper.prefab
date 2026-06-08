@@ -277,7 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPC_Sniper
   wanderRadius: 150
   wanderTimer: 30
-  explosionEffectIndex: 1
+  explosionEffectIndex: 2
   respawnPrefabs:
   - NPC_Sniper
   - NPC_Sniper 1

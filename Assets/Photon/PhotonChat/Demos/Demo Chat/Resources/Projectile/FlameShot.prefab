@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 199996472042573172}
   m_Layer: 12
   m_Name: FX_FlameThrower_Embers_01
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9448,7 +9448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParticleProjectile
   speed: 0
   lifeTime: 0
-  damage: 3
+  damage: 5
   explosionRadius: 0
   explosionForce: 0
   explosionEffectIndex: 1

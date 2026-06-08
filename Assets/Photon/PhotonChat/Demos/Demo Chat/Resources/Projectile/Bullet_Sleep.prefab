@@ -9655,10 +9655,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SleepProjectile
   speed: 200
   lifeTime: 1.5
-  damage: 10
+  damage: 30
   explosionRadius: 0
   explosionForce: 3
   explosionEffectIndex: 2
+  sreenEffectIndex: 0
 --- !u!54 &2300647746438269857
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -123,7 +123,6 @@ namespace Photon.Pun.UtilityScripts
                 velocity = Vector3.zero;
 
                 SetLayerRecursively(gameObject, LayerMask.NameToLayer("LocalPlayer"));
-
                 UpdateCursorState();
             }
         }

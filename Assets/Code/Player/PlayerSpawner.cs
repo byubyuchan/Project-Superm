@@ -26,6 +26,8 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     [Header("Dead Effect Settings")]
     [SerializeField] private int effectIndex;
 
+    [SerializeField] private float offset = 30f;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -161,6 +163,8 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             spawnRot = spawnZones[index].rotation;
         }
 
+        spawnPos.z += Random.Range(-offset, offset);
+        spawnPos.x += Random.Range(-offset, offset);
         player = PhotonNetwork.Instantiate(selectedPrefab.name, spawnPos, spawnRot);
     }
 
@@ -190,24 +194,26 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             spawnPos = spawnZones[index].position;
             spawnRot = spawnZones[index].rotation;
         }
-        // 아무것도 아니라면 첫 부활장소에서 리스폰
+
+        spawnPos.z += Random.Range(-offset, offset);
+        spawnPos.x += Random.Range(-offset, offset);
+
         player = PhotonNetwork.Instantiate(playerPrefabs[randomPrefabIndex].name, spawnPos, spawnRot);
     }
 
-    public void InstantReSpawn(Transform transform)
+    // 회전 방향을 직접 받아옴.
+    public void InstantReSpawn(Vector3 targetPos, Quaternion targetRot)
     {
-        if (playerPrefabs == null || playerPrefabs.Length == 0)
-        {
-            return;
-        }
-
-        int randomPrefabIndex = Random.Range(0, playerPrefabs.Length);
-        Vector3 spawnPos = transform.position;
-        Quaternion spawnRot = transform.rotation;
-
+        if (playerPrefabs == null || playerPrefabs.Length == 0) return;
         EffectManager.Instance.RequestExplosion(effectIndex, player.transform.position);
         PhotonNetwork.Destroy(player);
-        player = PhotonNetwork.Instantiate(playerPrefabs[randomPrefabIndex].name, transform.position, transform.rotation);
+
+        Vector3 spawnPos = targetPos;
+        spawnPos.z += Random.Range(-offset, offset);
+        spawnPos.x += Random.Range(-offset, offset);
+
+        int randomPrefabIndex = Random.Range(0, playerPrefabs.Length);
+        player = PhotonNetwork.Instantiate(playerPrefabs[randomPrefabIndex].name, spawnPos, targetRot);
     }
 
     #region PunCallbacks 옵션

@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EffectManager : MonoBehaviourPun
@@ -13,7 +14,19 @@ public class EffectManager : MonoBehaviourPun
 
     private Dictionary<GameObject, Coroutine> effectCoroutines = new Dictionary<GameObject, Coroutine>();
 
-    void Awake() => Instance = this;
+    void Awake()
+    {
+        // 싱글톤 세팅 및 중복 방지
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     // 1. 모두에게 보이는 폭발
     public void RequestExplosion(int index, Vector3 pos)
@@ -79,11 +92,12 @@ public class EffectManager : MonoBehaviourPun
     {
         if (index < explosionEffects.Length)
         {
-            GameObject fx = PhotonNetwork.Instantiate("VFX/" + explosionEffects[index].name, pos, Quaternion.identity);
+            GameObject fx = PhotonPoolingManager.instance.Instantiate("VFX/" + explosionEffects[index].name, pos, Quaternion.identity);
+            fx.SetActive(true);
 
-            StartCoroutine(ReturnToPoolRoutine(fx, 2.0f));
+            StopEffectCoroutine(fx);
+            effectCoroutines[fx] = StartCoroutine(ReturnToPoolRoutine(fx, 2.0f));
         }
-
     }
 
     [PunRPC]

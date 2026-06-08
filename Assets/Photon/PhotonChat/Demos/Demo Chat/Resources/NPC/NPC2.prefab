@@ -217,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPC
   wanderRadius: 150
   wanderTimer: 7
-  explosionEffectIndex: 1
+  explosionEffectIndex: 2
   respawnPrefabs:
   - NPC0
   - NPC1

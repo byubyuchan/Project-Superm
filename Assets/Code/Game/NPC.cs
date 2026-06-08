@@ -112,6 +112,33 @@ public class NPC : MonoBehaviourPun
         }
     }
 
+    protected void OnParticleCollision(GameObject other)
+    {
+        if (!PhotonNetwork.IsMasterClient || isExploded) return;
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("IgnoreNPC"))
+        {
+            return;
+        }
+
+        if (other.CompareTag("Projectile") || other.CompareTag("NPCProjectile"))
+        {
+            isExploded = true;
+
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.RequestExplosion(explosionEffectIndex, transform.position);
+            }
+            if (RespawnManager.Instance != null)
+            {
+                int randomIndex = Random.Range(0, respawnPrefabs.Length);
+                string selectedPrefab = respawnPrefabs[randomIndex];
+                RespawnManager.Instance.RespawnNPC("NPC/" + selectedPrefab, transform.position, respawnTime);
+            }
+            Death();
+        }
+    }
+
     void Death()
     {
         PhotonNetwork.Instantiate("NPC/Item", transform.position + new Vector3(0,15f,0), Quaternion.identity);

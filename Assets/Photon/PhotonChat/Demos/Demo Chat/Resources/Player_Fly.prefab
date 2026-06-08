@@ -3725,7 +3725,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 4505607586069167487}
+  - {fileID: -5765491507811491722}
+  - {fileID: 3666439564978712337}
+  - {fileID: 3701007249020681527}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -3741,8 +3745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf70d0d0d8d1eb4e931f02abb7a0c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Photon.Pun.UtilityScripts.MoveByKeys_Fly
-  speed: 60
-  jumpHeight: 25
+  speed: 100
+  jumpHeight: 40
   gravity: 0
   rotationSpeed: 10
   cameraPivot: {fileID: 9077078744339165630}
@@ -3763,7 +3767,7 @@ MonoBehaviour:
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 6144
-  attackCooldown: 0.5
+  attackCooldown: 1.5
   lastAttackTime: 0
   effectTransform: {fileID: 5369312226627461276}
   isBlocked: 0
@@ -3919,7 +3923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e2780992a583d4aa57ac7e3e9e31b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HPController
-  Hp: 100
+  Hp: 150
   maxHp: 0
   UIprefab: {fileID: 170056, guid: 525d0c2c9acd74d4faf569562686959b, type: 3}
   respawnDelay: 10

@@ -9872,10 +9872,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   speed: 0
   lifeTime: 4
-  damage: 50
+  damage: 100
   explosionRadius: 50
   explosionForce: 500
   explosionEffectIndex: 2
+  sreenEffectIndex: 0
 --- !u!54 &-250996157546534994
 Rigidbody:
   m_ObjectHideFlags: 0

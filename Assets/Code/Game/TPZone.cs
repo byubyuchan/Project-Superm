@@ -35,7 +35,7 @@ public class TPZone : MonoBehaviour
         if (manager && isGoal)
         {
             manager.TeleportCharacter(other.gameObject, fallbackPosition, fallbackRotation);
-            PlayerSpawner.instance.InstantReSpawn(other.transform);
+            PlayerSpawner.instance.InstantReSpawn(fallbackPosition, fallbackRotation);
         }
 
         else
