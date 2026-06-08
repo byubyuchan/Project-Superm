@@ -45,6 +45,10 @@ public class TitleController : MonoBehaviour
             {
                 isAnyButtonPressed = true;
             }
+            else if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+            {
+                isAnyButtonPressed = true;
+            }
 
             if (isAnyButtonPressed)
             {
