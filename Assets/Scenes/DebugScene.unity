@@ -4092,7 +4092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9f079e384e69c4f850b0044d8dbc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSceneManager
-  playerPrefabName: Player_gigaman
+  playerPrefabName: Player_flameshot
   spawnPoint: {fileID: 1790634272}
   txt: {fileID: 596935686}
   currentPlayer: {fileID: 0}
@@ -14872,6 +14872,7 @@ MonoBehaviour:
   - {fileID: 1790634272}
   ghostCamera: {fileID: 4970134331989797762, guid: 4c37d0e43b311fb4fbaa53ce529369d6, type: 3}
   effectIndex: 2
+  offset: 30
 --- !u!1001 &1790825329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16249,7 +16250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3942825033974895155, guid: 13cebe6f35df58c4bb8765230b59990f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3975457547598869623, guid: 13cebe6f35df58c4bb8765230b59990f, type: 3}
       propertyPath: m_LocalPosition.x

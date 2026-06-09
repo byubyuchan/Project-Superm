@@ -203,6 +203,7 @@ namespace Photon.Pun.UtilityScripts
             if (!animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
             {
                 isLoadingAttack = !isLoadingAttack;
+                isAttackPressed = false;
                 photonView.RPC("RPC_LoadAction", RpcTarget.All, "ReadyToAttack", isLoadingAttack);
             }
         }
