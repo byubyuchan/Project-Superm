@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class LobbyManager : MonoBehaviourPunCallbacks
+public class CustomLobbyManager : MonoBehaviourPunCallbacks
 {
     [Header("Main Lobby UI")]
     public GameObject lobbyPanel;

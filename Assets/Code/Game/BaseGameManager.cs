@@ -259,7 +259,7 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         {
             PhotonPoolingManager.instance.ClearPool();
         }
-        SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene("MainMenuScene");
     }
     public bool GetBestRespawnPoint(out Vector3 pos, out Quaternion rot)
     {
