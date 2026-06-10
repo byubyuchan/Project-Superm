@@ -19,7 +19,7 @@ public class Projectile : MonoBehaviourPun
     protected int explosionEffectIndex = 0;
 
     [SerializeField]
-    protected int sreenEffectIndex = 0;
+    protected int screenEffectIndex = 0;
 
     protected bool hasExploded = false;
     protected bool isNPCProjectile;

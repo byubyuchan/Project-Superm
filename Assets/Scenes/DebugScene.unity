@@ -4154,7 +4154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9f079e384e69c4f850b0044d8dbc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSceneManager
-  playerPrefabName: Player_flameshot
+  playerPrefabName: Player_SLEEP
   spawnPoint: {fileID: 1790634272}
   txt: {fileID: 596935686}
   currentPlayer: {fileID: 0}
@@ -11299,6 +11299,8 @@ MonoBehaviour:
   - {fileID: 1809022330002312, guid: d2e280a71e9d5b5439554b1f9a64f115, type: 3}
   - {fileID: 1158698889827864, guid: 0c7d51ff0c7fc274c9e0949cd39dcb00, type: 3}
   - {fileID: 1277154925287174, guid: 8c356179bd303604cb62cb83019aba8d, type: 3}
+  - {fileID: 1617602193996184, guid: 568ff24ddd9a92449ae285f2b4c77130, type: 3}
+  - {fileID: 1643851402782444, guid: c3a727328d578904298bf0131aa6f2b5, type: 3}
   localScreenEffects:
   - {fileID: 2142143449}
   - {fileID: 122315449}

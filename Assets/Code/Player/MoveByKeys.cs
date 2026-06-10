@@ -471,6 +471,7 @@ namespace Photon.Pun.UtilityScripts
                 if (hpController != null && hpController.Hp >= 0f)
                 {
                     hpController.Hp -= damage;
+                    EffectManager.Instance.RequestExplosion(2, effectTransform.position);
                     if (!hpController.isDead && hpController.Hp <= 0f)
                     {
                         hpController.Die();
