@@ -1457,6 +1457,22 @@ MonoBehaviour:
   SFXPairs:
   - key: Test
     clip: {fileID: 8300000, guid: 0d414f58299c5c848bec07eed8373e59, type: 3}
+  - key: Sniper1
+    clip: {fileID: 8300000, guid: 76684c04b24ce74488d2e81e9e5a19cd, type: 3}
+  - key: Sniper2
+    clip: {fileID: 8300000, guid: 013b0ec6101bb274aa170eb7b229b925, type: 3}
+  - key: FireBall
+    clip: {fileID: 8300000, guid: 88c4aa3b29bf5f8419c14d1ff463bb2c, type: 3}
+  - key: FireImpact
+    clip: {fileID: 8300000, guid: 6c90c5cccf4eeb54c83078f848e843cc, type: 3}
+  - key: Quake
+    clip: {fileID: 8300000, guid: 4184f9a25c1e6c44fa0833b8aab10e01, type: 3}
+  - key: Hit1
+    clip: {fileID: 8300000, guid: 9df8a0e7e5eb0344b979a1239cfde163, type: 3}
+  - key: Hit2
+    clip: {fileID: 8300000, guid: 248017a573d2466469062d4c971c8548, type: 3}
+  - key: IceBlast
+    clip: {fileID: 8300000, guid: 069c04b8c8aea464e95a77925178cb10, type: 3}
 --- !u!4 &165809948
 Transform:
   m_ObjectHideFlags: 0
@@ -4154,7 +4170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9f079e384e69c4f850b0044d8dbc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSceneManager
-  playerPrefabName: Player_SLEEP
+  playerPrefabName: Player_flameshot
   spawnPoint: {fileID: 1790634272}
   txt: {fileID: 596935686}
   currentPlayer: {fileID: 0}
@@ -11296,7 +11312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EffectManager
   explosionEffects:
-  - {fileID: 1809022330002312, guid: d2e280a71e9d5b5439554b1f9a64f115, type: 3}
+  - {fileID: 8149814289637279443, guid: 6d34416d706d7204faec4e2475368c0a, type: 3}
   - {fileID: 1158698889827864, guid: 0c7d51ff0c7fc274c9e0949cd39dcb00, type: 3}
   - {fileID: 1277154925287174, guid: 8c356179bd303604cb62cb83019aba8d, type: 3}
   - {fileID: 1617602193996184, guid: 568ff24ddd9a92449ae285f2b4c77130, type: 3}
