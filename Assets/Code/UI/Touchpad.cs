@@ -14,6 +14,7 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
 
     [Header("Attack (Tap)")]
     public OnScreenButton virtualAttackButton;
+    public RectTransform attackButtonRect;
 
     [Header("Judgment Criteria Setting")]
     public float tapTimeLimit = 0.2f; // 탭으로 간주되는 최대 시간
@@ -40,6 +41,12 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
 
         // 터치를 시작할 때마다 PlayerPrefs에 저장된 최신 민감도 값을 불러옴
         userSensitivityMultiplier = PlayerPrefs.GetFloat("TouchSensitivity", 1.0f);
+
+        if (IsTouchingAttackButton(eventData.position))
+        {
+            isAttacking = true;
+            virtualAttackButton.OnPointerDown(eventData);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -72,22 +79,28 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
         isDragging = false;
         SendValueToControl(Vector2.zero); // 드래그가 끝나면 카메라 회전 정지
 
-        if ((Time.unscaledTime - pointerDownTime) <= tapTimeLimit)
+        if (isAttacking)
         {
-            if (virtualAttackButton != null)
-            {
-                isAttacking = !isAttacking; // 공격 상태 반전
-
-                if (isAttacking)
-                {
-                    virtualAttackButton.OnPointerDown(eventData); // 공격 켜기
-                }
-                else
-                {
-                    virtualAttackButton.OnPointerUp(eventData);   // 공격 끄기
-                }
-            }
+            isAttacking = false;
+            virtualAttackButton.OnPointerUp(eventData);
         }
+
+        //if ((Time.unscaledTime - pointerDownTime) <= tapTimeLimit)
+        //{
+        //    if (virtualAttackButton != null)
+        //    {
+        //        isAttacking = !isAttacking; // 공격 상태 반전
+
+        //        if (isAttacking)
+        //        {
+        //            virtualAttackButton.OnPointerDown(eventData); // 공격 켜기
+        //        }
+        //        else
+        //        {
+        //            virtualAttackButton.OnPointerUp(eventData);   // 공격 끄기
+        //        }
+        //    }
+        //}
 
         //// 드래그가 아니고, 탭으로 간주되는 시간과 이동 거리 내에 있다면 공격 트리거
         //if (!isDragging && (Time.unscaledTime - pointerDownTime) <= tapTimeLimit)
@@ -101,6 +114,12 @@ public class Touchpad : OnScreenControl, IPointerDownHandler, IPointerUpHandler,
         //        StartCoroutine(ReleaseAttackButton(eventData));
         //    }
         //}
+    }
+
+    private bool IsTouchingAttackButton(Vector2 screenPosition)
+    {
+        if (attackButtonRect == null) return false;
+        return RectTransformUtility.RectangleContainsScreenPoint(attackButtonRect, screenPosition);
     }
 
     private IEnumerator ReleaseAttackButton(PointerEventData eventData)
