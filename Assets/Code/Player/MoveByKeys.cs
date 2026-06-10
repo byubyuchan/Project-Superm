@@ -74,7 +74,7 @@ namespace Photon.Pun.UtilityScripts
 
         [Header("면역 or 무적")]
         public bool isNoCC = false;
-        protected bool isInvincible = false;
+        public bool isInvincible = false;
 
 
         public void Awake()
@@ -121,6 +121,7 @@ namespace Photon.Pun.UtilityScripts
 
                 impact = Vector3.zero;
                 velocity = Vector3.zero;
+                isInvincible = false;
 
                 SetLayerRecursively(gameObject, LayerMask.NameToLayer("LocalPlayer"));
                 UpdateCursorState();
