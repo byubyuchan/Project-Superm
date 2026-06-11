@@ -170,6 +170,47 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // 1개를 3가지 버전으로 랜덤하게 출력하는 함수 (ex. 공중 소리)
+    public void PlaySingleClipVariants(string key, Vector3 worldPosition, int variantIndex)
+    {
+        if (SFXDict == null || !SFXDict.ContainsKey(key)) return;
+
+        for (int i = 0; i < SFXPlayers.Length; i++)
+        {
+            int idx = (i + channelIndex) % SFXPlayers.Length;
+
+            // 이미 재생 중이면 패스
+            if (SFXPlayers[idx].isPlaying) continue;
+
+            if (SFXDict.TryGetValue(key, out AudioClip clip))
+            {
+                // 3D 사운드 기본 설정
+                SFXPlayers[idx].spatialBlend = spatialBlend;
+                SFXPlayers[idx].transform.position = worldPosition;
+                SFXPlayers[idx].minDistance = minDistance;
+                SFXPlayers[idx].maxDistance = maxDistance;
+
+                // 들어온 번호(1~3)에 따라 피치를 다르게 꼬아버림
+                float finalPitch = 1f;
+                if (variantIndex == 2) finalPitch = Random.Range(1.15f, 1.25f);     // 2번 걸음: 가볍고 높은 소리
+                else if (variantIndex == 3) finalPitch = Random.Range(0.82f, 0.90f); // 3번 걸음: 낮고 묵직한 소리
+                else finalPitch = Random.Range(0.96f, 1.04f);                       // 1번 걸음: 원본 대역 소리
+
+                SFXPlayers[idx].pitch = finalPitch;
+                SFXPlayers[idx].volume = SFXVolume; // 기존 볼륨 적용
+                SFXPlayers[idx].clip = clip;
+
+                SFXPlayers[idx].Play();
+
+                float startTimeOffset = Random.Range(0.01f, Mathf.Min(0.04f, clip.length * 0.1f));
+                SFXPlayers[idx].time = startTimeOffset;
+
+                channelIndex = (idx + 1) % SFXPlayers.Length;
+                break;
+            }
+        }
+    }
+
     // 메아리(에코)를 위한 코루틴
     private IEnumerator EchoCoroutine(string key, Vector3 position)
     {

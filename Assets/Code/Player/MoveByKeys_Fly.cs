@@ -10,6 +10,9 @@ namespace Photon.Pun.UtilityScripts
 
         private float ascendInput;
 
+        [Header("# Fly Sound Settings")]
+        private float windSoundTimer = 0f;
+
         protected override void OnJump(InputValue value)
         {
             if (!photonView.IsMine) return;
@@ -36,6 +39,27 @@ namespace Photon.Pun.UtilityScripts
 
             // 중력(velocity.y) 연산을 아예 빼버리고 순수 비행 벡터로 냅다 밀어버림!
             controller.Move(finalMove * Time.deltaTime);
+
+            if(!isGrounded)
+            {
+                bool isMovingOrAscending = (Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f || ascendInput > 0.1f);
+
+                if (isMovingOrAscending)
+                {
+                    windSoundTimer += Time.deltaTime;
+                    if (windSoundTimer >= 0.5f) // 1초 쿨타임 계산
+                    {
+                        windSoundTimer = 0f;
+
+                        photonView.RPC("RPC_PlayActionSound", RpcTarget.All, "AirStep");
+                    }
+                }
+                else
+                {
+                    windSoundTimer = 0.45f;
+                }
+            }
+
         }
     }
 }

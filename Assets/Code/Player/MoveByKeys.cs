@@ -489,7 +489,7 @@ namespace Photon.Pun.UtilityScripts
             }
             else
             {
-                footstepTimer = 0.45f;
+                footstepTimer = 0.2f;
             }
         }
 
@@ -674,9 +674,19 @@ namespace Photon.Pun.UtilityScripts
         [PunRPC]
         public void RPC_PlayActionSound(string prefix)
         {
-            string soundKey = prefix + Random.Range(1, 4);
+            int randomIndex = Random.Range(1, 4);
 
-            AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position, false);
+            if (prefix == "AirStep")
+            {
+                // 딕셔너리에는 "AirStep"이라는 이름으로 파일 1개만 등록해 두면 됨
+                AudioManager.instance.PlaySingleClipVariants("AirStep", this.transform.position, randomIndex);
+            }
+            else
+            {
+                // 기존에 3개씩 파일 넣어서 잘 쓰던 것들(Run, Jump, Landing 등)은 기존 방식 100% 유지
+                string soundKey = prefix + randomIndex;
+                AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position, false);
+            }
         }
     }
 }
