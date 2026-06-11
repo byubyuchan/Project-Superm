@@ -26,8 +26,12 @@ public class Projectile : MonoBehaviourPun
 
     private HashSet<int> hitPlayers = new HashSet<int>(20);
 
+    [SerializeField] public string soundKey = "Sniper";
+
     protected virtual void OnEnable()
     {
+        AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position);
+
         hasExploded = false;
         hitPlayers.Clear();
 

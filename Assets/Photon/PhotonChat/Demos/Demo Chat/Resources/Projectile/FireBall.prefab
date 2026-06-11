@@ -9761,6 +9761,7 @@ MonoBehaviour:
   explosionForce: 300
   explosionEffectIndex: 0
   screenEffectIndex: 0
+  soundKey: FireBall
 --- !u!54 &3403300344688967946
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9897,7 +9898,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 4.212e-42, y: 2.524355e-29, z: 0, w: 2.2112557e-27}
+  m_BoundingSphereOverride: {x: 3.1166e-41, y: 2.524355e-29, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0

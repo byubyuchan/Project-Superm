@@ -9634,6 +9634,7 @@ MonoBehaviour:
   explosionForce: 0
   explosionEffectIndex: 99
   screenEffectIndex: 1
+  soundKey: Sniper1
   particleEffectInterval: 0.5
   particleDamageInterval: 0.5
 --- !u!1 &1557318409414624

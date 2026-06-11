@@ -74,6 +74,7 @@ MonoBehaviour:
   - RPC_PlayLocalEffect
   - RPC_PlayAttachedEffect
   - RPC_ApplyBuff
+  - RPC_PlayHitSound
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

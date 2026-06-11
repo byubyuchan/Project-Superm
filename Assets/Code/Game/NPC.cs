@@ -141,6 +141,7 @@ public class NPC : MonoBehaviourPun
 
     void Death()
     {
+        photonView.RPC("RPC_PlayHitSound", RpcTarget.All);
         PhotonNetwork.Instantiate("NPC/Item", transform.position + new Vector3(0,15f,0), Quaternion.identity);
         PhotonNetwork.Destroy(gameObject);
     }

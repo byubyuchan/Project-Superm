@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -122,6 +123,7 @@ public class AudioManager : MonoBehaviour
             SFXPlayers[i].playOnAwake = false;
             SFXPlayers[i].volume = SFXVolume;
             SFXPlayers[i].bypassListenerEffects = true;
+            SFXPlayers[i].dopplerLevel = 0f; // ★ 추가: 투사체 이동 시 웽~ 하는 왜곡음 방지
 
             // --- 3D 기본 설정 ---
             SFXPlayers[i].spatialBlend = 0f; // 기본은 2D (UI 등)
@@ -139,18 +141,49 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void PlaySFX(string key)
     {
-        InternalPlaySFX(key, Vector3.zero, false);
+        InternalPlaySFX(key, Vector3.zero, false, 1f, 1f);
     }
 
     /// <summary>
-    /// 3D 효과음 출력 (월드 내 특정 위치 사운드용)
+    /// 일반 3D 효과음 출력 (월드 내 특정 위치 사운드용)
     /// </summary>
     public void PlaySFX(string key, Vector3 worldPosition)
     {
-        InternalPlaySFX(key, worldPosition, true);
+        InternalPlaySFX(key, worldPosition, true, 1f, 1f);
     }
 
-    private void InternalPlaySFX(string key, Vector3 position, bool is3D)
+    /// <summary>
+    /// ★ 추가: 총소리, 폭발 등 매번 달라져야 하는 다이내믹 3D 효과음 출력
+    /// </summary>
+    public void PlayDynamicSFX(string key, Vector3 worldPosition, bool useEcho = true)
+    {
+        // 1. 메인 사운드: 피치와 볼륨을 살짝 비틀어서 출력
+        float randomPitch = Random.Range(0.95f, 1.05f);
+        float randomVolMult = Random.Range(0.8f, 1.0f);
+
+        InternalPlaySFX(key, worldPosition, true, randomPitch, randomVolMult);
+
+        // 2. 에코 사운드: 코루틴을 통해 약간의 딜레이 후 둔탁하게 한 번 더 출력
+        if (useEcho)
+        {
+            StartCoroutine(EchoCoroutine(key, worldPosition));
+        }
+    }
+
+    // 메아리(에코)를 위한 코루틴
+    private IEnumerator EchoCoroutine(string key, Vector3 position)
+    {
+        yield return new WaitForSeconds(0.15f); // 0.15초 딜레이
+
+        // 에코는 피치를 확 낮추고 볼륨을 작게 설정
+        float echoPitch = Random.Range(0.7f, 0.8f);
+        float echoVolMult = 0.3f;
+
+        InternalPlaySFX(key, position, true, echoPitch, echoVolMult);
+    }
+
+    // 파라미터에 pitch와 volumeMult 추가
+    private void InternalPlaySFX(string key, Vector3 position, bool is3D, float pitch, float volumeMult)
     {
         if (SFXDict == null || !SFXDict.ContainsKey(key)) return;
 
@@ -175,6 +208,10 @@ public class AudioManager : MonoBehaviour
                 {
                     SFXPlayers[idx].spatialBlend = 0f; // 2D 설정
                 }
+
+                // 오디오 피치 및 최종 볼륨 적용 (다른 채널 재사용 시 꼬이지 않게 덮어쓰기)
+                SFXPlayers[idx].pitch = pitch;
+                SFXPlayers[idx].volume = SFXVolume * volumeMult;
 
                 SFXPlayers[idx].clip = clip;
                 SFXPlayers[idx].Play();
@@ -211,7 +248,18 @@ public class AudioManager : MonoBehaviour
         SFXVolume = volume;
         foreach (AudioSource sfx in SFXPlayers)
         {
+            // 여기서 볼륨을 바꾸더라도 다음 재생 시 InternalPlaySFX에서 다시 덮어씌워짐
             if (sfx != null) sfx.volume = SFXVolume;
         }
     }
+
+    public AudioClip GetSFXClip(string key)
+    {
+        if (SFXDict != null && SFXDict.TryGetValue(key, out AudioClip clip))
+        {
+            return clip;
+        }
+        return null;
+    }
+
 }

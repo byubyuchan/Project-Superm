@@ -295,8 +295,6 @@ namespace Photon.Pun.UtilityScripts
                 {
                     lastAttackTime = Time.time;
                     photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Attack");
-
-                    AudioManager.instance.PlaySFX("Test", this.transform.position);
                 }
             }
         }
@@ -463,6 +461,8 @@ namespace Photon.Pun.UtilityScripts
         [PunRPC]
         public void RPC_TakeDamage(float damage) 
         {
+            photonView.RPC("RPC_PlayHitSound", RpcTarget.All);
+
             if (isInvincible) return;
 
             if (photonView.IsMine && damage > 0f)
@@ -471,6 +471,7 @@ namespace Photon.Pun.UtilityScripts
                 if (hpController != null && hpController.Hp >= 0f)
                 {
                     hpController.Hp -= damage;
+
                     EffectManager.Instance.RequestExplosion(2, effectTransform.position);
                     if (!hpController.isDead && hpController.Hp <= 0f)
                     {
@@ -627,6 +628,13 @@ namespace Photon.Pun.UtilityScripts
                 elapsed += Time.deltaTime;
                 yield return null; // 다음 프레임까지 대기
             }
+        }
+
+        [PunRPC]
+        public void RPC_PlayHitSound()
+        {
+            string randomHitSound = Random.value > 0.5f ? "Hit1" : "Hit2";
+            AudioManager.instance.PlayDynamicSFX(randomHitSound, effectTransform.position, false);
         }
     }
 }

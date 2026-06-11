@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +11,8 @@ namespace Photon.Pun.UtilityScripts
 
         private GameObject networkFlameObj;
         private ParticleSystem[] flames;
+
+        private Coroutine soundLoopCoroutine;
 
         protected new void OnDisable()
         {
@@ -52,6 +55,8 @@ namespace Photon.Pun.UtilityScripts
 
             if (isFiring && flames != null && flames.Length > 0 && flames[0] != null)
             {
+                networkFlameObj.GetComponent<ParticleProjectile>().PlaySound();
+
                 if (photonView.IsMine)
                 {
                     Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));

@@ -9875,8 +9875,9 @@ MonoBehaviour:
   damage: 100
   explosionRadius: 50
   explosionForce: 500
-  explosionEffectIndex: 2
-  sreenEffectIndex: 0
+  explosionEffectIndex: 99
+  screenEffectIndex: 0
+  soundKey: Quake
 --- !u!54 &-250996157546534994
 Rigidbody:
   m_ObjectHideFlags: 0

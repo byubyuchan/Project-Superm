@@ -9452,7 +9452,8 @@ MonoBehaviour:
   explosionRadius: 0
   explosionForce: 0
   explosionEffectIndex: 1
-  screenEffectIndex: 4
+  screenEffectIndex: 5
+  soundKey: FireBall
   particleEffectInterval: 0.5
   particleDamageInterval: 0.1
 --- !u!114 &4268293393333331989
