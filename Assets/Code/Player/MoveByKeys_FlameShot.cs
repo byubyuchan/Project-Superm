@@ -55,8 +55,6 @@ namespace Photon.Pun.UtilityScripts
 
             if (isFiring && flames != null && flames.Length > 0 && flames[0] != null)
             {
-                networkFlameObj.GetComponent<ParticleProjectile>().PlaySound();
-
                 if (photonView.IsMine)
                 {
                     Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));

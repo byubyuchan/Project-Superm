@@ -1473,6 +1473,26 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 248017a573d2466469062d4c971c8548, type: 3}
   - key: IceBlast
     clip: {fileID: 8300000, guid: 069c04b8c8aea464e95a77925178cb10, type: 3}
+  - key: FlameShot
+    clip: {fileID: 8300000, guid: 3cee15a746d55534284ab337abab80f8, type: 3}
+  - key: Landing1
+    clip: {fileID: 8300000, guid: 3e10d68c7f7aa854694549c916e8ba46, type: 3}
+  - key: Landing2
+    clip: {fileID: 8300000, guid: baf90d315c62c1648ba2901ff92db065, type: 3}
+  - key: Landing3
+    clip: {fileID: 8300000, guid: 70bfbaaebebfb0d4ba87a5e9947d5ad3, type: 3}
+  - key: Run1
+    clip: {fileID: 8300000, guid: db5599d6457a65c498e76dea11dc4711, type: 3}
+  - key: Run2
+    clip: {fileID: 8300000, guid: ecb856cc785d38a4da1128d372b7d6e7, type: 3}
+  - key: Run3
+    clip: {fileID: 8300000, guid: 240bc51f540a10342988d9d7e924d814, type: 3}
+  - key: Jump1
+    clip: {fileID: 8300000, guid: 80d4ea7778bc3d9459d9fcea672afcee, type: 3}
+  - key: Jump2
+    clip: {fileID: 8300000, guid: 314755392aa072e4eb6fc3b02b791b72, type: 3}
+  - key: Jump3
+    clip: {fileID: 8300000, guid: f7d6941d3b847874686c2b6a80ab8a1b, type: 3}
 --- !u!4 &165809948
 Transform:
   m_ObjectHideFlags: 0

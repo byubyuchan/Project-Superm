@@ -76,6 +76,9 @@ namespace Photon.Pun.UtilityScripts
         public bool isNoCC = false;
         public bool isInvincible = false;
 
+        [Header("# Footstep Settings")]
+        private float footstepTimer = 0f;
+
 
         public void Awake()
         {
@@ -305,6 +308,8 @@ namespace Photon.Pun.UtilityScripts
 
             if (Camera.main == null) return;
 
+            HandleFootstepTimer();
+
             // 1. 상태 체크 (채팅/메뉴/UI모드일 때 입력값 강제 0 처리)
             isBlocked = isChatting() || isMenuOpen || isUIMode || isSleep;
 
@@ -456,6 +461,29 @@ namespace Photon.Pun.UtilityScripts
         {
             yield return new WaitForSeconds(delay);
             photonView.RPC("RPC_WakeUp", RpcTarget.All);
+        }
+
+        private void HandleFootstepTimer()
+        {
+            if (isChatting() || isMenuOpen || isUIMode || isSleep) return;
+
+            bool isMoving = (Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f);
+
+            if (isGrounded && isMoving)
+            {
+                footstepTimer += Time.deltaTime;
+                if (footstepTimer >= 0.25f) // 0.5초 주기
+                {
+                    footstepTimer = 0f;
+
+                    int randomIndex = Random.Range(1, 4);
+                    photonView.RPC("RPC_PlayFootstepSound", RpcTarget.All, randomIndex);
+                }
+            }
+            else
+            {
+                footstepTimer = 0.45f;
+            }
         }
 
         [PunRPC]
@@ -635,6 +663,13 @@ namespace Photon.Pun.UtilityScripts
         {
             string randomHitSound = Random.value > 0.5f ? "Hit1" : "Hit2";
             AudioManager.instance.PlayDynamicSFX(randomHitSound, effectTransform.position, false);
+        }
+
+        [PunRPC]
+        public void RPC_PlayFootstepSound(int index)
+        {
+            string soundKey = "Run" + index;
+            AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position, false);
         }
     }
 }

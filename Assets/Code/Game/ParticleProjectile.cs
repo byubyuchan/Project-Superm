@@ -7,13 +7,14 @@ public class ParticleProjectile : Projectile
 {
     [Header("Cooldown Settings")]
     public float particleEffectInterval = 0.25f;
+    public float soundInterval = 1f;
 
     [Header("Particle Settings")]
     public float particleDamageInterval = 0.1f;
     private Dictionary<int, float> particleDamageTimes = new Dictionary<int, float>();
 
     private float lastEffectTime = 0f;
-    private float lastSoundTime = -0.5f;
+    private float lastSoundTime = 0f;
 
     private ParticleSystem pSystem;
 
@@ -52,22 +53,18 @@ public class ParticleProjectile : Projectile
     }
     void Update()
     {
-        if (pSystem != null && pSystem.isEmitting)
-        {
-            if (Time.time - lastSoundTime >= particleEffectInterval)
-            {
-                AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position, false);
-                lastSoundTime = Time.time;
-            }
-        }
+        PlaySound();
     }
 
     public void PlaySound()
     {
-        if (Time.time - lastSoundTime >= particleEffectInterval)
+        if (pSystem != null && pSystem.isEmitting)
         {
-            AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position);
-            lastSoundTime = Time.time;
+            if (Time.time - lastSoundTime >= soundInterval)
+            {
+                AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position, false);
+                lastSoundTime = Time.time;
+            }
         }
     }
 

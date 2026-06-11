@@ -9453,8 +9453,9 @@ MonoBehaviour:
   explosionForce: 0
   explosionEffectIndex: 1
   screenEffectIndex: 5
-  soundKey: FireBall
+  soundKey: FlameShot
   particleEffectInterval: 0.5
+  soundInterval: 1
   particleDamageInterval: 0.1
 --- !u!114 &4268293393333331989
 MonoBehaviour:
