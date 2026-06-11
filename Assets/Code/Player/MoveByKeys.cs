@@ -190,6 +190,7 @@ namespace Photon.Pun.UtilityScripts
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 photonView.RPC("RPC_TriggerAction", RpcTarget.All, "Jump");
+                photonView.RPC("RPC_PlayActionSound", RpcTarget.All, "Jump");
             }
         }
 
@@ -327,8 +328,15 @@ namespace Photon.Pun.UtilityScripts
                 mouseDelta = rawLookInput;
             }
 
+            bool wasGrounded = isGrounded;
+
             // 2. 바닥 체크
             isGrounded = controller.isGrounded;
+
+            if (!wasGrounded && isGrounded)
+            {
+                photonView.RPC("RPC_PlayActionSound", RpcTarget.All, "Landing");
+            }
 
             // 3. 회전 처리
             if (!isBlocked)
@@ -476,8 +484,7 @@ namespace Photon.Pun.UtilityScripts
                 {
                     footstepTimer = 0f;
 
-                    int randomIndex = Random.Range(1, 4);
-                    photonView.RPC("RPC_PlayFootstepSound", RpcTarget.All, randomIndex);
+                    photonView.RPC("RPC_PlayActionSound", RpcTarget.All, "Run");
                 }
             }
             else
@@ -664,11 +671,11 @@ namespace Photon.Pun.UtilityScripts
             string randomHitSound = Random.value > 0.5f ? "Hit1" : "Hit2";
             AudioManager.instance.PlayDynamicSFX(randomHitSound, effectTransform.position, false);
         }
-
         [PunRPC]
-        public void RPC_PlayFootstepSound(int index)
+        public void RPC_PlayActionSound(string prefix)
         {
-            string soundKey = "Run" + index;
+            string soundKey = prefix + Random.Range(1, 4);
+
             AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position, false);
         }
     }

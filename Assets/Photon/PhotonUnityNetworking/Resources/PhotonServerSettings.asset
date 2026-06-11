@@ -76,6 +76,9 @@ MonoBehaviour:
   - RPC_ApplyBuff
   - RPC_PlayHitSound
   - RPC_PlayFootstepSound
+  - RPC_PlayJumpSound
+  - RPC_PlayLandingSound
+  - RPC_PlayActionSound
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
