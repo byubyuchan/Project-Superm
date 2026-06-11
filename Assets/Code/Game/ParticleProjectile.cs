@@ -62,7 +62,8 @@ public class ParticleProjectile : Projectile
         {
             if (Time.time - lastSoundTime >= soundInterval)
             {
-                AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position, false);
+                int randomIndex = Random.Range(1, 4);
+                AudioManager.instance.PlaySingleClipVariants(soundKey, this.transform.position, randomIndex);
                 lastSoundTime = Time.time;
             }
         }

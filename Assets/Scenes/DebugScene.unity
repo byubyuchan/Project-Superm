@@ -1497,6 +1497,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 5311a285e213e2d469f0949de3db774d, type: 3}
   - key: Crystal
     clip: {fileID: 8300000, guid: 88148ef4aea96cc4aa78a60431cf1dea, type: 3}
+  - key: Prism
+    clip: {fileID: 8300000, guid: 4310474905e266640852f43bd609a1a4, type: 3}
 --- !u!4 &165809948
 Transform:
   m_ObjectHideFlags: 0
@@ -4194,7 +4196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9f079e384e69c4f850b0044d8dbc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSceneManager
-  playerPrefabName: Player_fly
+  playerPrefabName: Player_gigaman
   spawnPoint: {fileID: 1790634272}
   txt: {fileID: 596935686}
   currentPlayer: {fileID: 0}

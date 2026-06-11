@@ -14681,6 +14681,7 @@ MonoBehaviour:
   explosionForce: 300
   explosionEffectIndex: 3
   screenEffectIndex: 0
+  soundKey: Prism
 --- !u!54 &8680817815110646071
 Rigidbody:
   m_ObjectHideFlags: 0

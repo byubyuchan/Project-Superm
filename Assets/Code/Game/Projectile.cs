@@ -30,7 +30,8 @@ public class Projectile : MonoBehaviourPun
 
     protected virtual void OnEnable()
     {
-        AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position);
+        int randomIndex = Random.Range(1, 4);
+        AudioManager.instance.PlaySingleClipVariants(soundKey, this.transform.position, randomIndex);
 
         hasExploded = false;
         hitPlayers.Clear();
