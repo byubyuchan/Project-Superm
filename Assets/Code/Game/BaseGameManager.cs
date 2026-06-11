@@ -57,6 +57,8 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     protected List<BasePlayerSlot> allSlots = new List<BasePlayerSlot>();
     protected Dictionary<int, BasePlayerSlot> activePlayerSlots = new Dictionary<int, BasePlayerSlot>();
 
+    [SerializeField] protected string BGMKey = "BGM_Practice";
+
     protected virtual void InitializePlayerUI()
     {
         if (playerListPanel == null || playerSlotPrefab == null) return;
@@ -117,6 +119,7 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         if (leaveRoomButton != null) leaveRoomButton.onClick.AddListener(LeaveRoom);
         if (cancelButton != null) cancelButton.onClick.AddListener(CloseSystemMenu);
 
+        if (AudioManager.instance != null) AudioManager.instance.PlayBGM(BGMKey);
     }
 
     // 현재 게임의 승자가 결정되는 함수로 순위 재정렬과 승리 UI를 RPC로 호출 함. (현재 사용되지 않는 중)
@@ -152,9 +155,12 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
 
     protected virtual void CountFinish()
     {
-        PhotonNetwork.CurrentRoom.IsOpen = true;
-        PhotonNetwork.CurrentRoom.IsVisible = true;
-        PhotonNetwork.LoadLevel(nextScene);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = true;
+            PhotonNetwork.CurrentRoom.IsVisible = true;
+            PhotonNetwork.LoadLevel(nextScene);
+        }
     }
 
     // 게임 종료 카운트다운

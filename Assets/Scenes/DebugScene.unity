@@ -1445,7 +1445,9 @@ MonoBehaviour:
   audioMixer: {fileID: 0}
   bgmGroup: {fileID: 0}
   sfxGroup: {fileID: 0}
-  BGMPairs: []
+  BGMPairs:
+  - key: BGM_Practice
+    clip: {fileID: 8300000, guid: 5cfc37e89d6ccef4e8fbe688a8fd6b15, type: 3}
   BGMVolume: 0.5
   SFXVolume: 1
   channels: 16
@@ -11389,6 +11391,7 @@ MonoBehaviour:
   playerListPanel: {fileID: 1593590732}
   playerSlotPrefab: {fileID: 5923610622262305399, guid: 73fddfcf023038848b6f8f5a13e68ad3, type: 3}
   nextScene: Lobby
+  BGMKey: BGM_Practice
   playerCountText: {fileID: 2046369237}
   hostOptionPanel: {fileID: 923753945}
   targetNameText: {fileID: 1930934841}
