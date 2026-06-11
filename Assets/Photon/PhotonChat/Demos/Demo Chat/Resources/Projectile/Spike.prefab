@@ -14311,7 +14311,8 @@ MonoBehaviour:
   explosionRadius: 0
   explosionForce: 0
   explosionEffectIndex: 2
-  sreenEffectIndex: 0
+  screenEffectIndex: 0
+  soundKey: Crystal
 --- !u!54 &3827061616372584347
 Rigidbody:
   m_ObjectHideFlags: 0

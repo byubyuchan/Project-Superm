@@ -1495,6 +1495,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: f7d6941d3b847874686c2b6a80ab8a1b, type: 3}
   - key: AirStep
     clip: {fileID: 8300000, guid: 5311a285e213e2d469f0949de3db774d, type: 3}
+  - key: Crystal
+    clip: {fileID: 8300000, guid: 88148ef4aea96cc4aa78a60431cf1dea, type: 3}
 --- !u!4 &165809948
 Transform:
   m_ObjectHideFlags: 0
