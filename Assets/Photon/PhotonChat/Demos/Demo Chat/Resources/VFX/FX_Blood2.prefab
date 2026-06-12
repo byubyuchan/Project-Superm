@@ -9438,6 +9438,7 @@ GameObject:
   - component: {fileID: 199298478915647496}
   - component: {fileID: 6479157862825777217}
   - component: {fileID: -6799262765210634518}
+  - component: {fileID: -1462257891932582617}
   m_Layer: 0
   m_Name: FX_Blood2
   m_TagString: Untagged
@@ -14132,6 +14133,21 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
   m_UseLocal: 1
+--- !u!114 &-1462257891932582617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277154925287174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90a0f7fdaa978f449774897f392a18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXEffect
+  clipNames:
+  - Hit1
+  - Hit2
 --- !u!1 &1583149892273974
 GameObject:
   m_ObjectHideFlags: 0

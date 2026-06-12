@@ -4849,6 +4849,7 @@ GameObject:
   - component: {fileID: 6939836663040373185}
   - component: {fileID: -4886454491141632213}
   - component: {fileID: 8369003423282191418}
+  - component: {fileID: -3081776411857801078}
   m_Layer: 0
   m_Name: FX_FireEffect
   m_TagString: Untagged
@@ -9714,3 +9715,17 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
   m_UseLocal: 1
+--- !u!114 &-3081776411857801078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149814289637279443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90a0f7fdaa978f449774897f392a18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXEffect
+  clipNames:
+  - FlameShot

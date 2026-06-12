@@ -14310,7 +14310,7 @@ MonoBehaviour:
   damage: 70
   explosionRadius: 0
   explosionForce: 0
-  explosionEffectIndex: 2
+  explosionEffectIndex: 99
   screenEffectIndex: 0
   soundKey: Crystal
 --- !u!54 &3827061616372584347

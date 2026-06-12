@@ -9636,6 +9636,7 @@ MonoBehaviour:
   screenEffectIndex: 1
   soundKey: Sniper1
   particleEffectInterval: 0.5
+  soundInterval: 99
   particleDamageInterval: 0.5
 --- !u!1 &1557318409414624
 GameObject:

@@ -1450,7 +1450,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 5cfc37e89d6ccef4e8fbe688a8fd6b15, type: 3}
   BGMVolume: 0.5
   SFXVolume: 1
-  channels: 16
+  channels: 64
   spatialBlend: 1
   minDistance: 50
   maxDistance: 400
@@ -1501,6 +1501,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 88148ef4aea96cc4aa78a60431cf1dea, type: 3}
   - key: Prism
     clip: {fileID: 8300000, guid: 4310474905e266640852f43bd609a1a4, type: 3}
+  - key: Electro
+    clip: {fileID: 8300000, guid: cd3a01ff95509194d91ea0b5a0748f35, type: 3}
+  - key: Impact
+    clip: {fileID: 8300000, guid: 77db0e4acb763ab4db4f9bf20eadc224, type: 3}
 --- !u!4 &165809948
 Transform:
   m_ObjectHideFlags: 0
@@ -4198,7 +4202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9f079e384e69c4f850b0044d8dbc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSceneManager
-  playerPrefabName: Player_gigaman
+  playerPrefabName: Player_iceblast
   spawnPoint: {fileID: 1790634272}
   txt: {fileID: 596935686}
   currentPlayer: {fileID: 0}
@@ -5269,7 +5273,7 @@ Transform:
   m_GameObject: {fileID: 599292239}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 735, y: -2122, z: 5929}
+  m_LocalPosition: {x: 735, y: -5765, z: 5929}
   m_LocalScale: {x: 75000, y: 2000, z: 75000}
   m_ConstrainProportionsScale: 0
   m_Children: []

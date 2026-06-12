@@ -13957,6 +13957,7 @@ GameObject:
   - component: {fileID: 199032388029592334}
   - component: {fileID: 6840423597372909228}
   - component: {fileID: -7579138916705112207}
+  - component: {fileID: -2976899849613844657}
   m_Layer: 0
   m_Name: FX_Blood
   m_TagString: Untagged
@@ -18654,6 +18655,20 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
   m_UseLocal: 1
+--- !u!114 &-2976899849613844657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607639662943796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90a0f7fdaa978f449774897f392a18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXEffect
+  clipNames:
+  - FireBall
 --- !u!1 &1915023341783158
 GameObject:
   m_ObjectHideFlags: 0

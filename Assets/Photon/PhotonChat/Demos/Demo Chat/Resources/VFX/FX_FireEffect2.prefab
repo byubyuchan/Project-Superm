@@ -9312,6 +9312,7 @@ GameObject:
   - component: {fileID: 199942670210766882}
   - component: {fileID: -4410229690966318261}
   - component: {fileID: -4863885226674067501}
+  - component: {fileID: 6496795899438100710}
   m_Layer: 0
   m_Name: FX_FireEffect2
   m_TagString: Untagged
@@ -13996,3 +13997,17 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6496795899438100710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809022330002312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90a0f7fdaa978f449774897f392a18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXEffect
+  clipNames:
+  - FireBall

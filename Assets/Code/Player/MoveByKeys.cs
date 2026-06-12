@@ -496,8 +496,6 @@ namespace Photon.Pun.UtilityScripts
         [PunRPC]
         public void RPC_TakeDamage(float damage) 
         {
-            photonView.RPC("RPC_PlayHitSound", RpcTarget.All);
-
             if (isInvincible) return;
 
             if (photonView.IsMine && damage > 0f)
@@ -665,12 +663,6 @@ namespace Photon.Pun.UtilityScripts
             }
         }
 
-        [PunRPC]
-        public void RPC_PlayHitSound()
-        {
-            string randomHitSound = Random.value > 0.5f ? "Hit1" : "Hit2";
-            AudioManager.instance.PlayDynamicSFX(randomHitSound, effectTransform.position, false);
-        }
         [PunRPC]
         public void RPC_PlayActionSound(string prefix)
         {
