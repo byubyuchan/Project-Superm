@@ -205,7 +205,10 @@ namespace Photon.Pun.UtilityScripts
             if (!photonView.IsMine) return; // Ãß°¡
             if (isChatting() || isUIMode || isMenuOpen || isSleep) return;
 
-            if (!animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+            bool isCurrentAttack = animator.GetCurrentAnimatorStateInfo(1).IsName("Attack");
+            bool isNextAttack = animator.GetNextAnimatorStateInfo(1).IsName("Attack");
+
+            if (!isCurrentAttack && !isNextAttack)
             {
                 isLoadingAttack = !isLoadingAttack;
                 isAttackPressed = false;
