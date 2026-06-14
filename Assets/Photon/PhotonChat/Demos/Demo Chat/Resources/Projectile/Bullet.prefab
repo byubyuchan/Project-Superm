@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 199717599490469586}
   m_Layer: 0
   m_Name: FX_Fireball_Shooting_Straight_Explosion_Embers_01
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4661,7 +4661,7 @@ GameObject:
   - component: {fileID: 2757288743148055596}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9651,7 +9651,7 @@ GameObject:
   - component: {fileID: 199584796902900458}
   m_Layer: 0
   m_Name: FX_Fireball_Shooting_Straight_Explosion_Core_01
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14305,7 +14305,7 @@ GameObject:
   - component: {fileID: 199253968778295878}
   m_Layer: 0
   m_Name: FX_Fireball_Shooting_Straight_Trail_01
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18893,7 +18893,7 @@ GameObject:
   - component: {fileID: 199719907443069990}
   m_Layer: 0
   m_Name: FX_Fireball_Shooting_Straight_Explosion_01
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23549,7 +23549,7 @@ GameObject:
   - component: {fileID: 199647179129018618}
   m_Layer: 0
   m_Name: FX_Fireball_Shooting_Straight_Embers_Trail_01
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

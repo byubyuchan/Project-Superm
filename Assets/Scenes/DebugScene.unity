@@ -4192,6 +4192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 524999399}
   - component: {fileID: 524999398}
+  - component: {fileID: 524999400}
   m_Layer: 0
   m_Name: DebugSceneManager
   m_TagString: Untagged
@@ -4211,7 +4212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9f079e384e69c4f850b0044d8dbc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSceneManager
-  playerPrefabName: Player_fireball
+  playerPrefabName: Player_sleep
   spawnPoint: {fileID: 1790634272}
   txt: {fileID: 596935686}
   currentPlayer: {fileID: 0}
@@ -4230,6 +4231,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &524999400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524999397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad6c5c3b5d00d94fa97c082210a35bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RespawnManager
 --- !u!4 &535049335 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3975457547598869623, guid: 6be92596c1a7ee04893f5af9b1a33bf3, type: 3}
@@ -11358,6 +11371,9 @@ MonoBehaviour:
   - {fileID: 1277154925287174, guid: 8c356179bd303604cb62cb83019aba8d, type: 3}
   - {fileID: 1617602193996184, guid: 568ff24ddd9a92449ae285f2b4c77130, type: 3}
   - {fileID: 1643851402782444, guid: c3a727328d578904298bf0131aa6f2b5, type: 3}
+  - {fileID: 1173262663564242, guid: 5ae0fc182cd4f314388eada53577a25e, type: 3}
+  - {fileID: 1698068915230344, guid: 746252bbe7370e94d8e6ce39abb19917, type: 3}
+  - {fileID: 1869712184636158, guid: e2a39f59c5dd44e4ab0675aa421c53dd, type: 3}
   localScreenEffects:
   - {fileID: 2142143449}
   - {fileID: 122315449}
@@ -11405,7 +11421,7 @@ MonoBehaviour:
   playerSlotPrefab: {fileID: 5923610622262305399, guid: 73fddfcf023038848b6f8f5a13e68ad3, type: 3}
   nextScene: Lobby
   BGMKey: BGM_Practice
-  AmbMKey: BGM_Practice
+  AmbKey: Amb_Forest
   playerCountText: {fileID: 2046369237}
   hostOptionPanel: {fileID: 923753945}
   targetNameText: {fileID: 1930934841}

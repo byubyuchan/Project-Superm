@@ -78,7 +78,7 @@ namespace Photon.Pun.UtilityScripts
 
         [Header("# Footstep Settings")]
         private float footstepTimer = 0f;
-
+        [SerializeField] private Transform dustSpawnPosition;
 
         public void Awake()
         {
@@ -687,6 +687,27 @@ namespace Photon.Pun.UtilityScripts
                 // 기존에 3개씩 파일 넣어서 잘 쓰던 것들(Run, Jump, Landing 등)은 기존 방식 100% 유지
                 string soundKey = prefix + randomIndex;
                 AudioManager.instance.PlayDynamicSFX(soundKey, this.transform.position, false);
+            }
+
+            // 먼지 재사용 및 Landing 시 Spine에 먼지가 하나 더 생성되는 오류
+            // 작은 먼지 크기 차이를 넓게 두고 모양을 변경해 다양성 있도록 개선
+            if (!photonView.IsMine) return;
+
+            if (prefix == "Run")
+            {
+                EffectManager.Instance.RequestExplosion(4, dustSpawnPosition.position);
+            }
+            else if (prefix == "Jump")
+            {
+                EffectManager.Instance.RequestExplosion(5, dustSpawnPosition.position);
+            }
+            else if (prefix == "Landing")
+            {
+                EffectManager.Instance.RequestExplosion(6, dustSpawnPosition.position);
+            }
+            else if (prefix == "AirStep")
+            {
+                EffectManager.Instance.RequestExplosion(7, dustSpawnPosition.position);
             }
         }
     }
