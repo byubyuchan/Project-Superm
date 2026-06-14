@@ -1445,10 +1445,15 @@ MonoBehaviour:
   audioMixer: {fileID: 0}
   bgmGroup: {fileID: 0}
   sfxGroup: {fileID: 0}
+  ambientGroup: {fileID: 0}
   BGMPairs:
   - key: BGM_Practice
     clip: {fileID: 8300000, guid: 5cfc37e89d6ccef4e8fbe688a8fd6b15, type: 3}
   BGMVolume: 0.5
+  AmbientPairs:
+  - key: Amb_Forest
+    clip: {fileID: 8300000, guid: 46c8aa82cd9faac439e0a5860c1c78c0, type: 3}
+  AmbientVolume: 0.5
   SFXVolume: 1
   channels: 64
   spatialBlend: 1
@@ -11400,6 +11405,7 @@ MonoBehaviour:
   playerSlotPrefab: {fileID: 5923610622262305399, guid: 73fddfcf023038848b6f8f5a13e68ad3, type: 3}
   nextScene: Lobby
   BGMKey: BGM_Practice
+  AmbMKey: BGM_Practice
   playerCountText: {fileID: 2046369237}
   hostOptionPanel: {fileID: 923753945}
   targetNameText: {fileID: 1930934841}
@@ -12287,67 +12293,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3975457547598869623, guid: 411fe291634f18f4e8218030762f366b, type: 3}
   m_PrefabInstance: {fileID: 1189374635}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1350672836
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 76.4598
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.009956824
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -100.21573
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030431814964885632, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7161580285325092213, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: sceneViewId
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9013000166617075497, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
-      propertyPath: m_Name
-      value: NPC_Sniper
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cac354b41f750c1488d3cbcf250ab130, type: 3}
 --- !u!1 &1357521101
 GameObject:
   m_ObjectHideFlags: 0
@@ -18925,5 +18870,4 @@ SceneRoots:
   - {fileID: 324228234}
   - {fileID: 1841080411}
   - {fileID: 2061615379}
-  - {fileID: 1350672836}
   - {fileID: 2083802693}

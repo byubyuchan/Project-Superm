@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioMixer audioMixer;
     public AudioMixerGroup bgmGroup;
     public AudioMixerGroup sfxGroup;
+    public AudioMixerGroup ambientGroup;
 
     [System.Serializable]
     public class BGMPair
@@ -28,6 +29,19 @@ public class AudioManager : MonoBehaviour
     private AudioSource BGMPlayer;
     private AudioHighPassFilter BGMEffet;
     private Dictionary<string, AudioClip> BGMDict;
+
+    [System.Serializable]
+    public class AmbientPair
+    {
+        public string key;
+        public AudioClip clip;
+    }
+
+    [Header("# Ambient (Environment Loop)")]
+    public List<AmbientPair> AmbientPairs = new List<AmbientPair>();
+    public float AmbientVolume = 0.5f; // 기본 환경음 볼륨
+    private AudioSource AmbientPlayer;
+    private Dictionary<string, AudioClip> AmbientDict;
 
     [Header("# SFX")]
     public float SFXVolume = 0.5f;
@@ -77,6 +91,7 @@ public class AudioManager : MonoBehaviour
         {
             BGMScrollbar.value = BGMVolume;
             BGMScrollbar.onValueChanged.AddListener(SetBGMVolume);
+            BGMScrollbar.onValueChanged.AddListener(SetAmbVolume);
         }
         if (SFXScrollbar != null)
         {
@@ -96,6 +111,12 @@ public class AudioManager : MonoBehaviour
         {
             if (!SFXDict.ContainsKey(pair.key)) SFXDict.Add(pair.key, pair.clip);
         }
+
+        AmbientDict = new Dictionary<string, AudioClip>();
+        foreach (var pair in AmbientPairs)
+        {
+            if (!AmbientDict.ContainsKey(pair.key)) AmbientDict.Add(pair.key, pair.clip);
+        }
     }
 
     void Init()
@@ -112,6 +133,19 @@ public class AudioManager : MonoBehaviour
 
         BGMEffet = BGMObject.AddComponent<AudioHighPassFilter>();
         BGMEffet.enabled = false;
+
+        // Emvient Player 설정
+        GameObject AmbientObject = new GameObject("AmbientPlayer");
+        AmbientObject.transform.parent = transform;
+        AmbientPlayer = AmbientObject.AddComponent<AudioSource>();
+        AmbientPlayer.playOnAwake = false;
+        AmbientPlayer.loop = true;
+        AmbientPlayer.volume = AmbientVolume;
+        AmbientPlayer.priority = 50;
+
+        // 전용 믹서 그룹이 있으면 연결, 없으면 sfxGroup이나 bgmGroup 땜빵 가능
+        if (ambientGroup != null) AmbientPlayer.outputAudioMixerGroup = ambientGroup;
+        else if (bgmGroup != null) AmbientPlayer.outputAudioMixerGroup = bgmGroup;
 
         // SFX Players 채널 설정
         SFXPlayers = new AudioSource[channels];
@@ -282,6 +316,33 @@ public class AudioManager : MonoBehaviour
     {
         BGMVolume = volume;
         if (BGMPlayer != null) BGMPlayer.volume = BGMVolume;
+    }
+
+    public void PlayAmb(string key)
+    {
+        if (AmbientDict != null && AmbientDict.TryGetValue(key, out AudioClip clip))
+        {
+            // 이미 같은 환경음이 재생 중이면 중복 재생 방지
+            if (AmbientPlayer.clip == clip && AmbientPlayer.isPlaying) return;
+
+            AmbientPlayer.clip = clip;
+            AmbientPlayer.Play();
+        }
+    }
+
+    public void StopAmb()
+    {
+        if (AmbientPlayer != null)
+        {
+            AmbientPlayer.Stop();
+            AmbientPlayer.clip = null;
+        }
+    }
+
+    public void SetAmbVolume(float volume)
+    {
+        AmbientVolume = volume;
+        if (AmbientPlayer != null) AmbientPlayer.volume = AmbientVolume;
     }
 
     public void SetSFXVolume(float volume)

@@ -58,6 +58,7 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
     protected Dictionary<int, BasePlayerSlot> activePlayerSlots = new Dictionary<int, BasePlayerSlot>();
 
     [SerializeField] protected string BGMKey = "BGM_Practice";
+    [SerializeField] protected string AmbKey = "Amb_Forest";
 
     protected virtual void InitializePlayerUI()
     {
@@ -119,7 +120,11 @@ public abstract class BaseGameManager : MonoBehaviourPunCallbacks
         if (leaveRoomButton != null) leaveRoomButton.onClick.AddListener(LeaveRoom);
         if (cancelButton != null) cancelButton.onClick.AddListener(CloseSystemMenu);
 
-        if (AudioManager.instance != null) AudioManager.instance.PlayBGM(BGMKey);
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayBGM(BGMKey);
+            AudioManager.instance.PlayAmb(AmbKey);
+        }
     }
 
     // 현재 게임의 승자가 결정되는 함수로 순위 재정렬과 승리 UI를 RPC로 호출 함. (현재 사용되지 않는 중)
