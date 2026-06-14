@@ -248,6 +248,11 @@ namespace Photon.Pun.UtilityScripts
 
             if (currentItem == null) return;
 
+            if (AudioManager.instance != null)
+            {
+                photonView.RPC("RPC_PlayActionSound", RpcTarget.All, "UseItem");
+            }
+
             if (currentItem.RPCName == "RPC_Magnet")
             {
                 photonView.RPC(currentItem.RPCName, RpcTarget.All, currentItem.range, currentItem.power);
@@ -569,6 +574,7 @@ namespace Photon.Pun.UtilityScripts
                 {
                     ItemSlotUI.Instance.SetItem(currentItem.itemIcon);
                 }
+                AudioManager.instance.PlaySFX("GetItem", this.transform.position);
             }
             else
             {
@@ -671,10 +677,10 @@ namespace Photon.Pun.UtilityScripts
         {
             int randomIndex = Random.Range(1, 4);
 
-            if (prefix == "AirStep")
+            if (prefix == "AirStep" || prefix == "UseItem")
             {
                 // 딕셔너리에는 "AirStep"이라는 이름으로 파일 1개만 등록해 두면 됨
-                AudioManager.instance.PlaySingleClipVariants("AirStep", this.transform.position, randomIndex);
+                AudioManager.instance.PlaySingleClipVariants(prefix, this.transform.position, randomIndex);
             }
             else
             {
