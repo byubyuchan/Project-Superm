@@ -271,8 +271,11 @@ MonoBehaviour:
   audioMixer: {fileID: 0}
   bgmGroup: {fileID: 0}
   sfxGroup: {fileID: 0}
+  ambientGroup: {fileID: 0}
   BGMPairs: []
   BGMVolume: 0.5
+  AmbientPairs: []
+  AmbientVolume: 0.5
   SFXVolume: 1
   channels: 16
   spatialBlend: 1
@@ -1121,6 +1124,7 @@ MonoBehaviour:
   chatInput: {fileID: 1222124546}
   chatTextPrefab: {fileID: 2025882654711908805, guid: 85cdb8ead5413df418848ef4ad160291, type: 3}
   chatContent: {fileID: 45966167}
+  chatScrollRect: {fileID: 726606380}
 --- !u!1 &122204234
 GameObject:
   m_ObjectHideFlags: 0
@@ -6098,8 +6102,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 20}
-  m_SizeDelta: {x: 0, y: -60}
+  m_AnchoredPosition: {x: 0, y: 25}
+  m_SizeDelta: {x: 0, y: -70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726606380
 MonoBehaviour:
@@ -9039,19 +9043,7 @@ MonoBehaviour:
   m_CharacterLimit: 50
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 110507193}
-        m_TargetAssemblyTypeName: LobbySocialManager, Assembly-CSharp
-        m_MethodName: SendChatMessage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []

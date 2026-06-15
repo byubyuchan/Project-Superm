@@ -4,6 +4,8 @@ using Photon.Chat;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.InputSystem;
 
 public class LobbySocialManager : MonoBehaviour, IChatClientListener
 {
@@ -20,6 +22,11 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
     {
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(PhotonNetwork.NickName));
+
+        if (chatInput != null)
+        {
+            chatInput.onSubmit.AddListener(OnSubmitChat);
+        }
     }
 
     private void Update()
@@ -30,13 +37,24 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
         }
     }
 
-    public void SendChatMessage()
+    private void OnSubmitChat(string text)
     {
-        if (string.IsNullOrWhiteSpace(chatInput.text)) return;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            StartCoroutine(RefocusInputField());
+            return;
+        }
 
-        chatClient.PublishMessage(lobbyChannelName, chatInput.text);
+        chatClient.PublishMessage(lobbyChannelName, text);
 
         chatInput.text = "";
+
+        StartCoroutine(RefocusInputField());
+    }
+
+    private IEnumerator RefocusInputField()
+    {
+        yield return null;
         chatInput.ActivateInputField();
     }
 
@@ -53,11 +71,19 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
         {
             GameObject textObj = Instantiate(chatTextPrefab, chatContent);
             TMP_Text chatText = textObj.GetComponent<TMP_Text>();
-
             chatText.text = $"{senders[i]}: {messages[i]}";
+
+            chatText.ForceMeshUpdate();
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(chatContent.GetComponent<RectTransform>());
+
+        StartCoroutine(ScrollToBottom());
+    }
+
+    private IEnumerator ScrollToBottom()
+    {
+        yield return null;
 
         if (chatScrollRect != null)
         {
