@@ -20,12 +20,15 @@ public class RightPanelController : MonoBehaviour
 
     private void Start()
     {
+        OnChatButtonClicked();
+    }
+
+    public void UpdateDisplayName(string newName)
+    {
         if (playerNameText != null)
         {
-            playerNameText.text = PhotonNetwork.NickName;
+            playerNameText.text = newName;
         }
-
-        OnChatButtonClicked();
     }
 
     public void OnChatButtonClicked()

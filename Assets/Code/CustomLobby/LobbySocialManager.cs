@@ -19,18 +19,62 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
     public Transform userContent;
     public GameObject userSlotPrefab;
 
+    [Header("UI Controller Reference")]
+    public RightPanelController rightPanelController;
+
     private ChatClient chatClient;
     private string lobbyChannelName = "Global_Lobby";
+    private string myChatUserId;
 
     private void Start()
     {
+        if (!PhotonNetwork.NickName.Contains("#"))
+        {
+            string uniquePUNId = PhotonNetwork.LocalPlayer?.UserId;
+
+            int hash = 0;
+
+            if (!string.IsNullOrEmpty(uniquePUNId))
+            {
+                hash = Mathf.Abs(uniquePUNId.GetHashCode());
+            }
+            else
+            {
+                hash = Random.Range(0, 10000);
+            }
+
+            string tagId = (hash % 10000).ToString("D4");
+
+            PhotonNetwork.NickName = PhotonNetwork.NickName + "#" + tagId;
+        }
+
+        myChatUserId = PhotonNetwork.NickName;
+
+        if (rightPanelController != null)
+        {
+            rightPanelController.UpdateDisplayName(FormatNameWithColor(myChatUserId));
+        }
+
         chatClient = new ChatClient(this);
-        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(PhotonNetwork.NickName));
+        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(myChatUserId));
 
         if (chatInput != null)
         {
             chatInput.onSubmit.AddListener(OnSubmitChat);
         }
+    }
+
+    private string FormatNameWithColor(string rawName)
+    {
+        int hashIndex = rawName.IndexOf('#');
+        if (hashIndex >= 0)
+        {
+            string namePart = rawName.Substring(0, hashIndex);
+            string tagPart = rawName.Substring(hashIndex);
+
+            return $"{namePart}<color=#CCCCCC>{tagPart}</color>";
+        }
+        return rawName;
     }
 
     private void Update()
@@ -50,9 +94,7 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
         }
 
         chatClient.PublishMessage(lobbyChannelName, text);
-
         chatInput.text = "";
-
         StartCoroutine(RefocusInputField());
     }
 
@@ -64,9 +106,7 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
-        ChannelCreationOptions options = new ChannelCreationOptions();
-        options.PublishSubscribers = true;
-
+        ChannelCreationOptions options = new ChannelCreationOptions { PublishSubscribers = true };
         chatClient.Subscribe(lobbyChannelName, 0, -1, options);
     }
 
@@ -80,15 +120,8 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
 
     private void RefreshUserList(HashSet<string> subscribers)
     {
-        foreach (Transform child in userContent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        foreach (string user in subscribers)
-        {
-            AddUserSlot(user);
-        }
+        foreach (Transform child in userContent) Destroy(child.gameObject);
+        foreach (string user in subscribers) AddUserSlot(user);
     }
 
     private void AddUserSlot(string userName)
@@ -99,7 +132,7 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
         TMP_Text text = slot.GetComponentInChildren<TMP_Text>();
         if (text != null)
         {
-            text.text = userName;
+            text.text = FormatNameWithColor(userName);
         }
     }
 
@@ -121,40 +154,30 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
         {
             GameObject textObj = Instantiate(chatTextPrefab, chatContent);
             TMP_Text chatText = textObj.GetComponent<TMP_Text>();
-            chatText.text = $"{senders[i]}: {messages[i]}";
+
+            chatText.text = $"{FormatNameWithColor(senders[i])}: {messages[i]}";
 
             chatText.ForceMeshUpdate();
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(chatContent.GetComponent<RectTransform>());
-
         StartCoroutine(ScrollToBottom());
     }
 
     private IEnumerator ScrollToBottom()
     {
         yield return null;
-
-        if (chatScrollRect != null)
-        {
-            chatScrollRect.verticalNormalizedPosition = 0f;
-        }
+        if (chatScrollRect != null) chatScrollRect.verticalNormalizedPosition = 0f;
     }
 
     public void OnUserSubscribed(string channel, string user)
     {
-        if (channel == lobbyChannelName)
-        {
-            AddUserSlot(user);
-        }
+        if (channel == lobbyChannelName) AddUserSlot(user);
     }
 
     public void OnUserUnsubscribed(string channel, string user)
     {
-        if (channel == lobbyChannelName)
-        {
-            RemoveUserSlot(user);
-        }
+        if (channel == lobbyChannelName) RemoveUserSlot(user);
     }
 
     public void DebugReturn(DebugLevel level, string message) { }

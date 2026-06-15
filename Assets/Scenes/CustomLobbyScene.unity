@@ -1127,6 +1127,7 @@ MonoBehaviour:
   chatScrollRect: {fileID: 726606380}
   userContent: {fileID: 855312802}
   userSlotPrefab: {fileID: 2458854573914867486, guid: abfb881f3724663449f8c1e034ae4282, type: 3}
+  rightPanelController: {fileID: 110507192}
 --- !u!1 &122204234
 GameObject:
   m_ObjectHideFlags: 0
