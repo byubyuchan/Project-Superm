@@ -1125,6 +1125,8 @@ MonoBehaviour:
   chatTextPrefab: {fileID: 2025882654711908805, guid: 85cdb8ead5413df418848ef4ad160291, type: 3}
   chatContent: {fileID: 45966167}
   chatScrollRect: {fileID: 726606380}
+  userContent: {fileID: 855312802}
+  userSlotPrefab: {fileID: 2458854573914867486, guid: abfb881f3724663449f8c1e034ae4282, type: 3}
 --- !u!1 &122204234
 GameObject:
   m_ObjectHideFlags: 0

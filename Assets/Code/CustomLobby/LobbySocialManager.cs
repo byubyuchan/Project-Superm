@@ -5,7 +5,7 @@ using Photon.Pun;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class LobbySocialManager : MonoBehaviour, IChatClientListener
 {
@@ -14,6 +14,10 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
     public GameObject chatTextPrefab;
     public Transform chatContent;
     public ScrollRect chatScrollRect;
+
+    [Header("User List UI")]
+    public Transform userContent;
+    public GameObject userSlotPrefab;
 
     private ChatClient chatClient;
     private string lobbyChannelName = "Global_Lobby";
@@ -60,10 +64,56 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
-        chatClient.Subscribe(new string[] { lobbyChannelName });
+        ChannelCreationOptions options = new ChannelCreationOptions();
+        options.PublishSubscribers = true;
+
+        chatClient.Subscribe(lobbyChannelName, 0, -1, options);
     }
 
-    public void OnSubscribed(string[] channels, bool[] results) { }
+    public void OnSubscribed(string[] channels, bool[] results)
+    {
+        if (chatClient.TryGetChannel(lobbyChannelName, out ChatChannel channel))
+        {
+            RefreshUserList(channel.Subscribers);
+        }
+    }
+
+    private void RefreshUserList(HashSet<string> subscribers)
+    {
+        foreach (Transform child in userContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (string user in subscribers)
+        {
+            AddUserSlot(user);
+        }
+    }
+
+    private void AddUserSlot(string userName)
+    {
+        GameObject slot = Instantiate(userSlotPrefab, userContent);
+        slot.name = userName;
+
+        TMP_Text text = slot.GetComponentInChildren<TMP_Text>();
+        if (text != null)
+        {
+            text.text = userName;
+        }
+    }
+
+    private void RemoveUserSlot(string userName)
+    {
+        foreach (Transform child in userContent)
+        {
+            if (child.name == userName)
+            {
+                Destroy(child.gameObject);
+                break;
+            }
+        }
+    }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
@@ -91,12 +141,26 @@ public class LobbySocialManager : MonoBehaviour, IChatClientListener
         }
     }
 
+    public void OnUserSubscribed(string channel, string user)
+    {
+        if (channel == lobbyChannelName)
+        {
+            AddUserSlot(user);
+        }
+    }
+
+    public void OnUserUnsubscribed(string channel, string user)
+    {
+        if (channel == lobbyChannelName)
+        {
+            RemoveUserSlot(user);
+        }
+    }
+
     public void DebugReturn(DebugLevel level, string message) { }
     public void OnDisconnected() { }
     public void OnChatStateChange(ChatState state) { }
     public void OnUnsubscribed(string[] channels) { }
     public void OnStatusUpdate(string user, int status, bool gotMessage, object message) { }
     public void OnPrivateMessage(string sender, object message, string channelName) { }
-    public void OnUserSubscribed(string channel, string user) { }
-    public void OnUserUnsubscribed(string channel, string user) { }
 }
